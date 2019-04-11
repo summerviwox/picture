@@ -40,7 +40,10 @@
 
         <!-- 要生成的表 -->
         <!-- 这里的百分号%代表对该数据库中所有的表进行生成 -->
-        <!--<table tableName="Crash">-->
+        <!--<table tableName="Album">-->
+            <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="Albumitem">-->
             <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
         <!--</table>-->
 

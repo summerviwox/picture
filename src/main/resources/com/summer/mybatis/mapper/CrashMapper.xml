@@ -4,6 +4,84 @@
   <resultMap id="BaseResultMap" type="com.summer.mybatis.entity.Crash">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="createdtime" jdbcType="BIGINT" property="createdtime" />
+    <result column="platform" jdbcType="VARCHAR" property="platform" />
+    <result column="timestr" jdbcType="VARCHAR" property="timestr" />
+    <result column="user" jdbcType="VARCHAR" property="user" />
+    <result column="error" jdbcType="LONGVARCHAR" property="error" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from crash
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.summer.mybatis.entity.Crash">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into crash (createdtime, platform, timestr, 
+      user, error)
+    values (#{createdtime,jdbcType=BIGINT}, #{platform,jdbcType=VARCHAR}, #{timestr,jdbcType=VARCHAR}, 
+      #{user,jdbcType=VARCHAR}, #{error,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.summer.mybatis.entity.Crash">
+    update crash
+    set createdtime = #{createdtime,jdbcType=BIGINT},
+      platform = #{platform,jdbcType=VARCHAR},
+      timestr = #{timestr,jdbcType=VARCHAR},
+      user = #{user,jdbcType=VARCHAR},
+      error = #{error,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, createdtime, platform, timestr, user, error
+    from crash
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, createdtime, platform, timestr, user, error
+    from crash
+  </select>
+  <resultMap id="BaseResultMap" type="com.summer.mybatis.entity.Crash">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="createdtime" jdbcType="BIGINT" property="createdtime" />
+    <result column="platform" jdbcType="VARCHAR" property="platform" />
+    <result column="timestr" jdbcType="VARCHAR" property="timestr" />
+    <result column="user" jdbcType="VARCHAR" property="user" />
+    <result column="error" jdbcType="LONGVARCHAR" property="error" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from crash
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.summer.mybatis.entity.Crash">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into crash (createdtime, platform, timestr, 
+      user, error)
+    values (#{createdtime,jdbcType=BIGINT}, #{platform,jdbcType=VARCHAR}, #{timestr,jdbcType=VARCHAR}, 
+      #{user,jdbcType=VARCHAR}, #{error,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.summer.mybatis.entity.Crash">
+    update crash
+    set createdtime = #{createdtime,jdbcType=BIGINT},
+      platform = #{platform,jdbcType=VARCHAR},
+      timestr = #{timestr,jdbcType=VARCHAR},
+      user = #{user,jdbcType=VARCHAR},
+      error = #{error,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, createdtime, platform, timestr, user, error
+    from crash
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, createdtime, platform, timestr, user, error
+    from crash
+  </select>
+  <resultMap id="BaseResultMap" type="com.summer.mybatis.entity.Crash">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="createdtime" jdbcType="BIGINT" property="createdtime" />
     <result column="platform" jdbcType="INTEGER" property="platform" />
     <result column="timestr" jdbcType="VARCHAR" property="timestr" />
     <result column="error" jdbcType="LONGVARCHAR" property="error" />
