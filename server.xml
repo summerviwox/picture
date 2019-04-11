@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="server" default="all">
+  
+  
+  <property file="server.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*.yarb/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.egg"/>
+    <include name="*.jar"/>
+    <include name="*.ear"/>
+    <include name="*.apk"/>
+    <include name="*.swc"/>
+    <include name="*.war"/>
+    <include name="*.ane"/>
+    <include name="*.zip"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.8" value="${jdk.home.1.8}/bin"/>
+  <path id="jdk.classpath.1.8">
+    <fileset dir="${jdk.home.1.8}">
+      <include name="jre/lib/charsets.jar"/>
+      <include name="jre/lib/deploy.jar"/>
+      <include name="jre/lib/ext/access-bridge-64.jar"/>
+      <include name="jre/lib/ext/cldrdata.jar"/>
+      <include name="jre/lib/ext/dnsns.jar"/>
+      <include name="jre/lib/ext/jaccess.jar"/>
+      <include name="jre/lib/ext/jfxrt.jar"/>
+      <include name="jre/lib/ext/localedata.jar"/>
+      <include name="jre/lib/ext/nashorn.jar"/>
+      <include name="jre/lib/ext/sunec.jar"/>
+      <include name="jre/lib/ext/sunjce_provider.jar"/>
+      <include name="jre/lib/ext/sunmscapi.jar"/>
+      <include name="jre/lib/ext/sunpkcs11.jar"/>
+      <include name="jre/lib/ext/zipfs.jar"/>
+      <include name="jre/lib/javaws.jar"/>
+      <include name="jre/lib/jce.jar"/>
+      <include name="jre/lib/jfr.jar"/>
+      <include name="jre/lib/jfxswt.jar"/>
+      <include name="jre/lib/jsse.jar"/>
+      <include name="jre/lib/management-agent.jar"/>
+      <include name="jre/lib/plugin.jar"/>
+      <include name="jre/lib/resources.jar"/>
+      <include name="jre/lib/rt.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.8}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.8}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.8"/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.gradle:_aopalliance:aopalliance:1.0.classpath">
+    <pathelement location="${basedir}/../../../.gradle/caches/modules-2/files-2.1/aopalliance/aopalliance/1.0/235ba8b489512805ac13a8f9ea77a1ca5ebe3e8/aopalliance-1.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.google.code.gson:gson:2.3.1.classpath">
+    <pathelement location="${basedir}/../../../.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.3.1/ecb6e1f8e4b0e84c4b886c2f14a1500caf309757/gson-2.3.1.jar"/>
+  </path>
+  
+  <path id="library.gradle:_commons-logging:commons-logging:1.2.classpath">
+    <pathelement location="${basedir}/../../../.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/4bfc12adfe4842bf07b657f0369c4cb522955686/commons-logging-1.2.jar"/>
+  </path>
+  
+  <path id="library.gradle:_jstl:jstl:1.2.classpath">
+    <pathelement location="${basedir}/../../../.gradle/caches/modules-2/files-2.1/jstl/jstl/1.2/74aca283cd4f4b4f3e425f5820cda58f44409547/jstl-1.2.jar"/>
+  </path>
+  
+  <path id="library.gradle:_junit:junit:4.12.classpath">
+    <pathelement location="${basedir}/../../../.gradle/caches/modules-2/files-2.1/junit/junit/4.12/2973d150c0dc1fefe998f834810d68f278ea58ec/junit-4.12.jar"/>
+  </path>
+  
+  <path id="library.gradle:_mysql:mysql-connector-java:5.1.38.classpath">
+    <pathelement location="${basedir}/../../../.gradle/caches/modules-2/files-2.1/mysql/mysql-connector-java/5.1.38/dbbd7cd309ce167ec8367de4e41c63c2c8593cc5/mysql-connector-java-5.1.38.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.codehaus.groovy:groovy-all:2.3.11.classpath">
+    <pathelement location="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.codehaus.groovy/groovy-all/2.3.11/f6b34997d04c1538ce451d3955298f46fdb4dbd4/groovy-all-2.3.11.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.hamcrest:hamcrest-core:1.3.classpath">
+    <pathelement location="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework:spring-aop:4.2.4.release.classpath">
+    <pathelement location="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.springframework/spring-aop/4.2.4.RELEASE/3329cf71b4bc49c9767ca4f0704ed7b773f29fba/spring-aop-4.2.4.RELEASE.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework:spring-beans:4.2.4.release.classpath">
+    <pathelement location="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.springframework/spring-beans/4.2.4.RELEASE/dc8e0874b53435f3e277d9da5aebd8b93cc7cf64/spring-beans-4.2.4.RELEASE.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework:spring-context:4.2.4.release.classpath">
+    <pathelement location="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.springframework/spring-context/4.2.4.RELEASE/23cd0109e4eafc5629547e3680b0c4031e82efdd/spring-context-4.2.4.RELEASE.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework:spring-core:4.2.4.release.classpath">
+    <pathelement location="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.springframework/spring-core/4.2.4.RELEASE/160ccd89230753d4f49477a967f5876b034d9745/spring-core-4.2.4.RELEASE.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework:spring-expression:4.2.4.release.classpath">
+    <pathelement location="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.springframework/spring-expression/4.2.4.RELEASE/15b6f6d61bc68fe2cc6cbd63e2329601afb8b39/spring-expression-4.2.4.RELEASE.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework:spring-jdbc:4.2.4.release.classpath">
+    <pathelement location="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.springframework/spring-jdbc/4.2.4.RELEASE/7aa1c3c817b0a04796e6570a2c07ac23248c1ee0/spring-jdbc-4.2.4.RELEASE.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework:spring-test:4.2.4.release.classpath">
+    <pathelement location="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.springframework/spring-test/4.2.4.RELEASE/6efb87acf8050fc83334ffac305eb91371787283/spring-test-4.2.4.RELEASE.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework:spring-tx:4.2.4.release.classpath">
+    <pathelement location="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.springframework/spring-tx/4.2.4.RELEASE/66e1a131263f5f9ba95943061b22ff2666930ca6/spring-tx-4.2.4.RELEASE.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework:spring-web:4.2.4.release.classpath">
+    <pathelement location="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.springframework/spring-web/4.2.4.RELEASE/d4bcc6f4d8b64d7af9b67bc17f0d5106dce97926/spring-web-4.2.4.RELEASE.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.springframework:spring-webmvc:4.2.4.release.classpath">
+    <pathelement location="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.springframework/spring-webmvc/4.2.4.RELEASE/cf4317be9c83b4c1c65ce2d3bb96673ac546030a/spring-webmvc-4.2.4.RELEASE.jar"/>
+  </path>
+  
+  
+  <!-- Application Server Libraries -->
+  <!-- Register Custom Compiler Taskdefs -->
+  <property name="javac2.home" value="${idea.home}/lib"/>
+  <path id="javac2.classpath">
+    <pathelement location="${javac2.home}/javac2.jar"/>
+    <pathelement location="${javac2.home}/jdom.jar"/>
+    <pathelement location="${javac2.home}/asm-all.jar"/>
+    <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
+  </path>
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
+  
+  <!-- Modules -->
+  
+  <import file="${basedir}/.idea/modules/module_server.xml"/>
+  
+  <import file="${basedir}/.idea/modules/module_server_main.xml"/>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.server, clean.module.server_main, clean.artifact.server_main:war_exploded" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.server, compile.module.server_main" description="build all modules"/>
+  
+  <target name="init.artifacts">
+    <property name="artifacts.temp.dir" value="${basedir}/__artifacts_temp"/>
+    <property name="artifact.output.server:war" value="${basedir}/out/artifacts/server"/>
+    <property name="artifact.output.server_main:war_exploded" value="${basedir}/out/artifacts/server_main_war_exploded"/>
+    <mkdir dir="${artifacts.temp.dir}"/>
+    <property name="temp.jar.path.server_war.war" value="${artifacts.temp.dir}/server_war.war"/>
+  </target>
+  
+  <target name="clean.artifact.server_main:war_exploded" description="clean server_main:war exploded artifact output">
+    <delete dir="${artifact.output.server_main:war_exploded}"/>
+  </target>
+  
+  <target name="artifact.server:war" depends="init.artifacts, artifact.server_main:war_exploded" description="Build &#39;server:war&#39; artifact">
+    <property name="artifact.temp.output.server:war" value="${artifacts.temp.dir}/server_war"/>
+    <mkdir dir="${artifact.temp.output.server:war}"/>
+    <zip destfile="${temp.jar.path.server_war.war}">
+      <zipfileset dir="${artifact.output.server_main:war_exploded}"/>
+    </zip>
+    <copy file="${temp.jar.path.server_war.war}" tofile="${artifact.temp.output.server:war}/server_war.war"/>
+  </target>
+  
+  <target name="artifact.server_main:war_exploded" depends="init.artifacts, compile.module.server_main" description="Build &#39;server_main:war exploded&#39; artifact">
+    <mkdir dir="${artifact.output.server_main:war_exploded}"/>
+    <mkdir dir="${artifact.output.server_main:war_exploded}/WEB-INF"/>
+    <mkdir dir="${artifact.output.server_main:war_exploded}/WEB-INF/classes"/>
+    <copy todir="${artifact.output.server_main:war_exploded}/WEB-INF/classes">
+      <fileset dir="${server_main.output.dir}"/>
+    </copy>
+    <mkdir dir="${artifact.output.server_main:war_exploded}/WEB-INF/lib"/>
+    <copy file="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.codehaus.groovy/groovy-all/2.3.11/f6b34997d04c1538ce451d3955298f46fdb4dbd4/groovy-all-2.3.11.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/groovy-all-2.3.11.jar"/>
+    <copy file="${basedir}/../../../.gradle/caches/modules-2/files-2.1/jstl/jstl/1.2/74aca283cd4f4b4f3e425f5820cda58f44409547/jstl-1.2.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/jstl-1.2.jar"/>
+    <copy file="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.springframework/spring-aop/4.2.4.RELEASE/3329cf71b4bc49c9767ca4f0704ed7b773f29fba/spring-aop-4.2.4.RELEASE.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/spring-aop-4.2.4.RELEASE.jar"/>
+    <copy file="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.springframework/spring-context/4.2.4.RELEASE/23cd0109e4eafc5629547e3680b0c4031e82efdd/spring-context-4.2.4.RELEASE.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/spring-context-4.2.4.RELEASE.jar"/>
+    <copy file="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.springframework/spring-beans/4.2.4.RELEASE/dc8e0874b53435f3e277d9da5aebd8b93cc7cf64/spring-beans-4.2.4.RELEASE.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/spring-beans-4.2.4.RELEASE.jar"/>
+    <copy file="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.springframework/spring-web/4.2.4.RELEASE/d4bcc6f4d8b64d7af9b67bc17f0d5106dce97926/spring-web-4.2.4.RELEASE.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/spring-web-4.2.4.RELEASE.jar"/>
+    <copy file="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.springframework/spring-webmvc/4.2.4.RELEASE/cf4317be9c83b4c1c65ce2d3bb96673ac546030a/spring-webmvc-4.2.4.RELEASE.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/spring-webmvc-4.2.4.RELEASE.jar"/>
+    <copy file="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.springframework/spring-tx/4.2.4.RELEASE/66e1a131263f5f9ba95943061b22ff2666930ca6/spring-tx-4.2.4.RELEASE.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/spring-tx-4.2.4.RELEASE.jar"/>
+    <copy file="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.springframework/spring-jdbc/4.2.4.RELEASE/7aa1c3c817b0a04796e6570a2c07ac23248c1ee0/spring-jdbc-4.2.4.RELEASE.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/spring-jdbc-4.2.4.RELEASE.jar"/>
+    <copy file="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.springframework/spring-test/4.2.4.RELEASE/6efb87acf8050fc83334ffac305eb91371787283/spring-test-4.2.4.RELEASE.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/spring-test-4.2.4.RELEASE.jar"/>
+    <copy file="${basedir}/../../../.gradle/caches/modules-2/files-2.1/mysql/mysql-connector-java/5.1.38/dbbd7cd309ce167ec8367de4e41c63c2c8593cc5/mysql-connector-java-5.1.38.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/mysql-connector-java-5.1.38.jar"/>
+    <copy file="${basedir}/../../../.gradle/caches/modules-2/files-2.1/junit/junit/4.12/2973d150c0dc1fefe998f834810d68f278ea58ec/junit-4.12.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/junit-4.12.jar"/>
+    <copy file="${basedir}/../../../.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.3.1/ecb6e1f8e4b0e84c4b886c2f14a1500caf309757/gson-2.3.1.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/gson-2.3.1.jar"/>
+    <copy file="${basedir}/../../../.gradle/caches/modules-2/files-2.1/aopalliance/aopalliance/1.0/235ba8b489512805ac13a8f9ea77a1ca5ebe3e8/aopalliance-1.0.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/aopalliance-1.0.jar"/>
+    <copy file="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.springframework/spring-core/4.2.4.RELEASE/160ccd89230753d4f49477a967f5876b034d9745/spring-core-4.2.4.RELEASE.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/spring-core-4.2.4.RELEASE.jar"/>
+    <copy file="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.springframework/spring-expression/4.2.4.RELEASE/15b6f6d61bc68fe2cc6cbd63e2329601afb8b39/spring-expression-4.2.4.RELEASE.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/spring-expression-4.2.4.RELEASE.jar"/>
+    <copy file="${basedir}/../../../.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/hamcrest-core-1.3.jar"/>
+    <copy file="${basedir}/../../../.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/4bfc12adfe4842bf07b657f0369c4cb522955686/commons-logging-1.2.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/commons-logging-1.2.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/el-api.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/el-api.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/jasper.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/jasper.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/ecj-4.5.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/ecj-4.5.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/jsp-api.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/jsp-api.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/catalina.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/catalina.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/jasper-el.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/jasper-el.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/jaspic-api.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/jaspic-api.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/tomcat-api.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/tomcat-api.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/tomcat-jni.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/tomcat-jni.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/catalina-ha.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/catalina-ha.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/servlet-api.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/servlet-api.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/tomcat-dbcp.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/tomcat-dbcp.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/tomcat-jdbc.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/tomcat-jdbc.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/tomcat-util.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/tomcat-util.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/catalina-ant.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/catalina-ant.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/tomcat-coyote.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/tomcat-coyote.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/websocket-api.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/websocket-api.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/commons-io-2.5.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/commons-io-2.5.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/tomcat-i18n-es.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/tomcat-i18n-es.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/tomcat-i18n-fr.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/tomcat-i18n-fr.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/tomcat-i18n-ja.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/tomcat-i18n-ja.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/annotations-api.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/annotations-api.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/catalina-tribes.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/catalina-tribes.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/commons-dbcp-1.3.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/commons-dbcp-1.3.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/tomcat-util-scan.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/tomcat-util-scan.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/tomcat-websocket.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/tomcat-websocket.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/catalina-storeconfig.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/catalina-storeconfig.jar"/>
+    <copy file="D:/apache-tomcat-9.0.0.M1/lib/commons-fileupload-1.3.3.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/commons-fileupload-1.3.3.jar"/>
+    <copy file="${basedir}/src/main/webapp/WEB-INF/lib/jpush-client-3.3.0.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/jpush-client-3.3.0.jar"/>
+    <copy file="${basedir}/src/main/webapp/WEB-INF/lib/jiguang-common-1.0.7.jar" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/lib/jiguang-common-1.0.7.jar"/>
+    <copy todir="${artifact.output.server_main:war_exploded}">
+      <fileset dir="${basedir}/src/main/webapp"/>
+    </copy>
+    <mkdir dir="${artifact.output.server_main:war_exploded}/WEB-INF"/>
+    <copy file="${basedir}/src/main/webapp/WEB-INF/web.xml" tofile="${artifact.output.server_main:war_exploded}/WEB-INF/web.xml"/>
+  </target>
+  
+  <target name="build.all.artifacts" depends="artifact.server:war, artifact.server_main:war_exploded" description="Build all artifacts">
+    <mkdir dir="${artifact.output.server:war}"/>
+    <copy todir="${artifact.output.server:war}">
+      <fileset dir="${artifact.temp.output.server:war}"/>
+    </copy>
+    
+    <!-- Delete temporary files -->
+    <delete dir="${artifacts.temp.dir}"/>
+  </target>
+  
+  <target name="all" depends="build.modules, build.all.artifacts" description="build all"/>
+</project>

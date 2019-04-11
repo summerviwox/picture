@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.summer.mybatis.mapper.RecordMapper">
+  <resultMap id="Lists" type="Record">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="locpath" jdbcType="INTEGER" property="locpath" />
+    <id column="netpath" jdbcType="VARCHAR" property="netpath" />
+    <id column="ctime" jdbcType="BIGINT" property="ctime" />
+    <id column="utime" jdbcType="BIGINT" property="utime" />
+    <id column="atype" jdbcType="VARCHAR" property="atype" />
+    <id column="btype" jdbcType="VARCHAR" property="btype" />
+    <id column="address" jdbcType="VARCHAR" property="address" />
+    <id column="duration" jdbcType="BIGINT" property="duration" />
+    <id column="name" jdbcType="VARCHAR" property="name" />
+    <id column="content" jdbcType="VARCHAR" property="content" />
+    <id column="classify" jdbcType="INTEGER" property="classify" />
+  </resultMap>
+
+    <select id="selectAllByTypes" parameterType="string" resultMap="Lists">
+  select * from Record where atype = #{atype,jdbcType=VARCHAR}
+</select>
+
+
+  <select id="selectAllByTypesWithLimit" resultMap="Lists">
+      select * from Record where atype = #{arg0} limit #{arg1},#{arg2}
+  </select>
+    <select id="selectAllNotImageCheckWithLimit" resultMap="Lists">
+        select * from Record where atype = 'image' and classify = 0  limit #{arg0}
+    </select>
+
+  <select id="selectRecordsWithSizeLimit" resultMap="Lists">
+    select * from Record limit #{arg0},100
+  </select>
+
+  <select id="selectRecordsWithTypeSizeLimit" resultMap="Lists">
+    select * from Record where atype = #{arg0} limit #{arg1},100
+  </select>
+
+
+
+    <update id="updateClassify">
+    update record set classify = #{arg1} where id = #{arg0}
+  </update>
+
+</mapper>

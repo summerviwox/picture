@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.summer.mybatis.mapper.TestMapper">
+  <resultMap id="Bean" type="Record">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="locpath" jdbcType="INTEGER" property="locpath" />
+    <id column="netpath" jdbcType="VARCHAR" property="netpath" />
+    <id column="ctime" jdbcType="BIGINT" property="ctime" />
+    <id column="utime" jdbcType="BIGINT" property="utime" />
+    <id column="atype" jdbcType="VARCHAR" property="atype" />
+    <id column="btype" jdbcType="VARCHAR" property="btype" />
+    <id column="address" jdbcType="VARCHAR" property="address" />
+    <id column="duration" jdbcType="BIGINT" property="duration" />
+    <id column="name" jdbcType="VARCHAR" property="name" />
+    <id column="content" jdbcType="VARCHAR" property="content" />
+  </resultMap>
+  <select id="selectSome" resultMap="Bean">
+    select * from record,tip,tiplab where tip.recordid = record.id and tip.tipid = tiplab.id and tip.id = #{arg0}
+  </select>
+
+
+</mapper>
