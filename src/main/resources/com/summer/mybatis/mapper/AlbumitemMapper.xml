@@ -28,6 +28,19 @@
     from albumitem
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByAlbumid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, albumid, recordid
+    from albumitem
+    where albumid = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByAlbumidAndRecordid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, albumid, recordid
+    from albumitem
+    where albumid = #{arg0} and recordid = #{arg1} limit 1
+  </select>
+
+
   <select id="selectAll" resultMap="BaseResultMap">
     select id, albumid, recordid
     from albumitem

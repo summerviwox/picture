@@ -129,6 +129,9 @@ public interface RecordMapper {
     @Select({"select * from record where locpath = #{locpath,jdbcType=VARCHAR} limit 1"})
     List<Record>  selectRecordWhereLocalPath(String locpath);
 
+    @Select({"select id from record where locpath = #{locpath,jdbcType=VARCHAR} limit 1"})
+    List<Record>  selectRecordIdWhereLocalPath(String locpath);
+
     @Update({"update record set netpath = #{netpath,jdbcType=VARCHAR} where locpath = #{locpath,jdbcType=VARCHAR}"})
     int updateNetPath(@Param("netpath") String netpath, @Param("locpath") String locpath);
 
@@ -141,6 +144,8 @@ public interface RecordMapper {
     List<Record> selectRecordsWithSizeLimit(Integer startid);
 
     List<Record> selectRecordsWithTypeSizeLimit(String atype,Integer startid);
+
+    List<Record> selectRecordByLocalpath(String locpath);
 
     int updateClassify(Integer recordid,Integer value);
 

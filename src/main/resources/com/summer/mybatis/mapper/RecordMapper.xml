@@ -36,6 +36,10 @@
     select * from Record where atype = #{arg0} limit #{arg1},100
   </select>
 
+  <select id="selectRecordByLocalpath" resultMap="Lists">
+    select * from record where locpath = #{arg0}
+  </select>
+
 
 
     <update id="updateClassify">

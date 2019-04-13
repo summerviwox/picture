@@ -1,5 +1,6 @@
 package com.summer.control;
 
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.summer.base.bean.BaseResBean;
 import com.summer.base.bean.Tools;
@@ -18,8 +19,10 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.IOUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -28,12 +31,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by SWSD on 2018-03-26.
@@ -44,11 +46,11 @@ import java.util.List;
 public class RecordControl {
 
     @RequestMapping(value = "/crash",method = RequestMethod.POST)
-    public void crash(HttpServletRequest req, HttpServletResponse res) {
-        Tools.init(req, res);
-        BaseResBean baseResBean = new BaseResBean();
 
-        Crash crash = GsonUtil.getInstance().fromJson(req.getParameter("data"),Crash.class);
+    public void crash(HttpServletRequest req, HttpServletResponse res) {
+        HashMap<String,String> map = Tools.getStr(req,res);
+        BaseResBean baseResBean = new BaseResBean();
+        Crash crash = GsonUtil.getInstance().fromJson(map.get("data"),Crash.class);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
         crash.setTimestr(format.format(new Date()));        SqlSession session = DBTools.getSession();
         CrashMapper crashMapper =  session.getMapper(CrashMapper.class);
@@ -289,7 +291,9 @@ public class RecordControl {
 
     @RequestMapping(value = "/getRecordsWithTypeSize",method = RequestMethod.GET)
     public void getRecordsWithTypeSize(HttpServletRequest req, HttpServletResponse res){
+
         Tools.init(req,res);
+
         String index = req.getParameter("index");
         String type = req.getParameter("type");
         SqlSession session  =  DBTools.getSession();
