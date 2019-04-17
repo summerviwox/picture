@@ -116,8 +116,16 @@ public interface RecordMapper {
     @Select({"select max(ctime) from record where atype = #{atype,jdbcType=VARCHAR}"})
     long getRecordMaxDate(@Param("atype") String atype);
 
+
+    @Select({"select max(ctime) from record"})
+    long getRecordMaxDateStamp();
+
     @Select({"select min(ctime) from record where atype = #{atype,jdbcType=VARCHAR}"})
     long getRecordMinDate(@Param("atype") String atype);
+
+
+    @Select({"select min(ctime) from record"})
+    long getRecordMinDateStamp();
 
     @Select({"select count(id) from record where netpath!='' and atype = #{atype,jdbcType=VARCHAR}"})
     int getUploadNum(@Param("atype") String atype);

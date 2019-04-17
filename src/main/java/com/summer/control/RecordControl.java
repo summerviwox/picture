@@ -325,6 +325,22 @@ public class RecordControl {
     }
 
 
+    @RequestMapping(value = "/getMaxMinDateStamp",method = RequestMethod.GET)
+    public void getMaxMinDateStamp(HttpServletRequest req, HttpServletResponse res){
+        Tools.init(req,res);
+        SqlSession session  =  DBTools.getSession();
+        BaseResBean baseResBean = new BaseResBean();
+        RecordMapper recordMapper = session.getMapper(RecordMapper.class);
+
+        long[] ints = new long[]{recordMapper.getRecordMinDateStamp(),recordMapper.getRecordMaxDateStamp()};
+        baseResBean.setData(ints);
+        Tools.printOut(res,baseResBean);
+        session.close();
+    }
+
+
+
+
     @RequestMapping(value = "/getAllRecordsStep",method = RequestMethod.GET)
     public void getAllRecordsStep(HttpServletRequest req, HttpServletResponse res){
         Tools.init(req,res);
