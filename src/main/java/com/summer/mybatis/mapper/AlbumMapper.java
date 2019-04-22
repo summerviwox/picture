@@ -13,4 +13,6 @@ public interface AlbumMapper {
     List<Album> selectAll();
 
     int updateByPrimaryKey(Album record);
+
+    int updateHeadByPrimaryKey(Album record);
 }

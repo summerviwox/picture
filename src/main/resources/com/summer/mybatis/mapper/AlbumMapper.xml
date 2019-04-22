@@ -29,6 +29,12 @@
       utime = #{utime,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <update id="updateHeadByPrimaryKey" parameterType="com.summer.mybatis.entity.Album">
+    update album
+    set head = #{head,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select id, name, head, ctime, utime
     from album

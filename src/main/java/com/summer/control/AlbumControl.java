@@ -77,4 +77,19 @@ public class AlbumControl {
     }
 
 
+    @RequestMapping(value = "/setAlbumHead",method = RequestMethod.POST)
+    public void setAlbumHead(HttpServletRequest req, HttpServletResponse res) {
+        HashMap<String,String> map = Tools.getStr(req, res);
+        SqlSession session  = DBTools.getSession();
+        AlbumMapper albumMapper = session.getMapper(AlbumMapper.class);
+        Album album = new Album();
+        album.setId(Integer.parseInt(map.get("id")));
+        album.setHead(map.get("head"));
+        albumMapper.updateHeadByPrimaryKey(album);
+        session.commit();
+        session.close();
+        Tools.printOutData(res,true);
+    }
+
+
 }
