@@ -36,10 +36,12 @@ public class AlbumControl {
         Album album = new Album();
         album.setName(albumReq.getName());
         album.setCtime(System.currentTimeMillis());
-        album.setHead(recordMapper.selectRecordWhereLocalPath(albumReq.getAlbumItems().get(0)).get(0).getLocpath());
+        if(albumReq.getAlbumItems()!=null&&albumReq.getAlbumItems().size()!=0){
+            album.setHead(recordMapper.selectRecordWhereLocalPath(albumReq.getAlbumItems().get(0)).get(0).getLocpath());
+        }
         album.setUtime(System.currentTimeMillis());
         albumMapper.insert(album);
-        for(int i=0;i<albumReq.getAlbumItems().size();i++){
+        for(int i=0;albumReq.getAlbumItems()!=null&&i<albumReq.getAlbumItems().size();i++){
             int ida = recordMapper.selectRecordWhereLocalPath(albumReq.getAlbumItems().get(i)).get(0).getId();
             Albumitem albumitem = new Albumitem();
             albumitem.setAlbumid(album.getId());

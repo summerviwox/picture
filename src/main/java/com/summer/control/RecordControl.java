@@ -332,7 +332,7 @@ public class RecordControl {
         BaseResBean baseResBean = new BaseResBean();
         RecordMapper recordMapper = session.getMapper(RecordMapper.class);
 
-        long[] ints = new long[]{recordMapper.getRecordMinDateStamp(),recordMapper.getRecordMaxDateStamp()};
+        long[] ints = new long[]{recordMapper.getRecordMinDateStamp(),System.currentTimeMillis()};
         baseResBean.setData(ints);
         Tools.printOut(res,baseResBean);
         session.close();
