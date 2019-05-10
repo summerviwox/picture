@@ -13,6 +13,8 @@ public interface RecordMapper {
     })
     int deleteByPrimaryKey(Integer id);
 
+    int deleteByLocalPath(String locpath);
+
     @Insert({
         "insert into record (locpath, netpath, ",
         "ctime, utime, atype, ",

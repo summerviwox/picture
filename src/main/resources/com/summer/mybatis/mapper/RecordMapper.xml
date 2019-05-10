@@ -14,36 +14,41 @@
     <id column="name" jdbcType="VARCHAR" property="name" />
     <id column="content" jdbcType="VARCHAR" property="content" />
     <id column="classify" jdbcType="INTEGER" property="classify" />
+    <id column="enable" jdbcType="INTEGER" property="classify" />
   </resultMap>
 
     <select id="selectAllByTypes" parameterType="string" resultMap="Lists">
-  select * from Record where atype = #{atype,jdbcType=VARCHAR}
+  select * from Record where atype = #{atype,jdbcType=VARCHAR} and enable = 1
 </select>
 
 
   <select id="selectAllByTypesWithLimit" resultMap="Lists">
-      select * from Record where atype = #{arg0} limit #{arg1},#{arg2}
+      select * from Record where atype = #{arg0} and enable = 1 limit #{arg1},#{arg2}
   </select>
     <select id="selectAllNotImageCheckWithLimit" resultMap="Lists">
-        select * from Record where atype = 'image' and classify = 0  limit #{arg0}
+        select * from Record where atype = 'image' and classify = 0 and enable = 1 limit #{arg0}
     </select>
 
   <select id="selectRecordsWithSizeLimit" resultMap="Lists">
-    select * from Record limit #{arg0},100
+    select * from Record where enable = 1 limit #{arg0},100
   </select>
 
   <select id="selectRecordsWithTypeSizeLimit" resultMap="Lists">
-    select * from Record where atype = #{arg0} limit #{arg1},100
+    select * from Record where atype = #{arg0} and enable = 1 limit #{arg1},100
   </select>
 
   <select id="selectRecordByLocalpath" resultMap="Lists">
-    select * from record where locpath = #{arg0}
+    select * from record where locpath = #{arg0} and enable = 1
   </select>
 
 
 
     <update id="updateClassify">
     update record set classify = #{arg1} where id = #{arg0}
+  </update>
+
+  <update id="deleteByLocalPath">
+    update record set enable = 0 where locpath = #{arg1}
   </update>
 
 </mapper>

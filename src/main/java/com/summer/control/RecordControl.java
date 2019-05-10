@@ -275,6 +275,7 @@ public class RecordControl {
     }
 
 
+
     @RequestMapping(value = "/getRecordsWithSize",method = RequestMethod.GET)
     public void getRecordsWithSize(HttpServletRequest req, HttpServletResponse res){
         Tools.init(req,res);
@@ -556,6 +557,17 @@ public class RecordControl {
         Tools.printOut(rep,baseResBean);
     }
 
+
+    @RequestMapping(value = "/deleteRecord",method = RequestMethod.POST)
+    public void deleteAlbum(HttpServletRequest req, HttpServletResponse res) {
+        HashMap<String,String> map = Tools.getStr(req, res);
+        SqlSession session  = DBTools.getSession();
+        RecordMapper recordMapper = session.getMapper(RecordMapper.class);
+        recordMapper.deleteByLocalPath(map.get("locpath"));
+        session.commit();
+        session.close();
+        Tools.printOutData(res,true);
+    }
 
 
 }

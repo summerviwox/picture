@@ -20,22 +20,22 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/keeprun")
 public class KeepRunControl {
 
-    @RequestMapping(value = "/insert",method = RequestMethod.POST)
-    public void getAllRecordsStepwithLimit(HttpServletRequest req, HttpServletResponse res) {
-        Tools.init(req, res);
-
-        BaseBean baseBean = new BaseBean();
-
-        KeepRun keepRun = GsonUtil.getInstance().fromJson(req.getParameter("data"),KeepRun.class);
-        SqlSession session  =  DBTools.getSession();
-        BaseResBean baseResBean = new BaseResBean();
-        KeepRunMapper keepRunMapper = session.getMapper(KeepRunMapper.class);
-        keepRunMapper.insert(keepRun.getTime(),keepRun.getText());
-
-        baseResBean.setData(keepRun);
-        Tools.printOut(res,baseResBean);
-        session.commit();
-        session.close();
-
-    }
+//    @RequestMapping(value = "/insert",method = RequestMethod.POST)
+//    public void getAllRecordsStepwithLimit(HttpServletRequest req, HttpServletResponse res) {
+//        Tools.init(req, res);
+//
+//        BaseBean baseBean = new BaseBean();
+//
+//        KeepRun keepRun = GsonUtil.getInstance().fromJson(req.getParameter("data"),KeepRun.class);
+//        SqlSession session  =  DBTools.getSession();
+//        BaseResBean baseResBean = new BaseResBean();
+//        KeepRunMapper keepRunMapper = session.getMapper(KeepRunMapper.class);
+//        keepRunMapper.insert(keepRun.getTime(),keepRun.getText());
+//
+//        baseResBean.setData(keepRun);
+//        Tools.printOut(res,baseResBean);
+//        session.commit();
+//        session.close();
+//
+//    }
 }

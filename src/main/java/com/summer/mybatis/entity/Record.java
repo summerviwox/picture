@@ -37,6 +37,8 @@ public class Record {
 
     private String content;
 
+    private Integer enable;
+
     private Integer classify;//是否图片识别分类
 
     public int isUploaded = 0;
