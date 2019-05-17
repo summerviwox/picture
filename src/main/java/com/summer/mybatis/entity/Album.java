@@ -11,6 +11,10 @@ public class Album {
 
     private Long utime;
 
+    private Integer headid;
+
+    private Record record;
+
     public Integer getId() {
         return id;
     }
@@ -49,5 +53,21 @@ public class Album {
 
     public void setUtime(Long utime) {
         this.utime = utime;
+    }
+
+    public Integer getHeadid() {
+        return headid;
+    }
+
+    public void setHeadid(Integer headid) {
+        this.headid = headid;
+    }
+
+    public Record getRecord() {
+        return record;
+    }
+
+    public void setRecord(Record record) {
+        this.record = record;
     }
 }

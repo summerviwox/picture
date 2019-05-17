@@ -7,6 +7,7 @@
     <result column="head" jdbcType="VARCHAR" property="head" />
     <result column="ctime" jdbcType="BIGINT" property="ctime" />
     <result column="utime" jdbcType="BIGINT" property="utime" />
+    <result column="headid" jdbcType="INTEGER" property="headid" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from album
@@ -17,31 +18,32 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into album (name, head, ctime, 
-      utime)
+      utime,headid)
     values (#{name,jdbcType=VARCHAR}, #{head,jdbcType=VARCHAR}, #{ctime,jdbcType=BIGINT}, 
-      #{utime,jdbcType=BIGINT})
+      #{utime,jdbcType=BIGINT},#{headid,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.summer.mybatis.entity.Album">
     update album
     set name = #{name,jdbcType=VARCHAR},
       head = #{head,jdbcType=VARCHAR},
       ctime = #{ctime,jdbcType=BIGINT},
-      utime = #{utime,jdbcType=BIGINT}
+      utime = #{utime,jdbcType=BIGINT},
+      headid =  #{headid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
   <update id="updateHeadByPrimaryKey" parameterType="com.summer.mybatis.entity.Album">
     update album
-    set head = #{head,jdbcType=VARCHAR}
+    set headid = #{headid,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, name, head, ctime, utime
+    select id, name, head, ctime, utime,headid
     from album
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, name, head, ctime, utime
+    select id, name, head, ctime, utime,headid
     from album
   </select>
 </mapper>

@@ -31,7 +31,7 @@
   <select id="selectByAlbumid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select id, albumid, recordid
     from albumitem
-    where albumid = #{id,jdbcType=INTEGER}
+    where albumid = #{id,jdbcType=INTEGER} order by id desc
   </select>
 
   <select id="selectByAlbumidAndRecordid" parameterType="java.lang.Integer" resultMap="BaseResultMap">

@@ -17,9 +17,14 @@ public class ThumbnailUtil {
 
     static final String start = "E:\\record";
 
+    static final String start2 = "E:\\records";
+
 
     public static void zoomImagesScale(ArrayList<Record> records){
         for(int i=0;i<records.size();i++){
+            if(i>10861){
+                int x = 0;
+            }
             simglezoomImageScale(records.get(i));
             System.out.println(i+"--"+records.get(i).getNetpath());
         }
@@ -33,7 +38,9 @@ public class ThumbnailUtil {
             return;
         }
         String path = "";
-        if(record.getNetpath().startsWith(start)){
+        if(record.getNetpath().startsWith(start2)){
+            path= record.getNetpath().substring(start2.length());
+        }else if(record.getNetpath().startsWith(start)){
             path= record.getNetpath().substring(start.length());
         }
         File file = new File("E:\\records"+path);

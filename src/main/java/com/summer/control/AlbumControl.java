@@ -6,6 +6,7 @@ import com.summer.bean.album.AlbumReq;
 import com.summer.mybatis.DBTools;
 import com.summer.mybatis.entity.Album;
 import com.summer.mybatis.entity.Albumitem;
+import com.summer.mybatis.entity.Record;
 import com.summer.mybatis.mapper.AlbumMapper;
 import com.summer.mybatis.mapper.AlbumitemMapper;
 import com.summer.mybatis.mapper.RecordMapper;
@@ -40,6 +41,11 @@ public class AlbumControl {
             album.setHead(recordMapper.selectRecordWhereLocalPath(albumReq.getAlbumItems().get(0)).get(0).getLocpath());
         }
         album.setUtime(System.currentTimeMillis());
+        album.setHeadid(7360);
+        if(albumReq.getAlbumItems().size()!=0){
+            int ida = recordMapper.selectRecordWhereLocalPath(albumReq.getAlbumItems().get(0)).get(0).getId();
+            album.setHeadid(ida);
+        }
         albumMapper.insert(album);
         for(int i=0;albumReq.getAlbumItems()!=null&&i<albumReq.getAlbumItems().size();i++){
             int ida = recordMapper.selectRecordWhereLocalPath(albumReq.getAlbumItems().get(i)).get(0).getId();
@@ -61,7 +67,13 @@ public class AlbumControl {
          Tools.init(req, res);
         SqlSession session  = DBTools.getSession();
         AlbumMapper albumMapper = session.getMapper(AlbumMapper.class);
+        RecordMapper recordMapper = session.getMapper(RecordMapper.class);
         List<Album> albums =  albumMapper.selectAll();
+        for(int i=0;i<albums.size();i++){
+            Record record = recordMapper.selectByPrimaryKey(albums.get(i).getHeadid());
+            albums.get(i).setRecord(record);
+
+        }
         session.close();
         Tools.printOutData(res,albums);
     }
@@ -86,7 +98,7 @@ public class AlbumControl {
         AlbumMapper albumMapper = session.getMapper(AlbumMapper.class);
         Album album = new Album();
         album.setId(Integer.parseInt(map.get("id")));
-        album.setHead(map.get("head"));
+        album.setHeadid(Integer.parseInt(map.get("headid")));
         albumMapper.updateHeadByPrimaryKey(album);
         session.commit();
         session.close();
