@@ -1,6 +1,7 @@
 package com.summer.mybatis.entity;
 
-public class Alarm {
+public class Alarm implements Comparable<Alarm>{
+
     private Integer id;
 
     private Long time;
@@ -39,5 +40,14 @@ public class Alarm {
 
     public void setEnable(Integer enable) {
         this.enable = enable;
+    }
+
+    @Override
+    public int compareTo(Alarm o) {
+        if(time%(1000*3600*24)>o.getTime()%(1000*3600*24)){
+            return 1;
+        }
+        return -1;
+
     }
 }

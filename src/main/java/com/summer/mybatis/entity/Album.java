@@ -13,6 +13,8 @@ public class Album {
 
     private Integer headid;
 
+    private String detail;
+
     private Record record;
 
     public Integer getId() {
@@ -61,6 +63,14 @@ public class Album {
 
     public void setHeadid(Integer headid) {
         this.headid = headid;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
     public Record getRecord() {

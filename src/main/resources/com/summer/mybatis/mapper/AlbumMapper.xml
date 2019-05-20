@@ -8,6 +8,7 @@
     <result column="ctime" jdbcType="BIGINT" property="ctime" />
     <result column="utime" jdbcType="BIGINT" property="utime" />
     <result column="headid" jdbcType="INTEGER" property="headid" />
+    <result column="detail" jdbcType="VARCHAR" property="detail"/>
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from album
@@ -17,10 +18,10 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into album (name, head, ctime, 
-      utime,headid)
-    values (#{name,jdbcType=VARCHAR}, #{head,jdbcType=VARCHAR}, #{ctime,jdbcType=BIGINT}, 
-      #{utime,jdbcType=BIGINT},#{headid,jdbcType=INTEGER})
+    insert into album (name, head, ctime,
+      utime,headid,detail)
+    values (#{name,jdbcType=VARCHAR}, #{head,jdbcType=VARCHAR}, #{ctime,jdbcType=BIGINT},
+      #{utime,jdbcType=BIGINT},#{headid,jdbcType=INTEGER},#{detail,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.summer.mybatis.entity.Album">
     update album
@@ -28,7 +29,8 @@
       head = #{head,jdbcType=VARCHAR},
       ctime = #{ctime,jdbcType=BIGINT},
       utime = #{utime,jdbcType=BIGINT},
-      headid =  #{headid,jdbcType=INTEGER}
+      headid =  #{headid,jdbcType=INTEGER},
+      detail = #{detail,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -37,13 +39,20 @@
     set headid = #{headid,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <update id="updateDetailById" parameterType="Album">
+    update album set detail = #{detail,jdbcType=VARCHAR} where id = #{id,jdbcType = INTEGER}
+  </update>
+  <update id="updateNameOrDetailById">
+    update album set name = #{arg0},detail = #{arg1} where id = #{arg2}
+  </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, name, head, ctime, utime,headid
+    select id, name, head, ctime, utime,headid,detail
     from album
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, name, head, ctime, utime,headid
+    select id, name, head, ctime, utime,headid,detail
     from album
   </select>
 </mapper>

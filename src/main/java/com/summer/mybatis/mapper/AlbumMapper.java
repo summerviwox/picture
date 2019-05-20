@@ -15,4 +15,8 @@ public interface AlbumMapper {
     int updateByPrimaryKey(Album record);
 
     int updateHeadByPrimaryKey(Album record);
+
+    int updateDetailById(Album album);
+
+    int updateNameOrDetailById(String name,String detail,Integer id);
 }

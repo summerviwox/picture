@@ -13,5 +13,7 @@ public class AlbumReq implements Serializable {
 
     private String name;
 
+    private String detail;
+
     private ArrayList<String> albumItems;
 }

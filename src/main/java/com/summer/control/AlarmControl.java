@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class AlarmControl {
         SqlSession session  = DBTools.getSession();
         AlarmMapper alarmMapper = session.getMapper(AlarmMapper.class);
         List<Alarm> data = alarmMapper.selectAll();
+        Collections.sort(data);
         session.close();
         Tools.printOutData(res,data);
     }

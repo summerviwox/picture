@@ -36,6 +36,7 @@ public class AlbumControl {
         AlbumitemMapper albumitemMapper = session.getMapper(AlbumitemMapper.class);
         Album album = new Album();
         album.setName(albumReq.getName());
+        album.setDetail(albumReq.getDetail());
         album.setCtime(System.currentTimeMillis());
         if(albumReq.getAlbumItems()!=null&&albumReq.getAlbumItems().size()!=0){
             album.setHead(recordMapper.selectRecordWhereLocalPath(albumReq.getAlbumItems().get(0)).get(0).getLocpath());
@@ -100,6 +101,21 @@ public class AlbumControl {
         album.setId(Integer.parseInt(map.get("id")));
         album.setHeadid(Integer.parseInt(map.get("headid")));
         albumMapper.updateHeadByPrimaryKey(album);
+        session.commit();
+        session.close();
+        Tools.printOutData(res,true);
+    }
+
+    @RequestMapping(value = "/updateNameOrDetailById",method = RequestMethod.POST)
+    public void updateNameOrDetailById(HttpServletRequest req, HttpServletResponse res) {
+        HashMap<String,String> map = Tools.getStr(req, res);
+        SqlSession session  = DBTools.getSession();
+        AlbumMapper albumMapper = session.getMapper(AlbumMapper.class);
+        Album album = new Album();
+        album.setId(Integer.parseInt(map.get("id")));
+        album.setName(map.get("name"));
+        album.setDetail(map.get("detail"));
+        albumMapper.updateNameOrDetailById(map.get("name"),map.get("detail"),Integer.parseInt(map.get("id")));
         session.commit();
         session.close();
         Tools.printOutData(res,true);

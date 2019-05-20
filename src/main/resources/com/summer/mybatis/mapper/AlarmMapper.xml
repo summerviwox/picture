@@ -35,5 +35,7 @@
   <select id="selectAll" resultMap="BaseResultMap">
     select id, time, text, enable
     from alarm
+    order by time
+    desc
   </select>
 </mapper>
