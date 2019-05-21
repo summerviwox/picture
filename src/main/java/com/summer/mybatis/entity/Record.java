@@ -41,6 +41,13 @@ public class Record {
 
     private Integer classify;//是否图片识别分类
 
+    private Integer ctype;
+
+    private Integer remark;
+
+    private Integer parentid;
+
+
     public int isUploaded = 0;
 
     ArrayList<Tiplab> tiplabs;

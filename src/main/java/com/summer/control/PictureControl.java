@@ -1,15 +1,18 @@
 package com.summer.control;
 
+import com.google.gson.reflect.TypeToken;
 import com.summer.base.OnFinishI;
 import com.summer.base.bean.BaseResBean;
 import com.summer.base.bean.Tools;
 import com.summer.global.Value;
 import com.summer.mybatis.DBTools;
 import com.summer.mybatis.entity.Record;
+import com.summer.mybatis.mapper.FileMapper;
 import com.summer.mybatis.mapper.RecordMapper;
 import com.summer.util.DateFormatUtil;
 import com.summer.util.GsonUtil;
 import com.summer.util.ThumbnailUtil;
+import com.sun.prism.impl.Disposer;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -25,6 +28,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @RequestMapping("/picture")
@@ -152,4 +156,106 @@ public class PictureControl {
         Tools.printOut(res,"");
         session.close();
     }
+
+
+
+
+    @RequestMapping(value = "/selectAllByParentId",method = RequestMethod.POST)
+    public void selectAllByParentId(HttpServletRequest req, HttpServletResponse res) {
+        HashMap<String,String> map = Tools.getStr(req, res);
+        SqlSession session  = DBTools.getSession();
+        RecordMapper recordMapper = session.getMapper(RecordMapper.class);
+        List<Record> files = recordMapper.selectRecordsByParentId(Integer.parseInt(map.get("parentId")));
+        session.commit();
+        session.close();
+        Tools.printOutData(res,files);
+    }
+
+
+    @RequestMapping(value = "/addFolder",method = RequestMethod.POST)
+    public void addFolder(HttpServletRequest req, HttpServletResponse res) {
+        HashMap<String,String> map = Tools.getStr(req, res);
+        SqlSession session  = DBTools.getSession();
+        RecordMapper recordMapper = session.getMapper(RecordMapper.class);
+        Record record = GsonUtil.getInstance().fromJson(map.get("data"), Record.class);
+        if(record.getParentid()==null){
+            session.close();
+            Tools.printOutData(res,false);
+            return;
+        }
+        Record r = recordMapper.selectByPrimaryKey(7360);
+        if(r!=null){
+            record.setLocpath(r.getLocpath());
+            record.setNetpath(r.getNetpath());
+        }
+        record.setIsUploaded(0);
+        record.setCtype(1);
+        record.setUtime(System.currentTimeMillis());
+        record.setCtime(System.currentTimeMillis());
+        int a= recordMapper.insert(record);
+        session.commit();
+        session.close();
+        Tools.printOutData(res,a==1);
+    }
+
+    @RequestMapping(value = "/addFiles",method = RequestMethod.POST)
+    public void addFiles(HttpServletRequest req, HttpServletResponse res) {
+        HashMap<String,String> map = Tools.getStr(req, res);
+        SqlSession session  = DBTools.getSession();
+        RecordMapper recordMapper = session.getMapper(RecordMapper.class);
+        ArrayList<Record> records  = GsonUtil.getInstance().fromJson(map.get("data"),new TypeToken<ArrayList<Record>>(){}.getType());
+        Integer parentId = Integer.parseInt(map.get("parentId"));
+        for(int i=0;i<records.size();i++){
+            ArrayList<Record> list = (ArrayList<Record>) recordMapper.selectRecordWhereLocalPath(records.get(i).getLocpath());
+            if(list==null||list.size()==0){
+                continue;
+            }
+            Record record = list.get(0);
+            recordMapper.updateParentIdById(parentId,record.getId());
+        }
+        session.commit();
+        session.close();
+        Tools.printOutData(res,records.size()!=0);
+    }
+
+    @RequestMapping(value = "/deleteFile",method = RequestMethod.POST)
+    public void deleteFile(HttpServletRequest req, HttpServletResponse res) {
+        HashMap<String,String> map = Tools.getStr(req, res);
+        SqlSession session  = DBTools.getSession();
+        RecordMapper recordMapper = session.getMapper(RecordMapper.class);
+        Integer id = Integer.parseInt(map.get("id"));
+        int i = recordMapper.updateParentIdById(null,id);
+        session.commit();
+        session.close();
+        Tools.printOutData(res,i!=0);
+    }
+
+    @RequestMapping(value = "/setHeadImage",method = RequestMethod.POST)
+    public void setHeadImage(HttpServletRequest req, HttpServletResponse res) {
+        HashMap<String,String> map = Tools.getStr(req, res);
+        SqlSession session  = DBTools.getSession();
+        RecordMapper recordMapper = session.getMapper(RecordMapper.class);
+        ArrayList<Record> records = (ArrayList<Record>) recordMapper.selectRecordWhereLocalPath(map.get("locpath"));
+        int i = 0;
+        if(records!=null&&records.size()!=0){
+            Record record = recordMapper.selectByPrimaryKey(Integer.parseInt(map.get("parentId")));
+            record.setNetpath(records.get(0).getNetpath());
+            record.setLocpath(records.get(0).getLocpath());
+            i = recordMapper.updatePathById(record);
+        }
+        session.commit();
+        session.close();
+        Tools.printOutData(res,i!=0);
+    }
+
+    @RequestMapping(value = "/selectAllFolder",method = RequestMethod.GET)
+    public void selectAllFolder(HttpServletRequest req, HttpServletResponse res) {
+        Tools.init(req, res);
+        SqlSession session  = DBTools.getSession();
+        RecordMapper recordMapper = session.getMapper(RecordMapper.class);
+        ArrayList<Record> records = (ArrayList<Record>) recordMapper.selectAllFolder();
+        session.close();
+        Tools.printOutData(res,records);
+    }
+
 }

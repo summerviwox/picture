@@ -15,17 +15,6 @@ public interface RecordMapper {
 
     int deleteByLocalPath(String locpath);
 
-    @Insert({
-        "insert into record (locpath, netpath, ",
-        "ctime, utime, atype, ",
-        "btype, address, ",
-        "duration, name, content,classify)",
-        "values (#{locpath,jdbcType=VARCHAR}, #{netpath,jdbcType=VARCHAR}, ",
-        "#{ctime,jdbcType=BIGINT}, #{utime,jdbcType=BIGINT}, #{atype,jdbcType=VARCHAR}, ",
-        "#{btype,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, ",
-        "#{duration,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR},#{classify,jdbcType=INTEGER})"
-    })
-    @SelectKey(statement="SELECT LAST_INSERT_ID()", keyProperty="id", before=false, resultType=Integer.class)
     int insert(Record record);
 
     @Select({
@@ -46,7 +35,10 @@ public interface RecordMapper {
         @Result(column="duration", property="duration", jdbcType=JdbcType.BIGINT),
         @Result(column="name", property="name", jdbcType=JdbcType.VARCHAR),
         @Result(column="content", property="content", jdbcType=JdbcType.LONGVARCHAR),
-            @Result(column="classify", property="classify", jdbcType=JdbcType.INTEGER)
+            @Result(column="classify", property="classify", jdbcType=JdbcType.INTEGER),
+            @Result(column="parentid", property="parentid", jdbcType=JdbcType.INTEGER),
+            @Result(column="ctype", property="ctype", jdbcType=JdbcType.INTEGER),
+            @Result(column="remark", property="remark", jdbcType=JdbcType.VARCHAR)
     })
     Record selectByPrimaryKey(Integer id);
 
@@ -67,7 +59,10 @@ public interface RecordMapper {
         @Result(column="duration", property="duration", jdbcType=JdbcType.BIGINT),
         @Result(column="name", property="name", jdbcType=JdbcType.VARCHAR),
         @Result(column="content", property="content", jdbcType=JdbcType.LONGVARCHAR),
-            @Result(column="classify", property="classify", jdbcType=JdbcType.INTEGER)
+            @Result(column="classify", property="classify", jdbcType=JdbcType.INTEGER),
+            @Result(column="parentid", property="parentid", jdbcType=JdbcType.INTEGER),
+            @Result(column="ctype", property="ctype", jdbcType=JdbcType.INTEGER),
+            @Result(column="remark", property="remark", jdbcType=JdbcType.VARCHAR)
     })
     List<Record> selectAll();
 
@@ -80,7 +75,7 @@ public interface RecordMapper {
     @Select({ "select * from record where atype = #{atype,jdbcType=VARCHAR} and ctime>= #{start,jdbcType=VARCHAR} and ctime< #{end,jdbcType=VARCHAR} order by ctime desc"})
     List<Record> selectAllByAtypeWithSE(@Param("atype") String atype,@Param("start")String start,@Param("end")String end);
 
-    @Select({ "select * from record where ctime>= #{start,jdbcType=VARCHAR} and ctime< #{end,jdbcType=VARCHAR} order by ctime desc"})
+    @Select({ "select * from record where ctime>= #{start,jdbcType=VARCHAR} and ctime< #{end,jdbcType=VARCHAR} and ctype <>1 order by ctime desc"})
     List<Record> selectAllWithSE(@Param("start")String start,@Param("end")String end);
 
     @Select({ "select * from record where atype = #{atype,jdbcType=VARCHAR} limit 16 offset #{offset,jdbcType=INTEGER}"})
@@ -157,6 +152,14 @@ public interface RecordMapper {
 
     List<Record> selectRecordByLocalpath(String locpath);
 
+    List<Record> selectRecordsByParentId(Integer parentId);
+
     int updateClassify(Integer recordid,Integer value);
+
+    int updateParentIdById(Integer id,Integer parentId);
+
+    int updatePathById(Record record);
+
+    List<Record> selectAllFolder();
 
 }

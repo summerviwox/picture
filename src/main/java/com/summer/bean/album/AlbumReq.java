@@ -11,6 +11,8 @@ import java.util.ArrayList;
 @Setter
 public class AlbumReq implements Serializable {
 
+    private String parentid;
+
     private String name;
 
     private String detail;

@@ -15,6 +15,9 @@
     <id column="content" jdbcType="VARCHAR" property="content" />
     <id column="classify" jdbcType="INTEGER" property="classify" />
     <id column="enable" jdbcType="INTEGER" property="classify" />
+    <id column="parentid" jdbcType="INTEGER" property="parentid" />
+    <id column="ctype" jdbcType="INTEGER" property="ctype" />
+    <id column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
 
     <select id="selectAllByTypes" parameterType="string" resultMap="Lists">
@@ -41,7 +44,9 @@
     select * from record where locpath = #{arg0} and enable = 1
   </select>
 
-
+<select id="selectRecordsByParentId" resultMap="Lists">
+  select * from record where parentId = #{arg0} and enable = 1
+</select>
 
     <update id="updateClassify">
     update record set classify = #{arg1} where id = #{arg0}
@@ -50,5 +55,28 @@
   <update id="deleteByLocalPath">
     update record set enable = 0 where locpath = #{arg1}
   </update>
+
+  <update id="updateParentIdById">
+    update record set parentid = #{arg0} where id = #{arg1}
+  </update>
+
+  <insert id="insert" parameterType="Record">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into record (locpath, netpath,ctime, utime, atype,btype, address,duration, name, content,classify,ctype,parentid)
+    values (#{locpath,jdbcType=VARCHAR}, #{netpath,jdbcType=VARCHAR},#{ctime,jdbcType=BIGINT}, #{utime,jdbcType=BIGINT}, #{atype,jdbcType=VARCHAR},
+    #{btype,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},#{duration,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR},
+    #{classify,jdbcType=INTEGER},#{ctype,jdbcType=INTEGER},#{parentid,jdbcType=INTEGER}
+    )
+  </insert>
+
+  <update id="updatePathById" parameterType="Record">
+    update record set locpath = #{locpath,jdbcType=VARCHAR},netpath = #{netpath,jdbcType=VARCHAR} where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectAllFolder" resultMap="Lists">
+    select * from record where ctype = 1
+  </select>
 
 </mapper>
