@@ -43,9 +43,13 @@ public class PictureControl {
         RecordMapper recordMapper = session.getMapper(RecordMapper.class);
         //从数据库中查找是否有这条记录
         ArrayList<Record> records = (ArrayList<Record>) recordMapper.selectRecordWhereLocalPath(record.getLocpath());
+        String netpath = null;
         //没有此条记录 则插入这条记录
         if(records==null||records.size()==0){
+            record.setCtype(0);
             recordMapper.insert(record);
+        }else{
+            netpath = records.get(0).getNetpath();
         }
         //再检查本地是否有文件
         File typeFile = new File(Value.getRecordFile(), DateFormatUtil.getdDateStr(DateFormatUtil.YYYYMMDD,new Date(record.getCtime())));
@@ -54,11 +58,12 @@ public class PictureControl {
         }
         String[] strs = record.getLocpath().split("/");
         File file = new File(typeFile,strs[strs.length-1]);
+        if(!file.exists()){
+            netpath = null;
+        }
         session.commit();
         session.close();
-        BaseResBean baseResBean = new BaseResBean();
-        baseResBean.setData(file.exists());
-        Tools.printOut(rep,baseResBean);
+        Tools.printOutData(rep,netpath);
     }
 
 
@@ -72,6 +77,7 @@ public class PictureControl {
         ArrayList<Record> records = (ArrayList<Record>) recordMapper.selectRecordWhereLocalPath(record.getLocpath());
         //没有此条记录 则插入这条记录
         if(records==null||records.size()==0){
+            record.setCtype(0);
             recordMapper.insert(record);
         }
         //再检查本地是否有文件
@@ -190,6 +196,7 @@ public class PictureControl {
         }
         record.setIsUploaded(0);
         record.setCtype(1);
+        record.setEnable(1);
         record.setUtime(System.currentTimeMillis());
         record.setCtime(System.currentTimeMillis());
         int a= recordMapper.insert(record);
@@ -224,7 +231,16 @@ public class PictureControl {
         SqlSession session  = DBTools.getSession();
         RecordMapper recordMapper = session.getMapper(RecordMapper.class);
         Integer id = Integer.parseInt(map.get("id"));
-        int i = recordMapper.updateParentIdById(null,id);
+        Record record = recordMapper.selectByPrimaryKey(id);
+        int i = 0;
+        if(record.getCtype()==1){
+            //文件夹
+            recordMapper.deleteByPrimaryKey(id);
+        }else{
+            //文件
+            i = recordMapper.updateParentIdById(null,id);
+        }
+
         session.commit();
         session.close();
         Tools.printOutData(res,i!=0);

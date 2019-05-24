@@ -445,6 +445,7 @@ public class RecordControl {
                }
                 continue;
             }
+            records.get(i).setCtype(0);
             recordMapper.insert(records.get(i));
             list.add(records.get(i));
         }

@@ -98,6 +98,9 @@ public interface RecordMapper {
           "name = #{name,jdbcType=VARCHAR},",
           "content = #{content,jdbcType=LONGVARCHAR}",
             "classify = #{classify,jdbcType=INTEGER}",
+            "parentid = #{parentid,jdbcType=INTEGER}",
+            "ctype = #{ctype,jdbcType=INTEGER}",
+            "remark = #{remark,jdbcType=INTEGER}",
         "where id = #{id,jdbcType=INTEGER}"
     })
     int updateByPrimaryKey(Record record);

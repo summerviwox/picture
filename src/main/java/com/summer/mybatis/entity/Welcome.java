@@ -7,6 +7,8 @@ public class Welcome {
 
     private String data;
 
+    private String check;
+
     public Integer getId() {
         return id;
     }
@@ -29,5 +31,13 @@ public class Welcome {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public String getCheck() {
+        return check;
+    }
+
+    public void setCheck(String check) {
+        this.check = check;
     }
 }

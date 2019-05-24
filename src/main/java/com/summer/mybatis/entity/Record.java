@@ -41,9 +41,9 @@ public class Record {
 
     private Integer classify;//是否图片识别分类
 
-    private Integer ctype;
+    private Integer ctype=0;
 
-    private Integer remark;
+    private String remark;
 
     private Integer parentid;
 
