@@ -7,7 +7,7 @@ public class Welcome {
 
     private String data;
 
-    private String check;
+    private Integer checked;
 
     public Integer getId() {
         return id;
@@ -33,11 +33,11 @@ public class Welcome {
         this.data = data;
     }
 
-    public String getCheck() {
-        return check;
+    public Integer getChecked() {
+        return checked;
     }
 
-    public void setCheck(String check) {
-        this.check = check;
+    public void setChecked(Integer checked) {
+        this.checked = checked;
     }
 }

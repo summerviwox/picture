@@ -15,7 +15,7 @@ configurations {
 }
 
 dependencies {
-
+ 
     compile 'org.codehaus.groovy:groovy-all:2.3.11'
     compile 'jstl:jstl:1.2'
     compile 'org.springframework:spring-aop:4.2.4.RELEASE'

@@ -1,10 +1,15 @@
 package com.summer.mybatis.entity;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class Alarm implements Comparable<Alarm>{
 
     private Integer id;
 
-    private Long time;
+    private Long starttime;
+
+    private Long endtime;
 
     private String text;
 
@@ -18,12 +23,20 @@ public class Alarm implements Comparable<Alarm>{
         this.id = id;
     }
 
-    public Long getTime() {
-        return time;
+    public Long getStarttime() {
+        return starttime;
     }
 
-    public void setTime(Long time) {
-        this.time = time;
+    public void setStarttime(Long starttime) {
+        this.starttime = starttime;
+    }
+
+    public Long getEndtime() {
+        return endtime;
+    }
+
+    public void setEndtime(Long endtime) {
+        this.endtime = endtime;
     }
 
     public String getText() {
@@ -44,7 +57,13 @@ public class Alarm implements Comparable<Alarm>{
 
     @Override
     public int compareTo(Alarm o) {
-        if(time%(1000*3600*24)>o.getTime()%(1000*3600*24)){
+        Calendar a = Calendar.getInstance();
+        a.setTime(new Date(starttime));
+        Calendar b = Calendar.getInstance();
+        b.setTime(new Date(o.getStarttime()));
+        int aa = a.get(Calendar.HOUR_OF_DAY)*60+a.get(Calendar.MINUTE);
+        int bb = b.get(Calendar.HOUR_OF_DAY)*60+b.get(Calendar.MINUTE);
+        if(aa>bb){
             return 1;
         }
         return -1;

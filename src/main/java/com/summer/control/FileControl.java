@@ -135,5 +135,19 @@ public class FileControl {
         Tools.printOutData(res,files);
     }
 
+    @RequestMapping(value = "/moveFile",method = RequestMethod.POST)
+    public void moveFile(HttpServletRequest req, HttpServletResponse res) {
+        HashMap<String,String> map = Tools.getStr(req, res);
+        SqlSession session  = DBTools.getSession();
+        FileMapper fileMapper = session.getMapper(FileMapper.class);
+        Integer id = Integer.parseInt(map.get("id"));
+        Integer parentId = Integer.parseInt(map.get("parentId"));
+        int i = fileMapper.updateParentByPrivateKey(id,parentId);
+        session.commit();
+        session.close();
+        Tools.printOutData(res,i!=0);
+    }
+
+
 
 }
