@@ -3,7 +3,6 @@ package com.summer.util;
 import com.summer.base.OnFinishI;
 import com.summer.mybatis.entity.Record;
 import com.summer.util.gif.GifDecoder;
-import org.apache.commons.io.IOUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -82,10 +81,13 @@ public class ThumbnailUtil {
         if(imageFile.getName().toLowerCase().endsWith("gif")){
             bufferedImage = GifDecoder.read(new FileInputStream(imageFile)).getFrame(0);
         }else{
-            bufferedImage = ImageIO.read(imageFile);
+            bufferedImage = ImageIO.read(new FileInputStream(imageFile));
         }
-        if (null == bufferedImage)
+        //第一种压缩方式失败 采用第二种压缩方式
+
+        if(bufferedImage==null){
             return;
+        }
 
         int originalWidth = bufferedImage.getWidth();
         int originalHeight = bufferedImage.getHeight();

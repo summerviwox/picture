@@ -1,3 +1,5 @@
+import com.sun.org.apache.xalan.internal.xsltc.cmdline.Compile
+
 group 'com.summer'
 version '1.0-SNAPSHOT'
 
@@ -15,7 +17,7 @@ configurations {
 }
 
 dependencies {
- 
+    compile fileTree(include: ['*.jar'], dir: 'main/webapp/WEB-INF/lib')
     compile 'org.codehaus.groovy:groovy-all:2.3.11'
     compile 'jstl:jstl:1.2'
     compile 'org.springframework:spring-aop:4.2.4.RELEASE'
@@ -36,6 +38,8 @@ dependencies {
     compile 'com.google.code.gson:gson:2.3.1'
 
     compile "org.projectlombok:lombok:1.16.18"
+    compile "com.twelvemonkeys.imageio:imageio-jpeg:3.4.1"
+    
 
 }
 

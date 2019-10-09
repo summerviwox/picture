@@ -9,6 +9,16 @@ public class Welcome {
 
     private Integer checked;
 
+    private String netpath;
+
+    public String getNetpath() {
+        return netpath;
+    }
+
+    public void setNetpath(String netpath) {
+        this.netpath = netpath;
+    }
+
     public Integer getId() {
         return id;
     }
