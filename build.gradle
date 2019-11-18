@@ -39,7 +39,7 @@ dependencies {
 
     compile "org.projectlombok:lombok:1.16.18"
     compile "com.twelvemonkeys.imageio:imageio-jpeg:3.4.1"
-    
+    'com.orhanobut:logger:jar:2.2.0'
 
 }
 

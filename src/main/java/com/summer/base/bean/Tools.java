@@ -22,7 +22,7 @@ public class Tools {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader("Access-Control-Allow-Origin", "*");//跨域
         res.setCharacterEncoding("UTF-8");
         res.setContentType("application/json;charset=UTF-8");
     }

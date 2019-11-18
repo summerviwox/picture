@@ -3,7 +3,7 @@
 <configuration>
 
 
-    <properties url="file:///E:/project/server/record/src/main/webapp/WEB-INF/dbinfo.properties"/>
+    <properties url="file:///E:/project/server/server/src/main/webapp/WEB-INF/dbinfo.properties"/>
     <!-- 引入外部配置文件 -->
 <!--    <properties resource="config.properties"></properties>-->
 
