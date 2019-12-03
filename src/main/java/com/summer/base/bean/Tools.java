@@ -27,6 +27,17 @@ public class Tools {
         res.setContentType("application/json;charset=UTF-8");
     }
 
+    public static  void init2(HttpServletRequest req, HttpServletResponse res){
+        try {
+            req.setCharacterEncoding("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        res.setHeader("Access-Control-Allow-Origin", "*");//跨域
+        res.setCharacterEncoding("UTF-8");
+        res.setContentType("application/x-www-form-urlencoded");
+    }
+
     public static void printOut(HttpServletResponse res,Object o){
         try {
             PrintWriter printWriter = res.getWriter();

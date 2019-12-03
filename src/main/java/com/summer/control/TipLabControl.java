@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -28,8 +29,8 @@ public class TipLabControl {
 
     @RequestMapping(value = "/getRecordsFromTip",method = RequestMethod.POST)
     public void getRecordsFromTip(HttpServletRequest req, HttpServletResponse res) {
-        Tools.init(req, res);
-        Tiplab tiplab = GsonUtil.getInstance().fromJson(req.getParameter("data"),Tiplab.class);
+        HashMap<String,String> map= Tools.getStr(req, res);
+        Tiplab tiplab = GsonUtil.getInstance().fromJson(map.get("data"),Tiplab.class);
         SqlSession session  =  DBTools.getSession();
         BaseResBean baseResBean = new BaseResBean();
         TipMapper tipMapper = session.getMapper(TipMapper.class);
@@ -50,8 +51,8 @@ public class TipLabControl {
 
     @RequestMapping(value = "/getImageRecordsFromTip",method = RequestMethod.POST)
     public void getImageRecordsFromTip(HttpServletRequest req, HttpServletResponse res) {
-        Tools.init(req, res);
-        Tiplab tiplab = GsonUtil.getInstance().fromJson(req.getParameter("data"),Tiplab.class);
+        HashMap<String,String> map= Tools.getStr(req, res);
+        Tiplab tiplab = GsonUtil.getInstance().fromJson(map.get("data"),Tiplab.class);
         SqlSession session  =  DBTools.getSession();
         BaseResBean baseResBean = new BaseResBean();
         TipMapper tipMapper = session.getMapper(TipMapper.class);
@@ -72,8 +73,8 @@ public class TipLabControl {
 
     @RequestMapping(value = "/getRecordTips",method = RequestMethod.POST)
     public void getRecordTips(HttpServletRequest req, HttpServletResponse res){
-        Tools.init(req,res);
-        Record record = GsonUtil.getInstance().fromJson(req.getParameter("data"),Record.class);
+        HashMap<String,String> map= Tools.getStr(req, res);
+        Record record = GsonUtil.getInstance().fromJson(map.get("data"),Record.class);
 
         SqlSession session  =  DBTools.getSession();
         BaseResBean baseResBean = new BaseResBean();
@@ -98,8 +99,8 @@ public class TipLabControl {
 
     @RequestMapping(value = "/addTip",method = RequestMethod.POST)
     public void addRecordTip(HttpServletRequest req, HttpServletResponse res) {
-        Tools.init(req, res);
-        Tip tip = GsonUtil.getInstance().fromJson(req.getParameter("data"),Tip.class);
+        HashMap<String,String> map= Tools.getStr(req, res);
+        Tip tip = GsonUtil.getInstance().fromJson(map.get("data"),Tip.class);
         SqlSession session  =  DBTools.getSession();
         BaseResBean baseResBean = new BaseResBean();
 
@@ -114,8 +115,8 @@ public class TipLabControl {
 
     @RequestMapping(value = "/checkTip",method = RequestMethod.POST)
     public void checkTip(HttpServletRequest req, HttpServletResponse res) {
-        Tools.init(req, res);
-        Tiplab tiplab = GsonUtil.getInstance().fromJson(req.getParameter("data"),Tiplab.class);
+        HashMap<String,String> map= Tools.getStr(req, res);
+        Tiplab tiplab = GsonUtil.getInstance().fromJson(map.get("data"),Tiplab.class);
         SqlSession session  =  DBTools.getSession();
         BaseResBean baseResBean = new BaseResBean();
         TiplabMapper tiplabMapper = session.getMapper(TiplabMapper.class);
@@ -127,8 +128,8 @@ public class TipLabControl {
 
     @RequestMapping(value = "/getLikeTiplab",method = RequestMethod.POST)
     public void getLikeTiplab(HttpServletRequest req, HttpServletResponse res) {
-        Tools.init(req, res);
-        Tiplab tiplab = GsonUtil.getInstance().fromJson(req.getParameter("data"),Tiplab.class);
+        HashMap<String,String> map= Tools.getStr(req, res);
+        Tiplab tiplab = GsonUtil.getInstance().fromJson(map.get("data"),Tiplab.class);
         SqlSession session  =  DBTools.getSession();
         BaseResBean baseResBean = new BaseResBean();
         TiplabMapper tiplabMapper = session.getMapper(TiplabMapper.class);
@@ -140,8 +141,8 @@ public class TipLabControl {
 
     @RequestMapping(value = "/addTipLab",method = RequestMethod.POST)
     public void addTipLab(HttpServletRequest req, HttpServletResponse res) {
-        Tools.init(req, res);
-        Tiplab tiplab = GsonUtil.getInstance().fromJson(req.getParameter("data"),Tiplab.class);
+        HashMap<String,String> map= Tools.getStr(req, res);
+        Tiplab tiplab = GsonUtil.getInstance().fromJson(map.get("data"),Tiplab.class);
         SqlSession session  =  DBTools.getSession();
         BaseResBean baseResBean = new BaseResBean();
         TiplabMapper tiplabMapper = session.getMapper(TiplabMapper.class);
@@ -173,9 +174,8 @@ public class TipLabControl {
 
     @RequestMapping(value = "/addRecordATip",method = RequestMethod.POST)
     public void addTip(HttpServletRequest req, HttpServletResponse res) {
-        Tools.init(req, res);
-
-        Tiplab tiplab = GsonUtil.getInstance().fromJson(req.getParameter("data"),Tiplab.class);//这里复用tiplab这个类 id为recordid content为tip
+        HashMap<String,String> maps =Tools.getStr(req,res);
+        Tiplab tiplab = GsonUtil.getInstance().fromJson(maps.get("data"),Tiplab.class);//这里复用tiplab这个类 id为recordid content为tip
         SqlSession session  =  DBTools.getSession();
         BaseResBean baseResBean = new BaseResBean();
         TiplabMapper tiplabMapper = session.getMapper(TiplabMapper.class);
