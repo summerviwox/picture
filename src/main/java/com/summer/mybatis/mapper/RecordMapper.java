@@ -165,4 +165,6 @@ public interface RecordMapper {
 
     List<Record> selectAllFolder();
 
+    List<Record> getAllRecordsDescLimit(Integer index,Integer pagesize);
+
 }

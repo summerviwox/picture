@@ -13,10 +13,6 @@ import java.util.logging.Logger;
 public class HandlerInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println(request.getMethod());
-        request.getHeader("token");
-        HandlerMethod handlerMethod = (HandlerMethod) handler;
-        ((HandlerMethod) handler).getMethod().getDeclaredAnnotations();
         return super.preHandle(request, response, handler);
     }
 

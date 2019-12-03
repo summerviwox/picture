@@ -67,4 +67,6 @@ public interface TipMapper {
     @Select({"select * from tip where tipid = #{tipid,jdbcType=INTEGER}"})
     List<Tip> selectTipsByTipId(@Param("tipid") int tipid);
 
+    @Select({"select * from tip where tipid = #{tipid,jdbcType=INTEGER} and  recordid = #{recordid,jdbcType=INTEGER}"})
+    List<Tip> checkTipIsExist(@Param("recordid") int recordid,@Param("tipid") int tipid);
 }

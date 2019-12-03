@@ -402,6 +402,20 @@ public class RecordControl {
     }
 
 
+    @RequestMapping(value = "/getAllRecordsDescLimit",method = RequestMethod.GET)
+    public void getAllRecordsDescLimit(HttpServletRequest req, HttpServletResponse res){
+        Tools.init(req,res);
+        Integer limit = Integer.parseInt(req.getParameter("limit"));
+        Integer pagesize = Integer.parseInt(req.getParameter("pagesize"));
+        SqlSession session  =  DBTools.getSession();
+        BaseResBean baseResBean = new BaseResBean();
+        RecordMapper recordMapper = session.getMapper(RecordMapper.class);
+        baseResBean.setData(recordMapper.getAllRecordsDescLimit(pagesize*limit,pagesize));
+        Tools.printOut(res,baseResBean);
+        session.close();
+    }
+
+
     @RequestMapping(value = "/getRecordInfo",method = RequestMethod.GET)
     public void getRecordInfo(HttpServletRequest req, HttpServletResponse res){
         Tools.init(req,res);

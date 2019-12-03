@@ -145,7 +145,10 @@ public class TipLabControl {
         SqlSession session  =  DBTools.getSession();
         BaseResBean baseResBean = new BaseResBean();
         TiplabMapper tiplabMapper = session.getMapper(TiplabMapper.class);
-        tiplabMapper.insert(tiplab);
+        List<Tiplab> tiplabs = tiplabMapper.selectLikeTipLabByContent(tiplab.getContent());
+        if(tiplabs==null||tiplabs.size()==0){
+            tiplabMapper.insert(tiplab);
+        }
         baseResBean.setData(tiplab);
         Tools.printOut(res,baseResBean);
         session.commit();
@@ -166,5 +169,49 @@ public class TipLabControl {
 
     }
 
+
+
+    @RequestMapping(value = "/addRecordATip",method = RequestMethod.POST)
+    public void addTip(HttpServletRequest req, HttpServletResponse res) {
+        Tools.init(req, res);
+
+        Tiplab tiplab = GsonUtil.getInstance().fromJson(req.getParameter("data"),Tiplab.class);//这里复用tiplab这个类 id为recordid content为tip
+        SqlSession session  =  DBTools.getSession();
+        BaseResBean baseResBean = new BaseResBean();
+        TiplabMapper tiplabMapper = session.getMapper(TiplabMapper.class);
+        TipMapper tipMapper = session.getMapper(TipMapper.class);
+        List<Tiplab> tiplaba = tiplabMapper.selectLikeTipLabByContent(tiplab.getContent());
+        List<Tiplab> tiplabb = tiplabMapper.selectTipLabByContent(tiplab.getContent());
+        int recordid = tiplab.getId();
+        int tiplabid = 0;
+        if(tiplaba==null||tiplaba.size()==0){
+            tiplab.setEnable(1);
+            tiplab.setCtime(System.currentTimeMillis());
+            tiplabMapper.insert(tiplab);
+            tiplabid= tiplab.getId();
+        }else{
+            //如果有精确匹配的选取精确匹配的 否则选取模糊匹配的
+            tiplabid = tiplaba.get(0).getId();
+            if(tiplabb!=null&&tiplabb.size()!=0){
+                tiplabid = tiplabb.get(0).getId();
+            }
+        }
+
+        Tip tip = new Tip();
+        tip.setCtime(System.currentTimeMillis());
+        tip.setRecordid(recordid);
+        tip.setTipid(tiplabid);
+
+        List<Tip> tips = tipMapper.checkTipIsExist(tip.getRecordid(),tip.getTipid());
+        if(tips!=null&&tips.size()!=0){
+
+        }else{
+            tipMapper.insert(tip);
+        }
+        baseResBean.setData(tip);
+        Tools.printOut(res,baseResBean);
+        session.commit();
+        session.close();
+    }
 
 }
