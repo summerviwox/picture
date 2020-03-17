@@ -3,7 +3,7 @@ package com.summer.mybatis.entity;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Alarm implements Comparable<Alarm>{
+public class Alarm implements Comparable<Alarm> {
 
     private Integer id;
 
@@ -61,9 +61,9 @@ public class Alarm implements Comparable<Alarm>{
         a.setTime(new Date(starttime));
         Calendar b = Calendar.getInstance();
         b.setTime(new Date(o.getStarttime()));
-        int aa = a.get(Calendar.HOUR_OF_DAY)*60+a.get(Calendar.MINUTE);
-        int bb = b.get(Calendar.HOUR_OF_DAY)*60+b.get(Calendar.MINUTE);
-        if(aa>bb){
+        int aa = a.get(Calendar.HOUR_OF_DAY) * 60 + a.get(Calendar.MINUTE);
+        int bb = b.get(Calendar.HOUR_OF_DAY) * 60 + b.get(Calendar.MINUTE);
+        if (aa > bb) {
             return 1;
         }
         return -1;

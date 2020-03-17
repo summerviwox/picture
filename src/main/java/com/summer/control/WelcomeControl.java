@@ -32,17 +32,17 @@ import java.util.List;
 public class WelcomeControl {
 
 
-    @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public void isPictureUploaded(HttpServletRequest req, HttpServletResponse rep){
-        HashMap<String,String> data =Tools.getStr(req,rep);
-        Welcome welcome = GsonUtil.getInstance().fromJson(data.get("data"),Welcome.class);
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public void isPictureUploaded(HttpServletRequest req, HttpServletResponse rep) {
+        HashMap<String, String> data = Tools.getStr(req, rep);
+        Welcome welcome = GsonUtil.getInstance().fromJson(data.get("data"), Welcome.class);
         SqlSession session = DBTools.getSession();
         WelcomeMapper welcomeMapper = session.getMapper(WelcomeMapper.class);
         List<Welcome> datas = welcomeMapper.selectAll();
         //没有则插入
-        if(datas==null||datas.size()==0){
+        if (datas == null || datas.size() == 0) {
             welcomeMapper.insert(welcome);
-        }else{
+        } else {
             //有则更新
             welcomeMapper.deleteByPrimaryKey(datas.get(0).getId());
             welcomeMapper.insert(welcome);
@@ -51,20 +51,20 @@ public class WelcomeControl {
         session.close();
         BaseResBean baseResBean = new BaseResBean();
         baseResBean.setData(true);
-        Tools.printOut(rep,baseResBean);
+        Tools.printOut(rep, baseResBean);
     }
 
-    @RequestMapping(value = "/selectAll",method = RequestMethod.GET)
-    public void selectAll(HttpServletRequest req, HttpServletResponse rep){
-        Tools.init(req,rep);
+    @RequestMapping(value = "/selectAll", method = RequestMethod.GET)
+    public void selectAll(HttpServletRequest req, HttpServletResponse rep) {
+        Tools.init(req, rep);
         SqlSession session = DBTools.getSession();
         WelcomeMapper welcomeMapper = session.getMapper(WelcomeMapper.class);
         List<Welcome> datas = welcomeMapper.selectAll();
         session.commit();
         session.close();
         BaseResBean baseResBean = new BaseResBean();
-        baseResBean.setData(datas.size()==0?null:datas.get(0));
-        Tools.printOut(rep,baseResBean);
+        baseResBean.setData(datas.size() == 0 ? null : datas.get(0));
+        Tools.printOut(rep, baseResBean);
     }
 
 

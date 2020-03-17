@@ -23,7 +23,6 @@ public class HandlerInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        System.out.println(request.getMethod());
         super.afterCompletion(request, response, handler, ex);
     }
 

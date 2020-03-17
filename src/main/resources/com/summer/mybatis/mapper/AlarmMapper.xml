@@ -1,43 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.summer.mybatis.mapper.AlarmMapper">
-  <resultMap id="BaseResultMap" type="com.summer.mybatis.entity.Alarm">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="starttime" jdbcType="BIGINT" property="starttime" />
-    <result column="endtime" jdbcType="BIGINT" property="endtime" />
-    <result column="text" jdbcType="VARCHAR" property="text" />
-    <result column="enable" jdbcType="INTEGER" property="enable" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from alarm
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.summer.mybatis.entity.Alarm">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into alarm (starttime,endtime, text, enable
-      )
-    values (#{starttime,jdbcType=BIGINT},#{endtime,jdbcType=BIGINT}, #{text,jdbcType=VARCHAR}, #{enable,jdbcType=INTEGER}
-      )
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.summer.mybatis.entity.Alarm">
-    update alarm
-    set starttime = #{starttime,jdbcType=BIGINT},
-    endtime = #{endtime,jdbcType=BIGINT},
-      text = #{text,jdbcType=VARCHAR},
-      enable = #{enable,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, starttime, endtime,text, enable
-    from alarm
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select id, starttime, endtime, text, enable
-    from alarm
-    order by starttime
-    desc
-  </select>
+    <resultMap id="BaseResultMap" type="com.summer.mybatis.entity.Alarm">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="starttime" jdbcType="BIGINT" property="starttime"/>
+        <result column="endtime" jdbcType="BIGINT" property="endtime"/>
+        <result column="text" jdbcType="VARCHAR" property="text"/>
+        <result column="enable" jdbcType="INTEGER" property="enable"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from alarm
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.summer.mybatis.entity.Alarm">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into alarm (starttime,endtime, text, enable
+        )
+        values (#{starttime,jdbcType=BIGINT},#{endtime,jdbcType=BIGINT}, #{text,jdbcType=VARCHAR},
+        #{enable,jdbcType=INTEGER}
+        )
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.summer.mybatis.entity.Alarm">
+        update alarm
+        set starttime = #{starttime,jdbcType=BIGINT},
+        endtime = #{endtime,jdbcType=BIGINT},
+        text = #{text,jdbcType=VARCHAR},
+        enable = #{enable,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select id, starttime, endtime,text, enable
+        from alarm
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, starttime, endtime, text, enable
+        from alarm
+        order by starttime
+        desc
+    </select>
 </mapper>

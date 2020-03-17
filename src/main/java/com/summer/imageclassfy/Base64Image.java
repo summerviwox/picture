@@ -9,10 +9,10 @@ public class Base64Image {
 
 
     /**
+     * @return
      * @Description: 根据图片地址转换为base64编码字符串
      * @Author:
      * @CreateTime:
-     * @return
      */
     public static String getImageStr(String imgFile) {
         InputStream inputStream = null;

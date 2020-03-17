@@ -16,7 +16,7 @@ import java.util.HashMap;
  */
 public class Tools {
 
-    public static  void init(HttpServletRequest req, HttpServletResponse res){
+    public static void init(HttpServletRequest req, HttpServletResponse res) {
         try {
             req.setCharacterEncoding("UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -27,7 +27,7 @@ public class Tools {
         res.setContentType("application/json;charset=UTF-8");
     }
 
-    public static  void init2(HttpServletRequest req, HttpServletResponse res){
+    public static void init2(HttpServletRequest req, HttpServletResponse res) {
         try {
             req.setCharacterEncoding("UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -38,7 +38,7 @@ public class Tools {
         res.setContentType("application/x-www-form-urlencoded");
     }
 
-    public static void printOut(HttpServletResponse res,Object o){
+    public static void printOut(HttpServletResponse res, Object o) {
         try {
             PrintWriter printWriter = res.getWriter();
             printWriter.println(GsonUtil.getInstance().toJson(o));
@@ -49,7 +49,7 @@ public class Tools {
     }
 
 
-    public static void printOutData(HttpServletResponse res,Object o){
+    public static void printOutData(HttpServletResponse res, Object o) {
         BaseResBean baseResBean = new BaseResBean();
         baseResBean.setData(o);
         try {
@@ -63,10 +63,11 @@ public class Tools {
 
     /**
      * 请求body获取键值对
+     *
      * @param req
      * @return
      */
-    public static HashMap<String,String>  getStr(HttpServletRequest req,HttpServletResponse res){
+    public static HashMap<String, String> getStr(HttpServletRequest req, HttpServletResponse res) {
         try {
             req.setCharacterEncoding("UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -76,7 +77,7 @@ public class Tools {
         res.setCharacterEncoding("UTF-8");
         res.setContentType("application/json;charset=UTF-8");
         String result = null;
-        HashMap<String,String> str = new HashMap<>();
+        HashMap<String, String> str = new HashMap<>();
         try {
             result = IOUtils.toString(req.getInputStream(), StandardCharsets.UTF_8);
             result = URLDecoder.decode(result, "UTF-8");
@@ -84,9 +85,9 @@ public class Tools {
             e.printStackTrace();
         }
         String[] strs = result.split("&");
-        for(int i=0;i<strs.length;i++){
+        for (int i = 0; i < strs.length; i++) {
             String[] ss = strs[i].split("=");
-            str.put(ss[0],ss[1]);
+            str.put(ss[0], ss[1]);
         }
         return str;
     }

@@ -18,7 +18,7 @@ public class BaseResBean extends BaseBean {
 
     private int errorCode = -1;
 
-    private String errorMessage ="";
+    private String errorMessage = "";
 
     private int total;
 }

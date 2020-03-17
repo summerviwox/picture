@@ -53,7 +53,6 @@ def getDbProperties = {
 }
 
 
-
 task mybatisGenerate << {
     def properties = getDbProperties()
     ant.properties['targetProject'] = projectDir.path

@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class EncoidingFilter implements Filter {
 
-    private String encoding="utf-8";
+    private String encoding = "utf-8";
+
     @Override
     public void destroy() {
         // TODO Auto-generated method stub
@@ -25,8 +26,8 @@ public class EncoidingFilter implements Filter {
     @Override
     public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain chain)
             throws IOException, ServletException {
-        HttpServletRequest request=(HttpServletRequest)arg0;
-        HttpServletResponse response=(HttpServletResponse)arg1;
+        HttpServletRequest request = (HttpServletRequest) arg0;
+        HttpServletResponse response = (HttpServletResponse) arg1;
 
         request.setCharacterEncoding(encoding);
         response.setCharacterEncoding(encoding);

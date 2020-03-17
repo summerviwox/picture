@@ -1,39 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.summer.mybatis.mapper.WelcomeMapper">
-  <resultMap id="BaseResultMap" type="com.summer.mybatis.entity.Welcome">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="url" jdbcType="VARCHAR" property="url" />
-    <result column="data" jdbcType="VARCHAR" property="data" />
-    <result column="checked" jdbcType="INTEGER" property="checked" />
-    <result column="netpath" jdbcType="VARCHAR" property="netpath" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from welcome
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.summer.mybatis.entity.Welcome">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into welcome (url, data,checked,netpath)
-    values (#{url,jdbcType=VARCHAR}, #{data,jdbcType=VARCHAR}, #{checked,jdbcType=INTEGER},#{netpath,jdbcType=VARCHAR})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.summer.mybatis.entity.Welcome">
-    update welcome
-    set url = #{url,jdbcType=VARCHAR},
-      data = #{data,jdbcType=VARCHAR},
-      checked = #{checked,jdbcType=INTEGER},
-      netpath = #{netpath,jdbcType=VARCHAR},
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, url, data,checked
-    from welcome
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select id, url, data,checked,netpath
-    from welcome
-  </select>
+    <resultMap id="BaseResultMap" type="com.summer.mybatis.entity.Welcome">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="data" jdbcType="VARCHAR" property="data"/>
+        <result column="checked" jdbcType="INTEGER" property="checked"/>
+        <result column="netpath" jdbcType="VARCHAR" property="netpath"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from welcome
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.summer.mybatis.entity.Welcome">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into welcome (url, data,checked,netpath)
+        values (#{url,jdbcType=VARCHAR}, #{data,jdbcType=VARCHAR},
+        #{checked,jdbcType=INTEGER},#{netpath,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.summer.mybatis.entity.Welcome">
+        update welcome
+        set url = #{url,jdbcType=VARCHAR},
+        data = #{data,jdbcType=VARCHAR},
+        checked = #{checked,jdbcType=INTEGER},
+        netpath = #{netpath,jdbcType=VARCHAR},
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select id, url, data,checked
+        from welcome
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, url, data,checked,netpath
+        from welcome
+    </select>
 </mapper>

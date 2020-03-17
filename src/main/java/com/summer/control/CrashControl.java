@@ -21,16 +21,16 @@ import java.util.List;
 @RequestMapping("/crash")
 public class CrashControl {
 
-    @RequestMapping(value = "/sendCrash",method = RequestMethod.POST)
+    @RequestMapping(value = "/sendCrash", method = RequestMethod.POST)
     public void sendCrash(HttpServletRequest req, HttpServletResponse res) {
-        HashMap<String,String> map = Tools.getStr(req,res);
-        Crash crash = GsonUtil.getInstance().fromJson(map.get("data"),Crash.class);
-        SqlSession session  = DBTools.getSession();
+        HashMap<String, String> map = Tools.getStr(req, res);
+        Crash crash = GsonUtil.getInstance().fromJson(map.get("data"), Crash.class);
+        SqlSession session = DBTools.getSession();
         CrashMapper crashMapper = session.getMapper(CrashMapper.class);
-        int i=crashMapper.insert(crash);
+        int i = crashMapper.insert(crash);
         session.commit();
         session.close();
-        Tools.printOutData(res,i==1);
+        Tools.printOutData(res, i == 1);
     }
 
 }

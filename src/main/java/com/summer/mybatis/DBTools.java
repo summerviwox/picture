@@ -18,13 +18,13 @@ public class DBTools {
     public static SqlSessionFactory sessionFactory;
 
     //创建能执行映射文件中sql的sqlSession
-    public static SqlSession getSession(){
-        if(sessionFactory==null){
+    public static SqlSession getSession() {
+        if (sessionFactory == null) {
             try {
                 //使用MyBatis提供的Resources类加载mybatis的配置文件
                 File classpath = Resources.getResourceAsFile("");
                 File root = classpath.getParentFile();
-                File file = new File(root,"mybatis.xml");
+                File file = new File(root, "mybatis.xml");
                 Reader reader = new FileReader(file);
                 //构建sqlSession的工厂
                 sessionFactory = new SqlSessionFactoryBuilder().build(reader);
@@ -37,17 +37,17 @@ public class DBTools {
             session = sessionFactory.openSession();
         } catch (Exception e) {
             e.printStackTrace();
-            sessionFactory=null;
+            sessionFactory = null;
         }
         return session;
     }
 
-    public static  Properties getMysqlProperties(){
+    public static Properties getMysqlProperties() {
         Properties properties = new Properties();
         try {
             File classpath = Resources.getResourceAsFile("");
             File root = classpath.getParentFile();
-            File file = new File(root,"mybatis.xml");
+            File file = new File(root, "mybatis.xml");
             InputStream in = new FileInputStream(file);
             properties.load(in);
             // 获取驱动名称、url、用户名以及密码
@@ -63,7 +63,7 @@ public class DBTools {
     }
 
 
-    private static void execSqlFileByMysql(String driver,String url,String userName,String pwd,String sqlFilePath) throws Exception{
+    private static void execSqlFileByMysql(String driver, String url, String userName, String pwd, String sqlFilePath) throws Exception {
 
 
         Exception error = null;
@@ -80,26 +80,26 @@ public class DBTools {
             runner.setStopOnError(false);
             //  runner.setLogWriter(null);//设置是否输出日志
             //如果又多个sql文件，可以写多个runner.runScript(xxx),
-            runner.runScript(new InputStreamReader(new FileInputStream(sqlFilePath),"utf-8"));
+            runner.runScript(new InputStreamReader(new FileInputStream(sqlFilePath), "utf-8"));
             close(conn);
         } catch (Exception e) {
-            System.out.println("执行sql文件进行数据库创建失败...."+e.getMessage());
+            System.out.println("执行sql文件进行数据库创建失败...." + e.getMessage());
             error = e;
-        }finally{
+        } finally {
             close(conn);
         }
-        if(error != null){
+        if (error != null) {
             throw error;
         }
     }
 
-    private static void close(Connection conn){
+    private static void close(Connection conn) {
         try {
-            if(conn != null){
+            if (conn != null) {
                 conn.close();
             }
         } catch (Exception e) {
-            if(conn != null){
+            if (conn != null) {
                 conn = null;
             }
         }

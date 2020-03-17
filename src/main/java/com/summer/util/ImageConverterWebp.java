@@ -18,6 +18,7 @@ public class ImageConverterWebp {
 
     /**
      * 1. 传入图片文件路径，返回file对象
+     *
      * @param imgFilePath 图片文件路径(比如转换图片为F:/1.png 那么转换后的webp文件为：F:/1.png.webp)
      * @return
      */
@@ -27,8 +28,7 @@ public class ImageConverterWebp {
         try {
             BufferedImage bufferedImage = ImageIO.read(imgFile);
             ImageIO.write(bufferedImage, WEBP, webpFile);
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return webpFile;
@@ -36,7 +36,8 @@ public class ImageConverterWebp {
 
     /**
      * 2. 传入图片url，返回file对象
-     * @param imgUrlPath 图片路径url
+     *
+     * @param imgUrlPath   图片路径url
      * @param webpFilePath 生成的webp文件路径
      * @return
      */
@@ -45,8 +46,7 @@ public class ImageConverterWebp {
         try {
             BufferedImage bufferedImage = ImageIO.read(new URL(imgUrlPath));
             ImageIO.write(bufferedImage, WEBP, webpFile);
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return webpFile;
@@ -54,6 +54,7 @@ public class ImageConverterWebp {
 
     /**
      * 3. 传入图片文件路径，返回InputStream
+     *
      * @param imgFilePath 图片文件路径(比如转换图片为F:/1.png 那么转换后的webp文件为：F:/1.png.webp)
      * @return
      */
@@ -65,16 +66,13 @@ public class ImageConverterWebp {
             BufferedImage bufferedImage = ImageIO.read(imgFile);
             ImageIO.write(bufferedImage, WEBP, webpFile);
             fis = new FileInputStream(webpFile);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
-            if(fis != null){
+        } finally {
+            if (fis != null) {
                 try {
                     fis.close();
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -84,7 +82,8 @@ public class ImageConverterWebp {
 
     /**
      * 4. 传入图片url，返回InputStream
-     * @param imgUrlPath 图片路径url
+     *
+     * @param imgUrlPath   图片路径url
      * @param webpFilePath 生成的webp文件路径
      * @return
      */
@@ -95,16 +94,13 @@ public class ImageConverterWebp {
             BufferedImage bufferedImage = ImageIO.read(new URL(imgUrlPath));
             ImageIO.write(bufferedImage, WEBP, webpFile);
             fis = new FileInputStream(webpFile);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
-            if(fis != null){
+        } finally {
+            if (fis != null) {
                 try {
                     fis.close();
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }

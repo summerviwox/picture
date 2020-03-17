@@ -20,54 +20,54 @@ import java.util.HashMap;
 
 @Controller
 @RequestMapping("/will")
-public class WillControl  {
+public class WillControl {
 
-    @RequestMapping(value = "/addWill",method = RequestMethod.POST)
-    public void addWill(HttpServletRequest req, HttpServletResponse rep){
-        HashMap<String,String> data = Tools.getStr(req,rep);
-        Will will = GsonUtil.getInstance().fromJson(data.get("data"),Will.class);
+    @RequestMapping(value = "/addWill", method = RequestMethod.POST)
+    public void addWill(HttpServletRequest req, HttpServletResponse rep) {
+        HashMap<String, String> data = Tools.getStr(req, rep);
+        Will will = GsonUtil.getInstance().fromJson(data.get("data"), Will.class);
         SqlSession session = DBTools.getSession();
         WillMapper willMapper = session.getMapper(WillMapper.class);
-        int i= willMapper.insert(will);
+        int i = willMapper.insert(will);
         session.commit();
         session.close();
-        Tools.printOutData(rep,i==1);
+        Tools.printOutData(rep, i == 1);
     }
 
 
-    @RequestMapping(value ="/getAllWill",method = RequestMethod.POST)
-    public void getAllWill(HttpServletRequest req, HttpServletResponse rep){
-        HashMap<String,String> data = Tools.getStr(req,rep);
+    @RequestMapping(value = "/getAllWill", method = RequestMethod.POST)
+    public void getAllWill(HttpServletRequest req, HttpServletResponse rep) {
+        HashMap<String, String> data = Tools.getStr(req, rep);
         SqlSession session = DBTools.getSession();
         WillMapper willMapper = session.getMapper(WillMapper.class);
         int level = Integer.parseInt(data.get("level"));
-        ArrayList<Will> wills = level>=0?(ArrayList<Will>) willMapper.selectAll(level):(ArrayList<Will>) willMapper.selectAllNotDelete();
+        ArrayList<Will> wills = level >= 0 ? (ArrayList<Will>) willMapper.selectAll(level) : (ArrayList<Will>) willMapper.selectAllNotDelete();
         session.close();
-        Tools.printOutData(rep,wills);
+        Tools.printOutData(rep, wills);
     }
 
-    @RequestMapping(value ="/deleteWillById", method = RequestMethod.POST)
-    public void deleteWillById(HttpServletRequest req, HttpServletResponse rep){
-        HashMap<String,String> data = Tools.getStr(req,rep);
+    @RequestMapping(value = "/deleteWillById", method = RequestMethod.POST)
+    public void deleteWillById(HttpServletRequest req, HttpServletResponse rep) {
+        HashMap<String, String> data = Tools.getStr(req, rep);
         String id = data.get("id");
         SqlSession session = DBTools.getSession();
         WillMapper willMapper = session.getMapper(WillMapper.class);
         int i = willMapper.deleteByPrimaryKey(Integer.parseInt(id));
         session.commit();
         session.close();
-        Tools.printOutData(rep,i==1);
+        Tools.printOutData(rep, i == 1);
     }
 
-    @RequestMapping(value ="/finishWillById", method = RequestMethod.POST)
-    public void finishWillById(HttpServletRequest req, HttpServletResponse rep){
-        HashMap<String,String> data = Tools.getStr(req,rep);
+    @RequestMapping(value = "/finishWillById", method = RequestMethod.POST)
+    public void finishWillById(HttpServletRequest req, HttpServletResponse rep) {
+        HashMap<String, String> data = Tools.getStr(req, rep);
         String id = data.get("id");
         String level = data.get("level");
         SqlSession session = DBTools.getSession();
         WillMapper willMapper = session.getMapper(WillMapper.class);
-        int i = willMapper.updateLevelByPrimaryKey(Integer.parseInt(id),Integer.parseInt(level));
+        int i = willMapper.updateLevelByPrimaryKey(Integer.parseInt(id), Integer.parseInt(level));
         session.commit();
         session.close();
-        Tools.printOutData(rep,i==1);
+        Tools.printOutData(rep, i == 1);
     }
 }

@@ -19,9 +19,9 @@ import java.util.Map;
 
 public class HttpRequest {
 
-    public static String access_token ="24.f9ef8262da652b3b60f524a7bac60f0d.2592000.1542354359.282335-14458572";
+    public static String access_token = "24.f9ef8262da652b3b60f524a7bac60f0d.2592000.1542354359.282335-14458572";
 
-    public static void main(String[] arg){
+    public static void main(String[] arg) {
 //        BaseResBean baseResBean = new BaseResBean();
 //        Crash crash = new Crash();
 //        crash.setTimestr("201810171421");
@@ -38,16 +38,16 @@ public class HttpRequest {
         accessTokenBean.setClient_secret("7NFC3NLAYwaV8SkO3SQzdgNNv7Gt5585");
         accessTokenBean.setGrant_type("client_credentials");
         baseResBean.setData(accessTokenBean);
-        String str = sendPost("https://aip.baidubce.com/oauth/2.0/token",baseResBean,null);
+        String str = sendPost("https://aip.baidubce.com/oauth/2.0/token", baseResBean, null);
         System.out.println(str);
 
 
         ImageClassifyBean imageClassifyBean = new ImageClassifyBean();
         imageClassifyBean.setAccess_token(access_token);
         imageClassifyBean.setBaike_num("0");
-        String image ="";
+        String image = "";
         try {
-            image = URLEncoder.encode(Base64Image.getImageStr("E:\\record\\20180329\\Screenshot_2018-03-29-16-39-22-181_com.tencent.mm.png"),"UTF-8");
+            image = URLEncoder.encode(Base64Image.getImageStr("E:\\record\\20180329\\Screenshot_2018-03-29-16-39-22-181_com.tencent.mm.png"), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -55,33 +55,34 @@ public class HttpRequest {
         BaseResBean bean = new BaseResBean();
         bean.setData(imageClassifyBean);
 
-        HashMap<String,String> map = new HashMap<>();
-        map.put("access_token",access_token);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("access_token", access_token);
 
-        String out = sendPost("https://aip.baidubce.com/rest/2.0/image-classify/v2/advanced_general",bean,map);
+        String out = sendPost("https://aip.baidubce.com/rest/2.0/image-classify/v2/advanced_general", bean, map);
         System.out.println(out);
 
     }
 
-    public static String sendGet(String url, BaseResBean baseBean,HashMap<String,String> header) {
-        return sendGet(url,getParams(baseBean),header);
+    public static String sendGet(String url, BaseResBean baseBean, HashMap<String, String> header) {
+        return sendGet(url, getParams(baseBean), header);
     }
 
-    public static String sendPost(String url, BaseResBean baseBean,HashMap<String,String> header) {
-        return sendPost(url,getParams(baseBean),header);
+    public static String sendPost(String url, BaseResBean baseBean, HashMap<String, String> header) {
+        return sendPost(url, getParams(baseBean), header);
     }
 
-    public static String getParams(BaseResBean baseBean){
-        Map<String, String> map = (Map)GsonUtil.getInstance().fromJson(GsonUtil.getInstance().toJson(baseBean.getData()), (new TypeToken<Map<String, String>>() {}).getType());
-        String req ="";
-        Iterator<Map.Entry<String,String>> iterator = map.entrySet().iterator();
-        while (iterator.hasNext()){
-            Map.Entry<String,String> entry = iterator.next();
-            String param = entry.getKey()+"="+entry.getValue();
-            req = req+"&"+param;
+    public static String getParams(BaseResBean baseBean) {
+        Map<String, String> map = (Map) GsonUtil.getInstance().fromJson(GsonUtil.getInstance().toJson(baseBean.getData()), (new TypeToken<Map<String, String>>() {
+        }).getType());
+        String req = "";
+        Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, String> entry = iterator.next();
+            String param = entry.getKey() + "=" + entry.getValue();
+            req = req + "&" + param;
         }
-        if(req.startsWith("&")){
-            req = req.substring(1,req.length());
+        if (req.startsWith("&")) {
+            req = req.substring(1, req.length());
         }
         return req;
     }
@@ -89,13 +90,11 @@ public class HttpRequest {
     /**
      * 向指定URL发送GET方法的请求
      *
-     * @param url
-     *            发送请求的URL
-     * @param param
-     *            请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
+     * @param url   发送请求的URL
+     * @param param 请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
      * @return URL 所代表远程资源的响应结果
      */
-    public static String sendGet(String url, String param,HashMap<String,String> header) {
+    public static String sendGet(String url, String param, HashMap<String, String> header) {
         String result = "";
         BufferedReader in = null;
         try {
@@ -108,11 +107,11 @@ public class HttpRequest {
             connection.setRequestProperty("connection", "Keep-Alive");
             connection.setRequestProperty("user-agent",
                     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
-            if(header!=null){
-                Iterator<Map.Entry<String,String>> iterator = header.entrySet().iterator();
-                while (iterator.hasNext()){
-                    Map.Entry<String,String> entry = iterator.next();
-                    connection.setRequestProperty(entry.getKey(),entry.getValue());
+            if (header != null) {
+                Iterator<Map.Entry<String, String>> iterator = header.entrySet().iterator();
+                while (iterator.hasNext()) {
+                    Map.Entry<String, String> entry = iterator.next();
+                    connection.setRequestProperty(entry.getKey(), entry.getValue());
                 }
 
             }
@@ -126,7 +125,7 @@ public class HttpRequest {
             }
             // 定义 BufferedReader输入流来读取URL的响应
             in = new BufferedReader(new InputStreamReader(
-                    connection.getInputStream(),"UTF-8"));
+                    connection.getInputStream(), "UTF-8"));
             String line;
             while ((line = in.readLine()) != null) {
                 result += line;
@@ -151,13 +150,11 @@ public class HttpRequest {
     /**
      * 向指定 URL 发送POST方法的请求
      *
-     * @param url
-     *            发送请求的 URL
-     * @param param
-     *            请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
+     * @param url   发送请求的 URL
+     * @param param 请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
      * @return 所代表远程资源的响应结果
      */
-    public static String sendPost(String url, String param, HashMap<String,String> header) {
+    public static String sendPost(String url, String param, HashMap<String, String> header) {
         PrintWriter out = null;
         BufferedReader in = null;
         String result = "";
@@ -170,12 +167,12 @@ public class HttpRequest {
             conn.setRequestProperty("connection", "Keep-Alive");
             conn.setRequestProperty("user-agent",
                     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
-            conn.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
-            if(header!=null){
-                Iterator<Map.Entry<String,String>> iterator = header.entrySet().iterator();
-                while (iterator.hasNext()){
-                    Map.Entry<String,String> entry = iterator.next();
-                    conn.setRequestProperty(entry.getKey(),entry.getValue());
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            if (header != null) {
+                Iterator<Map.Entry<String, String>> iterator = header.entrySet().iterator();
+                while (iterator.hasNext()) {
+                    Map.Entry<String, String> entry = iterator.next();
+                    conn.setRequestProperty(entry.getKey(), entry.getValue());
                 }
 
             }
@@ -191,26 +188,25 @@ public class HttpRequest {
             out.flush();
             // 定义BufferedReader输入流来读取URL的响应
             in = new BufferedReader(
-                    new InputStreamReader(conn.getInputStream(),"UTF-8"));
+                    new InputStreamReader(conn.getInputStream(), "UTF-8"));
             String line;
             while ((line = in.readLine()) != null) {
                 result += line;
             }
         } catch (Exception e) {
-            System.out.println("发送 POST 请求出现异常！"+e);
+            System.out.println("发送 POST 请求出现异常！" + e);
             e.printStackTrace();
         }
         //使用finally块来关闭输出流、输入流
-        finally{
-            try{
-                if(out!=null){
+        finally {
+            try {
+                if (out != null) {
                     out.close();
                 }
-                if(in!=null){
+                if (in != null) {
                     in.close();
                 }
-            }
-            catch(IOException ex){
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }

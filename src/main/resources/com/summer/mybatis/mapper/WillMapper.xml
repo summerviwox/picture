@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.summer.mybatis.mapper.WillMapper">
+    <resultMap id="BaseResultMap" type="com.summer.mybatis.entity.Will">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="text" jdbcType="VARCHAR" property="text"/>
+        <result column="level" jdbcType="INTEGER" property="level"/>
+        <result column="ctime" jdbcType="BIGINT" property="ctime"/>
+        <result column="utime" jdbcType="BIGINT" property="utime"/>
+        <result column="dtime" jdbcType="BIGINT" property="dtime"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.summer.mybatis.entity.Will">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into will (text, level, ctime,
+        utime, dtime)
+        values (#{text,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{ctime,jdbcType=BIGINT},
+        #{utime,jdbcType=BIGINT}, #{dtime,jdbcType=BIGINT})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.summer.mybatis.entity.Will">
+        update will
+        set text = #{text,jdbcType=VARCHAR},
+        level = #{level,jdbcType=INTEGER},
+        ctime = #{ctime,jdbcType=BIGINT},
+        utime = #{utime,jdbcType=BIGINT},
+        dtime = #{dtime,jdbcType=BIGINT}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select id, text, level, ctime, utime, dtime
+        from will
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, text, level, ctime, utime, dtime
+        from will
+        where level = #{arg0,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectAllNotDelete" resultMap="BaseResultMap">
+        select id, text, level, ctime, utime, dtime
+        from will
+        where (level =1 or level = 0)
+    </select>
+    <update id="updateLevelByPrimaryKey">
+        update will
+        set level = #{arg1,jdbcType=INTEGER}
+        where id = #{arg0,jdbcType=INTEGER}
+    </update>
+    <update id="deleteByPrimaryKey">
+        update will
+        set level = 2
+        where id = #{arg0,jdbcType=INTEGER}
+    </update>
+</mapper>

@@ -22,53 +22,53 @@ import java.util.List;
 @RequestMapping("/alarm")
 public class AlarmControl {
 
-    @RequestMapping(value = "/selectAllAlarms",method = RequestMethod.GET)
+    @RequestMapping(value = "/selectAllAlarms", method = RequestMethod.GET)
     public void selectAllAlarms(HttpServletRequest req, HttpServletResponse res) {
-        Tools.init(req,res);
-        SqlSession session  = DBTools.getSession();
+        Tools.init(req, res);
+        SqlSession session = DBTools.getSession();
         AlarmMapper alarmMapper = session.getMapper(AlarmMapper.class);
         List<Alarm> data = alarmMapper.selectAll();
         Collections.sort(data);
         session.close();
-        Tools.printOutData(res,data);
+        Tools.printOutData(res, data);
     }
 
 
-    @RequestMapping(value = "/insertAlarm",method = RequestMethod.POST)
+    @RequestMapping(value = "/insertAlarm", method = RequestMethod.POST)
     public void insertAlarm(HttpServletRequest req, HttpServletResponse res) {
-        HashMap<String,String> map = Tools.getStr(req, res);
-        Alarm alarm = GsonUtil.getInstance().fromJson(map.get("data"),Alarm.class);
-        SqlSession session  = DBTools.getSession();
+        HashMap<String, String> map = Tools.getStr(req, res);
+        Alarm alarm = GsonUtil.getInstance().fromJson(map.get("data"), Alarm.class);
+        SqlSession session = DBTools.getSession();
         AlarmMapper alarmMapper = session.getMapper(AlarmMapper.class);
-        int i=alarmMapper.insert(alarm);
+        int i = alarmMapper.insert(alarm);
         session.commit();
         session.close();
-        Tools.printOutData(res,i==1);
+        Tools.printOutData(res, i == 1);
     }
 
-    @RequestMapping(value = "/deleteAlarm",method = RequestMethod.POST)
+    @RequestMapping(value = "/deleteAlarm", method = RequestMethod.POST)
     public void deleteAlarm(HttpServletRequest req, HttpServletResponse res) {
-        HashMap<String,String> map = Tools.getStr(req, res);
+        HashMap<String, String> map = Tools.getStr(req, res);
         String id = map.get("id");
-        SqlSession session  = DBTools.getSession();
+        SqlSession session = DBTools.getSession();
         AlarmMapper alarmMapper = session.getMapper(AlarmMapper.class);
         int i = alarmMapper.deleteByPrimaryKey(Integer.parseInt(id));
         session.commit();
         session.close();
-        Tools.printOutData(res,i==1);
+        Tools.printOutData(res, i == 1);
     }
 
 
-    @RequestMapping(value = "/updateAlarm",method = RequestMethod.POST)
+    @RequestMapping(value = "/updateAlarm", method = RequestMethod.POST)
     public void updateAlarm(HttpServletRequest req, HttpServletResponse res) {
-        HashMap<String,String> map = Tools.getStr(req, res);
-        Alarm alarm = GsonUtil.getInstance().fromJson(map.get("data"),Alarm.class);
-        SqlSession session  = DBTools.getSession();
+        HashMap<String, String> map = Tools.getStr(req, res);
+        Alarm alarm = GsonUtil.getInstance().fromJson(map.get("data"), Alarm.class);
+        SqlSession session = DBTools.getSession();
         AlarmMapper alarmMapper = session.getMapper(AlarmMapper.class);
-        int i=alarmMapper.updateByPrimaryKey(alarm);
+        int i = alarmMapper.updateByPrimaryKey(alarm);
         session.commit();
         session.close();
-        Tools.printOutData(res,i==1);
+        Tools.printOutData(res, i == 1);
     }
 
 }

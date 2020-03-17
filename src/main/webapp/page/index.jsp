@@ -7,10 +7,10 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-  <head>
+<head>
     <title>$Title$</title>
-  </head>
-  <body>
-  <a href="http://www.summerman.top:8079/record/%E6%96%87%E4%BB%B6/1.apk">视频通讯软件</a>
-  </body>
+</head>
+<body>
+<a href="http://www.summerman.top:8079/record/%E6%96%87%E4%BB%B6/1.apk">视频通讯软件</a>
+</body>
 </html>

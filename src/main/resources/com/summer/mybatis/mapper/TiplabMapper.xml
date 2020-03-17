@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.summer.mybatis.mapper.TiplabMapper">
+    <resultMap id="BaseResultMap" type="com.summer.mybatis.entity.Tiplab">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="enable" jdbcType="INTEGER" property="enable"/>
+        <result column="ctime" jdbcType="BIGINT" property="ctime"/>
+    </resultMap>
+    <delete id="deleteByContent" parameterType="java.lang.String">
+        delete from tiplab
+        where content = #{content,jdbcType=VARCHAR}
+    </delete>
+    <select id="selectTipLabwithLimit" parameterType="integer" resultMap="BaseResultMap">
+        select * from tiplab limit  #{arg0}
+    </select>
+</mapper>

@@ -19,5 +19,4 @@ public class ImageClassifyRes extends BaseBean {
     private String error_code;
 
 
-
 }

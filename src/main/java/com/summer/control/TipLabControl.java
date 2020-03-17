@@ -23,160 +23,206 @@ import java.util.HashMap;
 import java.util.List;
 
 @Controller
-@RequestMapping("/tip")
+@RequestMapping("/tiplab")
 public class TipLabControl {
 
 
-    @RequestMapping(value = "/getRecordsFromTip",method = RequestMethod.POST)
+    @RequestMapping(value = "/getRecordsFromTip", method = RequestMethod.POST)
     public void getRecordsFromTip(HttpServletRequest req, HttpServletResponse res) {
-        HashMap<String,String> map= Tools.getStr(req, res);
-        Tiplab tiplab = GsonUtil.getInstance().fromJson(map.get("data"),Tiplab.class);
-        SqlSession session  =  DBTools.getSession();
+        HashMap<String, String> map = Tools.getStr(req, res);
+        Tiplab tiplab = GsonUtil.getInstance().fromJson(map.get("data"), Tiplab.class);
+        SqlSession session = DBTools.getSession();
         BaseResBean baseResBean = new BaseResBean();
         TipMapper tipMapper = session.getMapper(TipMapper.class);
         RecordMapper recordMapper = session.getMapper(RecordMapper.class);
         ArrayList<Tip> tips = (ArrayList<Tip>) tipMapper.selectTipsByTipId(tiplab.getId());
         ArrayList<Record> records = new ArrayList<>();
-        for(int i=0;tips!=null&&i<tips.size();i++){
+        for (int i = 0; tips != null && i < tips.size(); i++) {
             Record record = recordMapper.selectByPrimaryKey(tips.get(i).getRecordid());
-            if(record!=null){
+            record.setParentid(tips.get(i).getId());//借用parentid 存储 tipsid
+            if (record != null) {
                 records.add(record);
             }
         }
         baseResBean.setData(records);
-        Tools.printOut(res,baseResBean);
+        Tools.printOut(res, baseResBean);
         session.close();
 
     }
 
-    @RequestMapping(value = "/getImageRecordsFromTip",method = RequestMethod.POST)
+
+
+    @RequestMapping(value = "/deleteByContent", method = RequestMethod.POST)
+    public void deleteByContent(HttpServletRequest req, HttpServletResponse res) {
+        HashMap<String, String> map = Tools.getStr(req, res);
+        Tiplab tiplab = GsonUtil.getInstance().fromJson(map.get("data"), Tiplab.class);
+        SqlSession session = DBTools.getSession();
+        BaseResBean baseResBean = new BaseResBean();
+        TiplabMapper tiplabMapper = session.getMapper(TiplabMapper.class);
+        int i = tiplabMapper.deleteByContent(tiplab.getContent());
+        session.commit();
+        session.close();
+        baseResBean.setData(i==1);
+        Tools.printOut(res, baseResBean);
+
+    }
+
+    @RequestMapping(value = "/getImageRecordsFromTip", method = RequestMethod.POST)
     public void getImageRecordsFromTip(HttpServletRequest req, HttpServletResponse res) {
-        HashMap<String,String> map= Tools.getStr(req, res);
-        Tiplab tiplab = GsonUtil.getInstance().fromJson(map.get("data"),Tiplab.class);
-        SqlSession session  =  DBTools.getSession();
+        HashMap<String, String> map = Tools.getStr(req, res);
+        Tiplab tiplab = GsonUtil.getInstance().fromJson(map.get("data"), Tiplab.class);
+        SqlSession session = DBTools.getSession();
         BaseResBean baseResBean = new BaseResBean();
         TipMapper tipMapper = session.getMapper(TipMapper.class);
         RecordMapper recordMapper = session.getMapper(RecordMapper.class);
         ArrayList<Tip> tips = (ArrayList<Tip>) tipMapper.selectTipsByTipId(tiplab.getId());
         ArrayList<Record> records = new ArrayList<>();
-        for(int i=0;tips!=null&&i<tips.size();i++){
+        for (int i = 0; tips != null && i < tips.size(); i++) {
             Record record = recordMapper.selectByPrimaryKey(tips.get(i).getRecordid());
-            if(record!=null&&Record.ATYPE_IMAGE.equals(record.getAtype())){
+            if (record != null && Record.ATYPE_IMAGE.equals(record.getAtype())) {
                 records.add(record);
             }
         }
         baseResBean.setData(records);
-        Tools.printOut(res,baseResBean);
+        Tools.printOut(res, baseResBean);
         session.close();
 
     }
 
-    @RequestMapping(value = "/getRecordTips",method = RequestMethod.POST)
-    public void getRecordTips(HttpServletRequest req, HttpServletResponse res){
-        HashMap<String,String> map= Tools.getStr(req, res);
-        Record record = GsonUtil.getInstance().fromJson(map.get("data"),Record.class);
+    @RequestMapping(value = "/getRecordTips", method = RequestMethod.POST)
+    public void getRecordTips(HttpServletRequest req, HttpServletResponse res) {
+        HashMap<String, String> map = Tools.getStr(req, res);
+        Record record = GsonUtil.getInstance().fromJson(map.get("data"), Record.class);
 
-        SqlSession session  =  DBTools.getSession();
+        SqlSession session = DBTools.getSession();
         BaseResBean baseResBean = new BaseResBean();
         TipMapper tipMapper = session.getMapper(TipMapper.class);
         TiplabMapper tiplabMapper = session.getMapper(TiplabMapper.class);
         RecordMapper recordMapper = session.getMapper(RecordMapper.class);
         ArrayList<Record> records = (ArrayList<Record>) recordMapper.selectRecordWhereLocalPath(record.getLocpath());
-        if(records!=null&& records.size()>0){
+        if (records != null && records.size() > 0) {
             ArrayList<Tip> tips = (ArrayList<Tip>) tipMapper.selectTipsByRecordId(records.get(0).getId());
             ArrayList<Tiplab> tiplabs = new ArrayList<>();
-            for(int i=0;tips!=null&&i<tips.size();i++){
+            for (int i = 0; tips != null && i < tips.size(); i++) {
                 Tiplab tiplab = tiplabMapper.selectByPrimaryKey(tips.get(i).getTipid());
                 tiplabs.add(tiplab);
             }
             baseResBean.setData(tiplabs);
         }
-        Tools.printOut(res,baseResBean);
+        Tools.printOut(res, baseResBean);
         session.close();
     }
 
 
-
-    @RequestMapping(value = "/addTip",method = RequestMethod.POST)
+    @RequestMapping(value = "/addTip", method = RequestMethod.POST)
     public void addRecordTip(HttpServletRequest req, HttpServletResponse res) {
-        HashMap<String,String> map= Tools.getStr(req, res);
-        Tip tip = GsonUtil.getInstance().fromJson(map.get("data"),Tip.class);
-        SqlSession session  =  DBTools.getSession();
+        HashMap<String, String> map = Tools.getStr(req, res);
+        Tip tip = GsonUtil.getInstance().fromJson(map.get("data"), Tip.class);
+        SqlSession session = DBTools.getSession();
         BaseResBean baseResBean = new BaseResBean();
 
         TipMapper tipMapper = session.getMapper(TipMapper.class);
         tipMapper.insert(tip);
         session.commit();
         baseResBean.setData(tip);
-        Tools.printOut(res,baseResBean);
+        Tools.printOut(res, baseResBean);
         session.close();
     }
 
 
-    @RequestMapping(value = "/checkTip",method = RequestMethod.POST)
+    @RequestMapping(value = "/checkTip", method = RequestMethod.POST)
     public void checkTip(HttpServletRequest req, HttpServletResponse res) {
-        HashMap<String,String> map= Tools.getStr(req, res);
-        Tiplab tiplab = GsonUtil.getInstance().fromJson(map.get("data"),Tiplab.class);
-        SqlSession session  =  DBTools.getSession();
+        HashMap<String, String> map = Tools.getStr(req, res);
+        Tiplab tiplab = GsonUtil.getInstance().fromJson(map.get("data"), Tiplab.class);
+        SqlSession session = DBTools.getSession();
         BaseResBean baseResBean = new BaseResBean();
         TiplabMapper tiplabMapper = session.getMapper(TiplabMapper.class);
         List<Tiplab> tiplabs = tiplabMapper.selectTipLabByContent(tiplab.getContent());
         baseResBean.setData(tiplabs);
-        Tools.printOut(res,baseResBean);
+        Tools.printOut(res, baseResBean);
         session.close();
     }
 
-    @RequestMapping(value = "/getLikeTiplab",method = RequestMethod.POST)
+    @RequestMapping(value = "/getLikeTiplab", method = RequestMethod.POST)
     public void getLikeTiplab(HttpServletRequest req, HttpServletResponse res) {
-        HashMap<String,String> map= Tools.getStr(req, res);
-        Tiplab tiplab = GsonUtil.getInstance().fromJson(map.get("data"),Tiplab.class);
-        SqlSession session  =  DBTools.getSession();
+        HashMap<String, String> map = Tools.getStr(req, res);
+        Tiplab tiplab = GsonUtil.getInstance().fromJson(map.get("data"), Tiplab.class);
+        SqlSession session = DBTools.getSession();
         BaseResBean baseResBean = new BaseResBean();
         TiplabMapper tiplabMapper = session.getMapper(TiplabMapper.class);
         ArrayList<Tiplab> tiplabs = (ArrayList<Tiplab>) tiplabMapper.selectLikeTipLabByContent(tiplab.getContent());
         baseResBean.setData(tiplabs);
-        Tools.printOut(res,baseResBean);
+        Tools.printOut(res, baseResBean);
         session.close();
     }
 
-    @RequestMapping(value = "/addTipLab",method = RequestMethod.POST)
-    public void addTipLab(HttpServletRequest req, HttpServletResponse res) {
-        HashMap<String,String> map= Tools.getStr(req, res);
-        Tiplab tiplab = GsonUtil.getInstance().fromJson(map.get("data"),Tiplab.class);
-        SqlSession session  =  DBTools.getSession();
+
+    @RequestMapping(value = "/selectTipLabwithLimit", method = RequestMethod.GET)
+    public void selectTipLabwithLimit(HttpServletRequest req, HttpServletResponse res) {
+        Tools.init(req, res);
+        SqlSession session = DBTools.getSession();
+        BaseResBean baseResBean = new BaseResBean();
+        TiplabMapper tiplabMapper = session.getMapper(TiplabMapper.class);
+        ArrayList<Tiplab> tiplabs = (ArrayList<Tiplab>) tiplabMapper.selectTipLabwithLimit(Integer.parseInt(req.getParameter("count")));
+        baseResBean.setData(tiplabs);
+        Tools.printOut(res, baseResBean);
+        session.close();
+    }
+
+    @RequestMapping(value = "/addLikeTipLab", method = RequestMethod.POST)
+    public void addLikeTipLab(HttpServletRequest req, HttpServletResponse res) {
+        HashMap<String, String> map = Tools.getStr(req, res);
+        Tiplab tiplab = GsonUtil.getInstance().fromJson(map.get("data"), Tiplab.class);
+        SqlSession session = DBTools.getSession();
         BaseResBean baseResBean = new BaseResBean();
         TiplabMapper tiplabMapper = session.getMapper(TiplabMapper.class);
         List<Tiplab> tiplabs = tiplabMapper.selectLikeTipLabByContent(tiplab.getContent());
-        if(tiplabs==null||tiplabs.size()==0){
+        if (tiplabs == null || tiplabs.size() == 0) {
             tiplabMapper.insert(tiplab);
         }
         baseResBean.setData(tiplab);
-        Tools.printOut(res,baseResBean);
+        Tools.printOut(res, baseResBean);
         session.commit();
         session.close();
     }
 
-    @RequestMapping(value = "/getAllTipLabs",method = RequestMethod.GET)
-    public void getAllTipLabs(HttpServletRequest req, HttpServletResponse res){
+    @RequestMapping(value = "/addTipLab", method = RequestMethod.POST)
+    public void addTipLab(HttpServletRequest req, HttpServletResponse res) {
+        HashMap<String, String> map = Tools.getStr(req, res);
+        Tiplab tiplab = GsonUtil.getInstance().fromJson(map.get("data"), Tiplab.class);
+        SqlSession session = DBTools.getSession();
+        BaseResBean baseResBean = new BaseResBean();
+        TiplabMapper tiplabMapper = session.getMapper(TiplabMapper.class);
+        List<Tiplab> tiplabs = tiplabMapper.selectTipLabByContent(tiplab.getContent());
+        if (tiplabs == null || tiplabs.size() == 0) {
+            tiplabMapper.insert(tiplab);
+        }
+        baseResBean.setData(tiplab);
+        Tools.printOut(res, baseResBean);
+        session.commit();
+        session.close();
+    }
+
+    @RequestMapping(value = "/getAllTipLabs", method = RequestMethod.GET)
+    public void getAllTipLabs(HttpServletRequest req, HttpServletResponse res) {
         Tools.init(req, res);
         SqlSession sqlSession = DBTools.getSession();
         TiplabMapper tiplabMapper = sqlSession.getMapper(TiplabMapper.class);
         ArrayList<Tiplab> tiplabs = (ArrayList<Tiplab>) tiplabMapper.selectAll();
         BaseResBean baseResBean = new BaseResBean();
         baseResBean.setData(tiplabs);
-        Tools.printOut(res,baseResBean);
+        Tools.printOut(res, baseResBean);
         sqlSession.commit();
         sqlSession.close();
 
     }
 
 
-
-    @RequestMapping(value = "/addRecordATip",method = RequestMethod.POST)
-    public void addTip(HttpServletRequest req, HttpServletResponse res) {
-        HashMap<String,String> maps =Tools.getStr(req,res);
-        Tiplab tiplab = GsonUtil.getInstance().fromJson(maps.get("data"),Tiplab.class);//这里复用tiplab这个类 id为recordid content为tip
-        SqlSession session  =  DBTools.getSession();
+    @RequestMapping(value = "/addLikeTip", method = RequestMethod.POST)
+    public void addLikeTip(HttpServletRequest req, HttpServletResponse res) {
+        HashMap<String, String> maps = Tools.getStr(req, res);
+        Tiplab tiplab = GsonUtil.getInstance().fromJson(maps.get("data"), Tiplab.class);//这里复用tiplab这个类 id为recordid content为tip
+        SqlSession session = DBTools.getSession();
         BaseResBean baseResBean = new BaseResBean();
         TiplabMapper tiplabMapper = session.getMapper(TiplabMapper.class);
         TipMapper tipMapper = session.getMapper(TipMapper.class);
@@ -184,15 +230,15 @@ public class TipLabControl {
         List<Tiplab> tiplabb = tiplabMapper.selectTipLabByContent(tiplab.getContent());
         int recordid = tiplab.getId();
         int tiplabid = 0;
-        if(tiplaba==null||tiplaba.size()==0){
+        if (tiplaba == null || tiplaba.size() == 0) {
             tiplab.setEnable(1);
             tiplab.setCtime(System.currentTimeMillis());
             tiplabMapper.insert(tiplab);
-            tiplabid= tiplab.getId();
-        }else{
+            tiplabid = tiplab.getId();
+        } else {
             //如果有精确匹配的选取精确匹配的 否则选取模糊匹配的
             tiplabid = tiplaba.get(0).getId();
-            if(tiplabb!=null&&tiplabb.size()!=0){
+            if (tiplabb != null && tiplabb.size() != 0) {
                 tiplabid = tiplabb.get(0).getId();
             }
         }
@@ -202,16 +248,15 @@ public class TipLabControl {
         tip.setRecordid(recordid);
         tip.setTipid(tiplabid);
 
-        List<Tip> tips = tipMapper.checkTipIsExist(tip.getRecordid(),tip.getTipid());
-        if(tips!=null&&tips.size()!=0){
+        List<Tip> tips = tipMapper.checkTipIsExist(tip.getRecordid(), tip.getTipid());
+        if (tips != null && tips.size() != 0) {
 
-        }else{
+        } else {
             tipMapper.insert(tip);
         }
         baseResBean.setData(tip);
-        Tools.printOut(res,baseResBean);
+        Tools.printOut(res, baseResBean);
         session.commit();
         session.close();
     }
-
 }

@@ -41,7 +41,7 @@ public class Record {
 
     private Integer classify;//是否图片识别分类
 
-    private Integer ctype=0;
+    private Integer ctype = 0;
 
     private String remark;
 

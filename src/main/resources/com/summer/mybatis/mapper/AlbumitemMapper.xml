@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.summer.mybatis.mapper.AlbumitemMapper">
-  <resultMap id="BaseResultMap" type="com.summer.mybatis.entity.Albumitem">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="albumid" jdbcType="INTEGER" property="albumid" />
-    <result column="recordid" jdbcType="INTEGER" property="recordid" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from albumitem
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.summer.mybatis.entity.Albumitem">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into albumitem (albumid, recordid)
-    values (#{albumid,jdbcType=INTEGER}, #{recordid,jdbcType=INTEGER})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.summer.mybatis.entity.Albumitem">
-    update albumitem
-    set albumid = #{albumid,jdbcType=INTEGER},
-      recordid = #{recordid,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, albumid, recordid
-    from albumitem
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectByAlbumid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, albumid, recordid
-    from albumitem
-    where albumid = #{id,jdbcType=INTEGER} order by id desc
-  </select>
+    <resultMap id="BaseResultMap" type="com.summer.mybatis.entity.Albumitem">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="albumid" jdbcType="INTEGER" property="albumid"/>
+        <result column="recordid" jdbcType="INTEGER" property="recordid"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from albumitem
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.summer.mybatis.entity.Albumitem">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into albumitem (albumid, recordid)
+        values (#{albumid,jdbcType=INTEGER}, #{recordid,jdbcType=INTEGER})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.summer.mybatis.entity.Albumitem">
+        update albumitem
+        set albumid = #{albumid,jdbcType=INTEGER},
+        recordid = #{recordid,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select id, albumid, recordid
+        from albumitem
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByAlbumid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select id, albumid, recordid
+        from albumitem
+        where albumid = #{id,jdbcType=INTEGER} order by id desc
+    </select>
 
-  <select id="selectByAlbumidAndRecordid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, albumid, recordid
-    from albumitem
-    where albumid = #{arg0} and recordid = #{arg1} limit 1
-  </select>
+    <select id="selectByAlbumidAndRecordid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select id, albumid, recordid
+        from albumitem
+        where albumid = #{arg0} and recordid = #{arg1} limit 1
+    </select>
 
 
-  <select id="selectAll" resultMap="BaseResultMap">
-    select id, albumid, recordid
-    from albumitem
-  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, albumid, recordid
+        from albumitem
+    </select>
 </mapper>

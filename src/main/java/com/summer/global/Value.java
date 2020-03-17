@@ -12,30 +12,30 @@ import java.io.InputStream;
  */
 public class Value {
 
-    public static File getRecordFile(){
+    public static File getRecordFile() {
         File parent = new File("E://records");
-        if(!parent.exists()){
+        if (!parent.exists()) {
             parent.mkdirs();
         }
         return parent;
     }
 
-    public static File getTempFile(){
+    public static File getTempFile() {
         File parent = new File("E://temp");
-        if(!parent.exists()){
+        if (!parent.exists()) {
             parent.mkdirs();
         }
         return parent;
     }
 
-    public static String  getString(InputStream inputStream ){
+    public static String getString(InputStream inputStream) {
         String name = null;
         try {
             byte[] bytes = new byte[1024];
-            int i=0;
+            int i = 0;
             StringBuffer stringBuffer = new StringBuffer();
-            while ((i=inputStream.read(bytes,0,1024))!=-1){
-                stringBuffer.append(new String(bytes,0,i));
+            while ((i = inputStream.read(bytes, 0, 1024)) != -1) {
+                stringBuffer.append(new String(bytes, 0, i));
             }
             name = stringBuffer.toString();
         } catch (IOException e) {

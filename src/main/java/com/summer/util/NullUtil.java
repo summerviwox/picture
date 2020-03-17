@@ -5,7 +5,7 @@ public class NullUtil {
     }
 
     public static Object isEmpty(Object str, Object o) {
-        return str == null?o:str;
+        return str == null ? o : str;
     }
 
     public static boolean isStrEmpty(String str) {
@@ -13,8 +13,8 @@ public class NullUtil {
     }
 
     public static boolean isNull(Object... o) {
-        for(int i = 0; i < o.length; ++i) {
-            if(o[i] == null) {
+        for (int i = 0; i < o.length; ++i) {
+            if (o[i] == null) {
                 return true;
             }
         }

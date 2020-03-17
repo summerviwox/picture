@@ -51,7 +51,7 @@ public class DateFormatUtil {
         return format.format(date);
     }
 
-    public static String getdDateStr(String dateFormat1, String dateFormat,String time) throws ParseException {
+    public static String getdDateStr(String dateFormat1, String dateFormat, String time) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat(dateFormat1);
         Date date = format.parse(time);
         SimpleDateFormat format1 = new SimpleDateFormat(dateFormat);

@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+
 @Getter
 @Setter
 public class AlbumReq implements Serializable {

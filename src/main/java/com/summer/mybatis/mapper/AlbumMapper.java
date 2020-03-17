@@ -1,6 +1,7 @@
 package com.summer.mybatis.mapper;
 
 import com.summer.mybatis.entity.Album;
+
 import java.util.List;
 
 public interface AlbumMapper {
@@ -18,5 +19,5 @@ public interface AlbumMapper {
 
     int updateDetailById(Album album);
 
-    int updateNameOrDetailById(String name,String detail,Integer id);
+    int updateNameOrDetailById(String name, String detail, Integer id);
 }
