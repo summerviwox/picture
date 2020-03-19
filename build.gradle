@@ -41,6 +41,7 @@ dependencies {
     compile "com.twelvemonkeys.imageio:imageio-jpeg:3.4.1"
     'com.orhanobut:logger:jar:2.2.0'
 
+    compile 'org.bytedeco:javacv:1.5.2'
 }
 
 

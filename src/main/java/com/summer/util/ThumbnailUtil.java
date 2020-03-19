@@ -3,6 +3,10 @@ package com.summer.util;
 import com.summer.base.OnFinishI;
 import com.summer.mybatis.entity.Record;
 import com.summer.util.gif.GifDecoder;
+import org.bytedeco.javacv.FFmpegFrameGrabber;
+import org.bytedeco.javacv.Frame;
+import org.bytedeco.javacv.FrameGrabber;
+import org.bytedeco.javacv.Java2DFrameConverter;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -33,7 +37,8 @@ public class ThumbnailUtil {
         if (record == null || record.getNetpath() == null || "".equals(record.getNetpath())) {
             return;
         }
-        if (!(record.getAtype().equals("image") || record.getAtype().equals("1"))) {
+//        if ((!(record.getAtype().equals("image") || record.getAtype().equals("1")))) {
+        if(record.getAtype()==null||record.getAtype().equals("")){
             return;
         }
         String path = "";
@@ -58,12 +63,48 @@ public class ThumbnailUtil {
             return;
         }
         try {
-            zoomImageScale(file, newfile.getPath(), 200);
+            switch (record.getAtype()){
+                case "1":
+                case   "image":
+                    zoomImageScale(file, newfile.getPath(), 200);
+                    break;
+                case "3":
+                case "video":
+                    zoomVideoScale(file, newfile.getPath(), 200);
+                    break;
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
         }
     }
+
+    private static void zoomVideoScale(File videoFile, String newPath, int newWidth)  throws IOException{
+        if (!videoFile.canRead())
+            return;
+        Frame frame = null;
+        FFmpegFrameGrabber fFmpegFrameGrabber = new FFmpegFrameGrabber(videoFile);
+        fFmpegFrameGrabber.start();
+        int ftp = fFmpegFrameGrabber.getLengthInFrames();
+        fFmpegFrameGrabber.setFrameNumber(ftp/2);
+        frame = fFmpegFrameGrabber.grabImage();
+        if(frame==null){
+            return;
+        }
+        Java2DFrameConverter converter = new Java2DFrameConverter();
+        BufferedImage bufferedImage = converter.getBufferedImage(frame);
+        if (bufferedImage == null) {
+            return;
+        }
+
+        int originalWidth = bufferedImage.getWidth();
+        int originalHeight = bufferedImage.getHeight();
+        double scale = (double) originalWidth / (double) newWidth;    // 缩放的比例
+        int newHeight = (int) (originalHeight / scale);
+        zoomImageUtils(videoFile, newPath, bufferedImage, newWidth, newHeight);
+    }
+
 
     /**
      * 按指定高度 等比例缩放图片
