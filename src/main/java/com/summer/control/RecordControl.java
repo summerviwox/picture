@@ -15,6 +15,7 @@ import com.summer.mybatis.mapper.*;
 import com.summer.util.DateFormatUtil;
 import com.summer.util.GsonUtil;
 import com.summer.util.NullUtil;
+import com.summer.util.ThumbnailUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -143,8 +144,42 @@ public class RecordControl {
         Tools.init(req, res);
         SqlSession session = DBTools.getSession();
         BaseResBean baseResBean = new BaseResBean();
-        TestMapper recordMapper = session.getMapper(TestMapper.class);
-        List<Record> records = recordMapper.selectSome(187);
+        TestMapper testMapper = session.getMapper(TestMapper.class);
+        RecordMapper recordMapper = session.getMapper(RecordMapper.class);
+        List<Record> records = recordMapper.selectAllByAtypeAsc(Record.ATYPE_VIDEO);
+        List<Record> records2 = recordMapper.selectAllByAtypeAsc("3");
+        records.addAll(records2);
+        System.out.println("22222222222222222222222222222");
+        Record record = records.get(1);
+        String path = "";
+        if (record.getNetpath().startsWith(ThumbnailUtil.start2)) {
+            path = record.getNetpath().substring(ThumbnailUtil.start2.length());
+        } else if (record.getNetpath().startsWith(ThumbnailUtil.start)) {
+            path = record.getNetpath().substring(ThumbnailUtil.start.length());
+        }
+        File file = new File("E:\\records" + path);
+        if (!file.exists()) {
+            return;
+        }
+        File folder = new File("E:\\thumbnail");
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+        File newfile = new File("E:\\thumbnail" + path);
+
+        if (!newfile.getParentFile().exists()) {
+            newfile.getParentFile().mkdirs();
+        }
+        if (newfile.exists()) {
+            return;
+        }
+
+
+        try {
+            ThumbnailUtil.zoomVideoScale(file,newfile.getPath(),200);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         baseResBean.setData(records);
         Tools.printOut(res, baseResBean);
         session.close();

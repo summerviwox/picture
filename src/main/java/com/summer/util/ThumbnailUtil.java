@@ -7,6 +7,11 @@ import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.FrameGrabber;
 import org.bytedeco.javacv.Java2DFrameConverter;
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.highgui.HighGui;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.videoio.VideoCapture;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -18,16 +23,18 @@ import java.util.ArrayList;
 
 public class ThumbnailUtil {
 
-    static final String start = "E:\\record";
+    public static final String start = "E:\\record";
 
-    static final String start2 = "E:\\records";
+    public static final String start2 = "E:\\records";
+
+
+//    static {
+//        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);  //加载动态链接库 opencv
+//    }
 
 
     public static void zoomImagesScale(ArrayList<Record> records) {
         for (int i = 0; i < records.size(); i++) {
-            if (i > 10861) {
-                int x = 0;
-            }
             simglezoomImageScale(records.get(i));
             System.out.println(i + "--" + records.get(i).getNetpath());
         }
@@ -80,11 +87,23 @@ public class ThumbnailUtil {
         }
     }
 
-    private static void zoomVideoScale(File videoFile, String newPath, int newWidth)  throws IOException{
-        if (!videoFile.canRead())
-            return;
+    public static void zoomVideoScale(File videoFile, String newPath, int newWidth) throws IOException {
+        System.out.println("12345");
+        //VideoCapture videoCapture = new VideoCapture(videoFile.getPath());
+//        if (!videoFile.canRead())
+//            return;
         Frame frame = null;
-        FFmpegFrameGrabber fFmpegFrameGrabber = new FFmpegFrameGrabber(videoFile);
+        String path = "";
+        if (videoFile.getPath().startsWith(start2)) {
+            path = videoFile.getPath().substring(start2.length());
+        } else if (videoFile.getPath().startsWith(start)) {
+            path = videoFile.getPath().substring(start.length());
+        }
+        File file = new File("E:\\records" + path);
+        FFmpegFrameGrabber fFmpegFrameGrabber = new FFmpegFrameGrabber(file);
+        String[] str = videoFile.getPath().split("\\.");
+        String[] str2 = newPath.split("\\.");
+        fFmpegFrameGrabber.setFormat(str[str.length-1].toLowerCase());
         fFmpegFrameGrabber.start();
         int ftp = fFmpegFrameGrabber.getLengthInFrames();
         fFmpegFrameGrabber.setFrameNumber(ftp/2);
@@ -143,7 +162,7 @@ public class ThumbnailUtil {
     private static void zoomImageUtils(File imageFile, String newPath, BufferedImage bufferedImage, int width, int height)
             throws IOException {
 
-        String suffix = imageFile.getName().substring(imageFile.getName().lastIndexOf(".") + 1);
+        String suffix = newPath.substring(imageFile.getName().lastIndexOf(".") + 1);
 
         // 处理 png 背景变黑的问题
         if (suffix != null && (suffix.trim().toLowerCase().endsWith("png") || suffix.trim().toLowerCase().endsWith("gif"))) {
