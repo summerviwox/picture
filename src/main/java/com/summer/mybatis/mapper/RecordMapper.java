@@ -8,6 +8,9 @@ import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 public interface RecordMapper {
+
+
+
     @Delete({
             "delete from record",
             "where id = #{id,jdbcType=INTEGER}"
@@ -69,6 +72,8 @@ public interface RecordMapper {
 
     @Select({"select count(id) from record where atype = #{atype,jdbcType=VARCHAR}"})
     int selectCount();
+    @Select({"select * from record where id = #{id,jdbcType=INTEGER}"})
+    Record selectById(Integer id);
 
     @Select({"select * from record where atype = #{atype,jdbcType=VARCHAR} order by ctime desc"})
     List<Record> selectAllByAtype(@Param("atype") String atype);

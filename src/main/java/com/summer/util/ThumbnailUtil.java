@@ -1,6 +1,7 @@
 package com.summer.util;
 
 import com.summer.base.OnFinishI;
+import com.summer.global.Value;
 import com.summer.mybatis.entity.Record;
 import com.summer.util.gif.GifDecoder;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
@@ -48,36 +49,26 @@ public class ThumbnailUtil {
         if(record.getAtype()==null||record.getAtype().equals("")){
             return;
         }
-        String path = "";
-        if (record.getNetpath().startsWith(start2)) {
-            path = record.getNetpath().substring(start2.length());
-        } else if (record.getNetpath().startsWith(start)) {
-            path = record.getNetpath().substring(start.length());
+        File windowsFile = Value.toWinddowsFile(record.getNetpath());
+        String type = "image";
+        if(record.getAtype().equals("image")||record.getAtype().equals("1")){
+            type = "image";
+        }else{
+            type = "video";
         }
-        File file = new File("E:\\records" + path);
-        if (!file.exists()) {
-            return;
-        }
-        File folder = new File("E:\\thumbnail");
-        if (!folder.exists()) {
-            folder.mkdirs();
-        }
-        File newfile = new File("E:\\thumbnail" + path);
-        if (!newfile.getParentFile().exists()) {
-            newfile.getParentFile().mkdirs();
-        }
-        if (newfile.exists()) {
+        File thumnailFile = Value.toThumbnailPath(type,record.getNetpath());
+        if (!windowsFile.exists()||thumnailFile.exists()) {
             return;
         }
         try {
             switch (record.getAtype()){
                 case "1":
                 case   "image":
-                    zoomImageScale(file, newfile.getPath(), 200);
+                    zoomImageScale(windowsFile, 200);
                     break;
                 case "3":
                 case "video":
-                    zoomVideoScale(file, newfile.getPath(), 200);
+                    zoomVideoScale(windowsFile, 200);
                     break;
             }
 
@@ -87,41 +78,34 @@ public class ThumbnailUtil {
         }
     }
 
-    public static void zoomVideoScale(File videoFile, String newPath, int newWidth) throws IOException {
-        System.out.println("12345");
-        //VideoCapture videoCapture = new VideoCapture(videoFile.getPath());
-//        if (!videoFile.canRead())
-//            return;
+    public static void zoomVideoScale(File videoFile,int newWidth) throws IOException {
         Frame frame = null;
-        String path = "";
-        if (videoFile.getPath().startsWith(start2)) {
-            path = videoFile.getPath().substring(start2.length());
-        } else if (videoFile.getPath().startsWith(start)) {
-            path = videoFile.getPath().substring(start.length());
+        File windowsFile = Value.toWinddowsFile(videoFile.getPath());
+        if(!windowsFile.exists()){
+            return;
         }
-        File file = new File("E:\\records" + path);
-        FFmpegFrameGrabber fFmpegFrameGrabber = new FFmpegFrameGrabber(file);
-        String[] str = videoFile.getPath().split("\\.");
-        String[] str2 = newPath.split("\\.");
+        FFmpegFrameGrabber fFmpegFrameGrabber = new FFmpegFrameGrabber(windowsFile);
+        String[] str = windowsFile.getPath().split("\\.");
         fFmpegFrameGrabber.setFormat(str[str.length-1].toLowerCase());
         fFmpegFrameGrabber.start();
         int ftp = fFmpegFrameGrabber.getLengthInFrames();
         fFmpegFrameGrabber.setFrameNumber(ftp/2);
         frame = fFmpegFrameGrabber.grabImage();
         if(frame==null){
+            fFmpegFrameGrabber.release();
             return;
         }
         Java2DFrameConverter converter = new Java2DFrameConverter();
         BufferedImage bufferedImage = converter.getBufferedImage(frame);
         if (bufferedImage == null) {
+            fFmpegFrameGrabber.release();
             return;
         }
-
+        fFmpegFrameGrabber.release();
         int originalWidth = bufferedImage.getWidth();
         int originalHeight = bufferedImage.getHeight();
-        double scale = (double) originalWidth / (double) newWidth;    // 缩放的比例
-        int newHeight = (int) (originalHeight / scale);
-        zoomImageUtils(videoFile, newPath, bufferedImage, newWidth, newHeight);
+        int newHeight =(newWidth*originalHeight)/originalWidth;
+        zoomImageUtils("video",videoFile, bufferedImage, newWidth, newHeight);
     }
 
 
@@ -129,11 +113,10 @@ public class ThumbnailUtil {
      * 按指定高度 等比例缩放图片
      *
      * @param imageFile
-     * @param newPath
      * @param newWidth  新图的宽度
      * @throws IOException
      */
-    private static void zoomImageScale(File imageFile, String newPath, int newWidth) throws IOException {
+    public static void zoomImageScale(File imageFile, int newWidth) throws IOException {
         if (!imageFile.canRead())
             return;
         BufferedImage bufferedImage = null;
@@ -151,19 +134,23 @@ public class ThumbnailUtil {
 
         int originalWidth = bufferedImage.getWidth();
         int originalHeight = bufferedImage.getHeight();
-        double scale = (double) originalWidth / (double) newWidth;    // 缩放的比例
-
-        int newHeight = (int) (originalHeight / scale);
-
-        zoomImageUtils(imageFile, newPath, bufferedImage, newWidth, newHeight);
+        int newHeight =(newWidth*originalHeight)/originalWidth;
+        zoomImageUtils("image",imageFile,bufferedImage, newWidth, newHeight);
     }
 
 
-    private static void zoomImageUtils(File imageFile, String newPath, BufferedImage bufferedImage, int width, int height)
+    public static void zoomImageUtils(String type,File imageFile,BufferedImage bufferedImage, int width, int height)
             throws IOException {
-
-        String suffix = newPath.substring(imageFile.getName().lastIndexOf(".") + 1);
-
+        String[] ss = imageFile.getName().split("\\.");
+        String suffix =ss[ss.length-1];
+       if(!type.equals("image")){
+               suffix = "jpg";
+       }else{
+           if(!suffix.toLowerCase().equals("png")){
+               suffix = "jpg";
+           }
+       }
+        File file = Value.toThumbnailPathCreateParent(type,imageFile.getPath());
         // 处理 png 背景变黑的问题
         if (suffix != null && (suffix.trim().toLowerCase().endsWith("png") || suffix.trim().toLowerCase().endsWith("gif"))) {
             BufferedImage to = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -175,24 +162,23 @@ public class ThumbnailUtil {
             Image from = bufferedImage.getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING);
             g2d.drawImage(from, 0, 0, null);
             g2d.dispose();
-
-            ImageIO.write(to, suffix, new File(newPath));
+            ImageIO.write(to, suffix, file);
+            System.out.println(file.getPath());
         } else {
             BufferedImage newImage = null;
             try {
                 newImage = new BufferedImage(width, height, bufferedImage.getType());
             } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
-            }
-            if (newImage == null) {
-                System.out.println("error--" + imageFile);
                 return;
+            } finally {
+
             }
             Graphics g = newImage.getGraphics();
             g.drawImage(bufferedImage, 0, 0, width, height, null);
             g.dispose();
-            ImageIO.write(newImage, suffix, new File(newPath));
+            ImageIO.write(newImage, suffix, file);
+            System.out.println(file.getPath());
         }
     }
 

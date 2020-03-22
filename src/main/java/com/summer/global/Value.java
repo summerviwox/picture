@@ -1,11 +1,14 @@
 package com.summer.global;
 
+import com.summer.util.ThumbnailUtil;
 import org.apache.commons.fileupload.servlet.ServletRequestContext;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
+import static com.summer.util.ThumbnailUtil.start2;
 
 /**
  * Created by SWSD on 2018-04-03.
@@ -43,5 +46,65 @@ public class Value {
         }
         return name;
     }
+    public static File toWinddowsFileCreateParent(String ori){
+        String path = "";
+        if (ori.startsWith(ThumbnailUtil.start2)) {
+            path = ori.substring(ThumbnailUtil.start2.length());
+        } else if (ori.startsWith(ThumbnailUtil.start)) {
+            path = ori.substring(ThumbnailUtil.start.length());
+        }
+        File newfile = new File("E:\\records" + path);
+        if(!newfile.getParentFile().exists()){
+            newfile.getParentFile().mkdirs();
+        }
+        return  newfile;
+    }
 
+    public static File toWinddowsFile(String ori){
+        String path = "";
+        if (ori.startsWith(ThumbnailUtil.start2)) {
+            path = ori.substring(ThumbnailUtil.start2.length());
+        } else if (ori.startsWith(ThumbnailUtil.start)) {
+            path = ori.substring(ThumbnailUtil.start.length());
+        }
+        File newfile = new File("E:\\records" + path);
+        return  newfile;
+    }
+
+    public static File toThumbnailPath(String type,String ori){
+        String path = "";
+        if (ori.startsWith(ThumbnailUtil.start2)) {
+            path = ori.substring(ThumbnailUtil.start2.length());
+        } else if (ori.startsWith(ThumbnailUtil.start)) {
+            path = ori.substring(ThumbnailUtil.start.length());
+        }
+        File newfile = null;
+        if(type.equals("image")){
+            newfile = new File("E:\\thumbnail" + path);
+        }else{
+            String newstr = path.substring(0,path.lastIndexOf(".")-1);
+            newfile = new File("E:\\thumbnail" + newstr+".png");
+        }
+        return  newfile;
+    }
+
+    public static File toThumbnailPathCreateParent(String type,String ori){
+        String path = "";
+        if (ori.startsWith(ThumbnailUtil.start2)) {
+            path = ori.substring(ThumbnailUtil.start2.length());
+        } else if (ori.startsWith(ThumbnailUtil.start)) {
+            path = ori.substring(ThumbnailUtil.start.length());
+        }
+        File newfile = null;
+        if(type.equals("image")){
+            newfile = new File("E:\\thumbnail" + path);
+        }else{
+            String newstr = path.substring(0,path.lastIndexOf(".")-1);
+            newfile = new File("E:\\thumbnail" + newstr+".png");
+        }
+        if(!newfile.getParentFile().exists()){
+            newfile.getParentFile().mkdirs();
+        }
+        return  newfile;
+    }
 }

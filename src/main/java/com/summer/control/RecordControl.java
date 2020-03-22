@@ -27,8 +27,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
@@ -37,6 +40,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
 
 /**
  * Created by SWSD on 2018-03-26.
@@ -146,39 +150,24 @@ public class RecordControl {
         BaseResBean baseResBean = new BaseResBean();
         TestMapper testMapper = session.getMapper(TestMapper.class);
         RecordMapper recordMapper = session.getMapper(RecordMapper.class);
-        List<Record> records = recordMapper.selectAllByAtypeAsc(Record.ATYPE_VIDEO);
-        List<Record> records2 = recordMapper.selectAllByAtypeAsc("3");
+        List<Record> records = recordMapper.selectAllByAtype(Record.ATYPE_IMAGE);
+        List<Record> records2 = recordMapper.selectAllByAtypeAsc("1");
         records.addAll(records2);
-        System.out.println("22222222222222222222222222222");
-        Record record = records.get(1);
-        String path = "";
-        if (record.getNetpath().startsWith(ThumbnailUtil.start2)) {
-            path = record.getNetpath().substring(ThumbnailUtil.start2.length());
-        } else if (record.getNetpath().startsWith(ThumbnailUtil.start)) {
-            path = record.getNetpath().substring(ThumbnailUtil.start.length());
-        }
-        File file = new File("E:\\records" + path);
-        if (!file.exists()) {
-            return;
-        }
-        File folder = new File("E:\\thumbnail");
-        if (!folder.exists()) {
-            folder.mkdirs();
-        }
-        File newfile = new File("E:\\thumbnail" + path);
-
-        if (!newfile.getParentFile().exists()) {
-            newfile.getParentFile().mkdirs();
-        }
-        if (newfile.exists()) {
-            return;
-        }
-
-
-        try {
-            ThumbnailUtil.zoomVideoScale(file,newfile.getPath(),200);
-        } catch (IOException e) {
-            e.printStackTrace();
+        int count = 0;
+        System.out.println("total count"+records.size());
+        for(int i=0;i<records.size();i++){
+            File thumbFile = Value.toThumbnailPathCreateParent("image",records.get(i).getNetpath());
+            File windowsFile = Value.toWinddowsFileCreateParent(records.get(i).getNetpath());
+            if(thumbFile.exists()||!windowsFile.exists()){
+                continue;
+            }
+            count++;
+            System.out.println(count+"-------------------------------------->"+windowsFile.getPath());
+            try {
+                ThumbnailUtil.zoomImageScale(windowsFile,200);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         baseResBean.setData(records);
         Tools.printOut(res, baseResBean);
