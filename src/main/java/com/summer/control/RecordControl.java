@@ -150,26 +150,64 @@ public class RecordControl {
         BaseResBean baseResBean = new BaseResBean();
         TestMapper testMapper = session.getMapper(TestMapper.class);
         RecordMapper recordMapper = session.getMapper(RecordMapper.class);
-        List<Record> records = recordMapper.selectAllByAtype(Record.ATYPE_IMAGE);
-        List<Record> records2 = recordMapper.selectAllByAtypeAsc("1");
+        Record record = recordMapper.selectByName(req.getParameter("name"));
+        System.out.println(record.getNetpath());
+        if(record.getNetpath()==null){
+            return;
+        }
+        File thumbFile = Value.toThumbnailPathCreateParent("image",record.getNetpath());
+        File windowsFile = Value.toWinddowsFileCreateParent(record.getNetpath());
+        if(!windowsFile.exists()||thumbFile.exists()){
+            return;
+        }
+        try {
+            ThumbnailUtil.zoomImageScale(windowsFile,200);
+            System.out.println("success------------------------"+thumbFile.getPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("fail---------------------------"+thumbFile.getPath());
+        }
+        baseResBean.setData(record);
+        Tools.printOut(res, baseResBean);
+        session.close();
+    }
+
+
+    @RequestMapping(value = "/test3", method = RequestMethod.GET)
+    public void test3(HttpServletRequest req, HttpServletResponse res) {
+        Tools.init(req, res);
+        SqlSession session = DBTools.getSession();
+        BaseResBean baseResBean = new BaseResBean();
+        TestMapper testMapper = session.getMapper(TestMapper.class);
+        RecordMapper recordMapper = session.getMapper(RecordMapper.class);
+        List<Record> records = recordMapper.selectAllByAtype(Record.ATYPE_VIDEO);
+        List<Record> records2 = recordMapper.selectAllByAtypeAsc("3");
         records.addAll(records2);
         int count = 0;
-        System.out.println("total count"+records.size());
+        List<Record> errors = new ArrayList<>();
         for(int i=0;i<records.size();i++){
-            File thumbFile = Value.toThumbnailPathCreateParent("image",records.get(i).getNetpath());
-            File windowsFile = Value.toWinddowsFileCreateParent(records.get(i).getNetpath());
-            if(thumbFile.exists()||!windowsFile.exists()){
+            Record record = records.get(i);
+            System.out.println(record.getNetpath());
+            if(record.getNetpath()==null){
+                continue;
+            }
+            File thumbFile = Value.toThumbnailPathCreateParent("video",record.getNetpath());
+            File windowsFile = Value.toWinddowsFileCreateParent(record.getNetpath());
+            if(!windowsFile.exists()||thumbFile.exists()){
                 continue;
             }
             count++;
-            System.out.println(count+"-------------------------------------->"+windowsFile.getPath());
             try {
-                ThumbnailUtil.zoomImageScale(windowsFile,200);
+                ThumbnailUtil.zoomVideoScale(windowsFile,200);
+                System.out.println("success------------"+count+"------------"+thumbFile.getPath());
             } catch (IOException e) {
                 e.printStackTrace();
+                errors.add(record);
+                System.out.println("fail---------------"+count+"------------"+thumbFile.getPath());
             }
         }
-        baseResBean.setData(records);
+        System.out.println(GsonUtil.getInstance().toJson(errors));
+        baseResBean.setData(errors);
         Tools.printOut(res, baseResBean);
         session.close();
     }

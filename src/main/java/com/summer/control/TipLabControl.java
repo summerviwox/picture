@@ -196,6 +196,8 @@ public class TipLabControl {
         List<Tiplab> tiplabs = tiplabMapper.selectTipLabByContent(tiplab.getContent());
         if (tiplabs == null || tiplabs.size() == 0) {
             tiplabMapper.insert(tiplab);
+        }else{
+            tiplab = tiplabs.get(0);
         }
         baseResBean.setData(tiplab);
         Tools.printOut(res, baseResBean);

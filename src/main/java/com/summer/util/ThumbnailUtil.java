@@ -1,5 +1,6 @@
 package com.summer.util;
 
+import com.luciad.imageio.webp.WebPReadParam;
 import com.summer.base.OnFinishI;
 import com.summer.global.Value;
 import com.summer.mybatis.entity.Record;
@@ -15,6 +16,8 @@ import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.videoio.VideoCapture;
 
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.FileImageInputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -124,14 +127,31 @@ public class ThumbnailUtil {
         if (imageFile.getName().toLowerCase().endsWith("gif")) {
             bufferedImage = GifDecoder.read(new FileInputStream(imageFile)).getFrame(0);
         } else {
-            bufferedImage = ImageIO.read(new FileInputStream(imageFile));
+            // 处理普通图片
+            try {
+                bufferedImage = ImageIO.read(new FileInputStream(imageFile));
+            } catch (IOException e) {
+                e.printStackTrace();
+                            ImageReader reader = ImageIO.getImageReadersByMIMEType("image/webp").next();
+            WebPReadParam readParam = new WebPReadParam();
+            readParam.setBypassFiltering(true);
+            reader.setInput(new FileImageInputStream(imageFile));
+            bufferedImage = reader.read(0, readParam);
+            }
         }
-        //第一种压缩方式失败 采用第二种压缩方式
 
         if (bufferedImage == null) {
+            //处理webp
+//            ImageReader reader = ImageIO.getImageReadersByMIMEType("image/webp").next();
+//            WebPReadParam readParam = new WebPReadParam();
+//            readParam.setBypassFiltering(true);
+//            reader.setInput(new FileImageInputStream(imageFile));
+//            bufferedImage = reader.read(0, readParam);
             return;
         }
-
+        if(bufferedImage==null){
+            return;
+        }
         int originalWidth = bufferedImage.getWidth();
         int originalHeight = bufferedImage.getHeight();
         int newHeight =(newWidth*originalHeight)/originalWidth;

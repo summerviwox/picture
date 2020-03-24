@@ -75,6 +75,9 @@ public interface RecordMapper {
     @Select({"select * from record where id = #{id,jdbcType=INTEGER}"})
     Record selectById(Integer id);
 
+    @Select({"select * from record where name = #{name,jdbcType=VARCHAR}"})
+    Record selectByName(String name);
+
     @Select({"select * from record where atype = #{atype,jdbcType=VARCHAR} order by ctime desc"})
     List<Record> selectAllByAtype(@Param("atype") String atype);
 

@@ -83,7 +83,7 @@ public class Value {
             newfile = new File("E:\\thumbnail" + path);
         }else{
             String newstr = path.substring(0,path.lastIndexOf(".")-1);
-            newfile = new File("E:\\thumbnail" + newstr+".png");
+            newfile = new File("E:\\thumbnail" + newstr+".jpg");
         }
         return  newfile;
     }
@@ -100,7 +100,7 @@ public class Value {
             newfile = new File("E:\\thumbnail" + path);
         }else{
             String newstr = path.substring(0,path.lastIndexOf(".")-1);
-            newfile = new File("E:\\thumbnail" + newstr+".png");
+            newfile = new File("E:\\thumbnail" + newstr+".jpg");
         }
         if(!newfile.getParentFile().exists()){
             newfile.getParentFile().mkdirs();
