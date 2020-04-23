@@ -2,7 +2,6 @@ package com.summer.base.bean;
 
 import com.summer.util.GsonUtil;
 import org.apache.commons.io.IOUtils;
-import org.apache.tools.ant.taskdefs.condition.HasMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

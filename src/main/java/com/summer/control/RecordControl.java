@@ -51,7 +51,6 @@ import java.util.List;
 public class RecordControl {
 
     @RequestMapping(value = "/crash", method = RequestMethod.POST)
-
     public void crash(HttpServletRequest req, HttpServletResponse res) {
         HashMap<String, String> map = Tools.getStr(req, res);
         BaseResBean baseResBean = new BaseResBean();
@@ -155,13 +154,13 @@ public class RecordControl {
         if(record.getNetpath()==null){
             return;
         }
-        File thumbFile = Value.toThumbnailPathCreateParent("image",record.getNetpath());
+        File thumbFile = Value.toThumbnailPathCreateParent("video",record.getNetpath());
         File windowsFile = Value.toWinddowsFileCreateParent(record.getNetpath());
         if(!windowsFile.exists()||thumbFile.exists()){
             return;
         }
         try {
-            ThumbnailUtil.zoomImageScale(windowsFile,200);
+            ThumbnailUtil.zoomVideoScale(windowsFile,200);
             System.out.println("success------------------------"+thumbFile.getPath());
         } catch (IOException e) {
             e.printStackTrace();
