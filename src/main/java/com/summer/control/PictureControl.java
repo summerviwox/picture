@@ -37,9 +37,9 @@ public class PictureControl {
 
     @RequestMapping(value = "/isPictureUploaded", method = RequestMethod.POST)
     public void isPictureUploaded(HttpServletRequest req, HttpServletResponse rep) {
-        //HashMap<String, String> data = Tools.getStr(req, rep);
+        HashMap<String, String> data = Tools.getStr(req, rep);
         Tools.init(req, rep);
-        Record record = GsonUtil.getInstance().fromJson(req.getParameter("data"), Record.class);
+        Record record = GsonUtil.getInstance().fromJson(data.get("data"), Record.class);
         SqlSession session = DBTools.getSession();
         RecordMapper recordMapper = session.getMapper(RecordMapper.class);
         //从数据库中查找是否有这条记录

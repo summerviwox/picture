@@ -26,16 +26,16 @@ public class Tools {
         res.setContentType("application/json;charset=UTF-8");
     }
 
-    public static void init2(HttpServletRequest req, HttpServletResponse res) {
-        try {
-            req.setCharacterEncoding("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        res.setHeader("Access-Control-Allow-Origin", "*");//跨域
-        res.setCharacterEncoding("UTF-8");
-        res.setContentType("application/x-www-form-urlencoded");
-    }
+//    public static void init2(HttpServletRequest req, HttpServletResponse res) {
+//        try {
+//            req.setCharacterEncoding("UTF-8");
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+//        res.setHeader("Access-Control-Allow-Origin", "*");//跨域
+//        res.setCharacterEncoding("UTF-8");
+//        res.setContentType("application/x-www-form-urlencoded");
+//    }
 
     public static void printOut(HttpServletResponse res, Object o) {
         try {
@@ -82,6 +82,11 @@ public class Tools {
             result = URLDecoder.decode(result, "UTF-8");
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        if(result==null||"".equals(result)){
+            String data = req.getParameter("data");
+            str.put("data",data);
+            return str;
         }
         String[] strs = result.split("&");
         for (int i = 0; i < strs.length; i++) {

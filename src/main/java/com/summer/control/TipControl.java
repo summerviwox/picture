@@ -27,9 +27,10 @@ public class TipControl {
 
     @RequestMapping(value = "/addTip", method = RequestMethod.POST)
     public void addTip(HttpServletRequest req, HttpServletResponse res) {
-        HashMap<String, String> map = Tools.getStr(req, res);
+        //HashMap<String, String> map = Tools.getStr(req, res);
         //复用tiplab as req conent == netpath id = tipid in tip
-        Tiplab tiplab = GsonUtil.getInstance().fromJson(map.get("data"), Tiplab.class);
+        Tools.init(req,res);
+        Tiplab tiplab = GsonUtil.getInstance().fromJson(req.getParameter("data"), Tiplab.class);
         SqlSession session = DBTools.getSession();
         BaseResBean baseResBean = new BaseResBean();
         TipMapper tipMapper = session.getMapper(TipMapper.class);
@@ -44,7 +45,12 @@ public class TipControl {
             tip.setTipid(tiplab.getId());
             tip.setRecordid(records.get(0).getId());
             tip.setCtime(System.currentTimeMillis());
-            tipMapper.insert(tip);
+            ArrayList<Tip> tips = (ArrayList<Tip>) tipMapper.selectTipsByRecordIdAndTipLabId(tip.getRecordid(),tip.getTipid());
+            if(tips!=null&&tips.size()!=0){
+
+            }else{
+                tipMapper.insert(tip);
+            }
             baseResBean.setData(tip);
         }
         session.commit();

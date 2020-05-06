@@ -47,7 +47,7 @@ public class DateFormatUtil {
 
     public static String getdDateStr(String dateFormat, Date date) {
         SimpleDateFormat format = new SimpleDateFormat(dateFormat);
-        format.setTimeZone(TimeZone.getTimeZone("UTC"));
+        format.setTimeZone(TimeZone.getTimeZone("GMT+8"));
         return format.format(date);
     }
 
