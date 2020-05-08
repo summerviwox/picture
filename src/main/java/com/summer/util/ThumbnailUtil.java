@@ -37,14 +37,14 @@ public class ThumbnailUtil {
 //    }
 
 
-    public static void zoomImagesScale(ArrayList<Record> records) {
+    public static void zoomImagesScale(ArrayList<Record> records) throws IOException {
         for (int i = 0; i < records.size(); i++) {
             simglezoomImageScale(records.get(i));
             System.out.println(i + "--" + records.get(i).getNetpath());
         }
     }
 
-    public static void simglezoomImageScale(Record record) {
+    public static void simglezoomImageScale(Record record) throws IOException {
         if (record == null || record.getNetpath() == null || "".equals(record.getNetpath())) {
             return;
         }
@@ -63,21 +63,15 @@ public class ThumbnailUtil {
         if (!windowsFile.exists()||thumnailFile.exists()) {
             return;
         }
-        try {
-            switch (record.getAtype()){
-                case "1":
-                case   "image":
-                    zoomImageScale(windowsFile, 200);
-                    break;
-                case "3":
-                case "video":
-                    zoomVideoScale(windowsFile, 200);
-                    break;
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
+        switch (record.getAtype()){
+            case "1":
+            case   "image":
+                zoomImageScale(windowsFile, 200);
+                break;
+            case "3":
+            case "video":
+                zoomVideoScale(windowsFile, 200);
+                break;
         }
     }
 
@@ -186,14 +180,7 @@ public class ThumbnailUtil {
             System.out.println(file.getPath());
         } else {
             BufferedImage newImage = null;
-            try {
-                newImage = new BufferedImage(width, height, bufferedImage.getType());
-            } catch (Exception e) {
-                e.printStackTrace();
-                return;
-            } finally {
-
-            }
+            newImage = new BufferedImage(width, height, bufferedImage.getType());
             Graphics g = newImage.getGraphics();
             g.drawImage(bufferedImage, 0, 0, width, height, null);
             g.dispose();

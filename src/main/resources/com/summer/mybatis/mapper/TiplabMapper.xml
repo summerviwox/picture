@@ -12,6 +12,6 @@
         where content = #{content,jdbcType=VARCHAR}
     </delete>
     <select id="selectTipLabwithLimit" parameterType="integer" resultMap="BaseResultMap">
-        select * from tiplab limit  #{arg0}
+        select * from tiplab  order by ctime desc limit  #{arg0}
     </select>
 </mapper>

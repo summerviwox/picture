@@ -29,8 +29,8 @@ public class TipControl {
     public void addTip(HttpServletRequest req, HttpServletResponse res) {
         //HashMap<String, String> map = Tools.getStr(req, res);
         //复用tiplab as req conent == netpath id = tipid in tip
-        Tools.init(req,res);
-        Tiplab tiplab = GsonUtil.getInstance().fromJson(req.getParameter("data"), Tiplab.class);
+        HashMap<String,String> map = Tools.getStr(req,res);
+        Tiplab tiplab = GsonUtil.getInstance().fromJson(map.get("data"), Tiplab.class);
         SqlSession session = DBTools.getSession();
         BaseResBean baseResBean = new BaseResBean();
         TipMapper tipMapper = session.getMapper(TipMapper.class);

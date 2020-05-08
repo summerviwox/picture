@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -91,7 +92,8 @@ public class PictureControl {
         ArrayList<String> files = new ArrayList<String>();
         System.out.println(file.getPath());
         //本地没有该文件
-        if (!file.exists()) {
+//        if (!file.exists()) {// java.net.SocketException: Broken pipe 防止 客户端在传服务端因为文件已经存在不读取存储 保存 统一全部在读写一遍
+            if(1==1){
             DiskFileItemFactory factory = new DiskFileItemFactory();
             factory.setRepository(Value.getTempFile());
             factory.setSizeThreshold(1024 * 1024);
@@ -110,10 +112,13 @@ public class PictureControl {
             }
 
         }
-        recordMapper.updateNetPath(file.getPath(), record.getLocpath());
         record.setNetpath(file.getPath());
         //生成缩略图
-        ThumbnailUtil.simglezoomImageScale(record);
+        try {
+            ThumbnailUtil.simglezoomImageScale(record);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         session.commit();
         session.close();
         files.add(file.getPath());
@@ -156,7 +161,11 @@ public class PictureControl {
         }
         SqlSession session = DBTools.getSession();
         RecordMapper recordMapper = session.getMapper(RecordMapper.class);
-        ThumbnailUtil.zoomImagesScale((ArrayList<Record>) recordMapper.selectAll());
+        try {
+            ThumbnailUtil.zoomImagesScale((ArrayList<Record>) recordMapper.selectAll());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Tools.printOut(res, "");
         session.close();
     }
