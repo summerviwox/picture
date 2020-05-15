@@ -1,5 +1,7 @@
 package com.summer.global;
 
+import com.summer.mybatis.entity.Record;
+import com.summer.util.DateFormatUtil;
 import com.summer.util.ThumbnailUtil;
 import org.apache.commons.fileupload.servlet.ServletRequestContext;
 
@@ -7,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 
 import static com.summer.util.ThumbnailUtil.start2;
 
@@ -106,5 +109,27 @@ public class Value {
             newfile.getParentFile().mkdirs();
         }
         return  newfile;
+    }
+
+    public static boolean isRecordFileExit(Record record){
+        //再检查本地是否有文件 根据ctime
+        File typeFile = new File(Value.getRecordFile(), DateFormatUtil.getdDateStr(DateFormatUtil.YYYYMMDD, new Date(record.getCtime())));
+        if (!typeFile.exists()) {
+            typeFile.mkdirs();
+        }
+        String[] strs = record.getLocpath().split("/");
+        File file = new File(typeFile, strs[strs.length - 1]);
+        return file.exists();
+    }
+
+    public static File getRecordFile(Record record){
+        //再检查本地是否有文件 根据ctime
+        File typeFile = new File(Value.getRecordFile(), DateFormatUtil.getdDateStr(DateFormatUtil.YYYYMMDD, new Date(record.getCtime())));
+        if (!typeFile.exists()) {
+            typeFile.mkdirs();
+        }
+        String[] strs = record.getLocpath().split("/");
+        File file = new File(typeFile, strs[strs.length - 1]);
+        return file;
     }
 }

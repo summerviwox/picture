@@ -150,6 +150,9 @@ public interface RecordMapper {
     @Select({"select * from record where locpath = #{locpath,jdbcType=VARCHAR} limit 1"})
     List<Record> selectRecordWhereLocalPath(String locpath);
 
+    @Select({"select * from record where locpath = #{locpath,jdbcType=VARCHAR} and ctime = #{ctime,jdbcType=BIGINT} order by ctime asc"})
+    List<Record> selectRecordWhereLocalPathAndCtime(String locpath,long ctime);
+
     @Select({"select id from record where locpath = #{locpath,jdbcType=VARCHAR} limit 1"})
     List<Record> selectRecordIdWhereLocalPath(String locpath);
 

@@ -38,6 +38,7 @@ public class PictureControl {
 
     @RequestMapping(value = "/isPictureUploaded", method = RequestMethod.POST)
     public void isPictureUploaded(HttpServletRequest req, HttpServletResponse rep) {
+        System.out.println("------------------------------------------------------------------------------------");
         HashMap<String, String> data = Tools.getStr(req, rep);
         Tools.init(req, rep);
         Record record = GsonUtil.getInstance().fromJson(data.get("data"), Record.class);
@@ -45,27 +46,59 @@ public class PictureControl {
         RecordMapper recordMapper = session.getMapper(RecordMapper.class);
         //从数据库中查找是否有这条记录
         ArrayList<Record> records = (ArrayList<Record>) recordMapper.selectRecordWhereLocalPath(record.getLocpath());
-        String netpath = null;
+        Record record1 = null;//最终处理的数据
         //没有此条记录 则插入这条记录
         if (records == null || records.size() == 0) {
             record.setCtype(0);
             recordMapper.insert(record);
+            System.out.println("插入数据"+record.getLocpath()+";"+record.getCtime());
+            record1 = record;
         } else {
-            netpath = records.get(0).getNetpath();
-        }
-        //再检查本地是否有文件 根据ctime
-        File typeFile = new File(Value.getRecordFile(), DateFormatUtil.getdDateStr(DateFormatUtil.YYYYMMDD, new Date(record.getCtime())));
-        if (!typeFile.exists()) {
-            typeFile.mkdirs();
-        }
-        String[] strs = record.getLocpath().split("/");
-        File file = new File(typeFile, strs[strs.length - 1]);
-        if (!file.exists()) {
-            netpath = null;
+            //数据库查询到一条或多条类似数据
+            //多条
+            if(records.size()>1){
+                System.out.println("关联删除"+records.get(0).getId()+":"+records.get(0).getNetpath());
+                for(int i=1;i<records.size();i++){
+                    recordMapper.deleteByPrimaryKey(records.get(i).getId());
+                    File file = Value.getRecordFile(records.get(i));
+                    if(file.exists()){
+                        file.delete();
+                    }
+                    System.out.println(records.get(i).getId()+":"+records.get(i).getNetpath()+"已删除");
+                }
+                System.out.println("");
+            }
+            //111
+            //处理完成一条
+            if(record.getCtime()>records.get(0).getCtime()){
+                //当前记录较新
+                record1 = records.get(0);
+            }else  if(record.getCtime()<records.get(0).getCtime()){
+                //当前记录较早 则替换 先删掉已存在的 然后在插入改条
+                recordMapper.deleteByPrimaryKey(records.get(0).getId());
+                File file = Value.getRecordFile(records.get(0));
+                if(file.exists()){
+                    file.delete();
+                }
+                System.out.println(records.get(0).getId()+":"+records.get(0).getNetpath()+"已替换删除");
+                File file1 = Value.getRecordFile(record);
+                if(file1.exists()){
+                    record.setNetpath(file1.getPath());
+                }
+                //插入当前记录
+                record.setCtype(0);
+                recordMapper.insert(record);
+                record1 = record;
+            }else{
+                //相同数据不用处理
+                record1 = records.get(0);
+            }
+            //111
         }
         session.commit();
         session.close();
-        Tools.printOutData(rep, netpath);
+        Tools.printOutData(rep, (record1.getNetpath()!=null&&Value.isRecordFileExit(record1))?record1.getNetpath():null);
+        System.out.println("------------------------------------------------------------------------------------");
     }
 
 
@@ -83,13 +116,7 @@ public class PictureControl {
             recordMapper.insert(record);
         }
         //再检查本地是否有文件
-        File typeFile = new File(Value.getRecordFile(), DateFormatUtil.getdDateStr(DateFormatUtil.YYYYMMDD, new Date(record.getCtime())));
-        if (!typeFile.exists()) {
-            typeFile.mkdirs();
-        }
-        String[] strs = record.getLocpath().split("/");
-        File file = new File(typeFile, strs[strs.length - 1]);
-        ArrayList<String> files = new ArrayList<String>();
+        File file = Value.getRecordFile(record);
         System.out.println(file.getPath());
         //本地没有该文件
 //        if (!file.exists()) {// java.net.SocketException: Broken pipe 防止 客户端在传服务端因为文件已经存在不读取存储 保存 统一全部在读写一遍
@@ -121,6 +148,7 @@ public class PictureControl {
         }
         session.commit();
         session.close();
+        ArrayList<String> files = new ArrayList<>();
         files.add(file.getPath());
         BaseResBean baseResBean = new BaseResBean();
         baseResBean.setData(files);
