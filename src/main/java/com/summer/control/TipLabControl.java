@@ -38,10 +38,15 @@ public class TipLabControl {
         ArrayList<Tip> tips = (ArrayList<Tip>) tipMapper.selectTipsByTipId(tiplab.getId());
         ArrayList<Record> records = new ArrayList<>();
         for (int i = 0; tips != null && i < tips.size(); i++) {
+            if(tips.get(i).getRecordid()==null){
+                continue;
+            }
             Record record = recordMapper.selectByPrimaryKey(tips.get(i).getRecordid());
-            record.setParentid(tips.get(i).getId());//借用parentid 存储 tipsid
             if (record != null) {
+                record.setParentid(tips.get(i).getId());//借用parentid 存储 tipsid
                 records.add(record);
+            }else{
+                System.out.println(tips.get(i).getRecordid());
             }
         }
         baseResBean.setData(records);

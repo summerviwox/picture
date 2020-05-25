@@ -9,6 +9,7 @@ import com.summer.mybatis.DBTools;
 import com.summer.mybatis.entity.Record;
 import com.summer.mybatis.mapper.FileMapper;
 import com.summer.mybatis.mapper.RecordMapper;
+import com.summer.test.Main;
 import com.summer.util.DateFormatUtil;
 import com.summer.util.GsonUtil;
 import com.summer.util.ThumbnailUtil;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -34,6 +36,11 @@ import java.util.List;
 @Controller
 @RequestMapping("/picture")
 public class PictureControl {
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public void test(HttpServletRequest req, HttpServletResponse rep) throws IOException, ParseException {
+        Main.main7();
+    }
 
 
     @RequestMapping(value = "/isPictureUploaded", method = RequestMethod.POST)
@@ -95,6 +102,7 @@ public class PictureControl {
             }
             //111
         }
+        //以上处理可能会影响到tiplab等相关表数据
         session.commit();
         session.close();
         Tools.printOutData(rep, (record1.getNetpath()!=null&&Value.isRecordFileExit(record1))?record1.getNetpath():null);
