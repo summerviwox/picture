@@ -87,25 +87,19 @@
         select * from record order by id desc limit #{arg0},#{arg1}
     </select>
 
-    <select id="getLikeRecordsIMG_X_X" resultMap="Lists">
-        select * from record where name like 'IMG*_20______*_______.%' escape '*' and ctime &lt; 1546272000000;
+
+
+
+    <select id="getLikeRecordsX_Timestem" resultMap="Lists">
+        select * from record where name like '%*_15___________.%'  escape '*'  and ctime &lt; 1546272000000;
     </select>
 
-
-    <select id="getLikeRecordsVID_X_X" resultMap="Lists">
-        select * from record where name like 'VID*_20______*_______.%' escape '*' and ctime &lt; 1546272000000;
-    </select>
-
-    <select id="getLikeRecordswx_camera_" resultMap="Lists">
-        select * from record where name like 'wx_camera*______________.%'  escape '*'  and ctime &lt; 1546272000000;
-    </select>
-
-    <select id="getLikeRecordspano" resultMap="Lists">
-        select * from record where name like 'PANO*_________*_______.%'  escape '*'  and ctime &lt; 1546272000000;
+    <select id="getLikeRecordsX_X_X" resultMap="Lists">
+        select * from record where name like '%*_20______*_______.%'  escape '*'  and ctime &lt; 1546272000000;
     </select>
 
     <select id="getLikeRecordsScreenshot" resultMap="Lists">
-        select * from record where name like 'Screenshot*_____-__-__-__-__-__-%'  escape '*'  and ctime &lt; 1546272000000;
+        select * from record where name like '%20__-__-__-__-__-__-%'  escape '*'  and ctime &lt; 1546272000000;
     </select>
 
 
@@ -113,13 +107,16 @@
         select * from record where name like '15___________.%'  and ctime &lt; 1546272000000;
     </select>
 
-    <update id="updateCtime">
-        update record set ctime = #{arg1} where id = #{arg0}
-    </update>
 
     <select id="getLikemmexportX" resultMap="Lists">
         select * from record where name like 'mmexport_____________.%'  and ctime &lt; 1546272000000;
     </select>
+
+    <update id="updateCtime">
+        update record set ctime = #{arg1} where id = #{arg0}
+    </update>
+
+
 
 
 </mapper>

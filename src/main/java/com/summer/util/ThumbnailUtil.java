@@ -180,6 +180,10 @@ public class ThumbnailUtil {
             System.out.println(file.getPath());
         } else {
             BufferedImage newImage = null;
+            if(bufferedImage.getType()==BufferedImage.TYPE_CUSTOM){
+                System.out.println(imageFile.getPath()+": java.lang.IllegalArgumentException: Unknown image type 0");
+                return;
+            }
             newImage = new BufferedImage(width, height, bufferedImage.getType());
             Graphics g = newImage.getGraphics();
             g.drawImage(bufferedImage, 0, 0, width, height, null);

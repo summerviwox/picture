@@ -39,7 +39,7 @@ public class PictureControl {
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public void test(HttpServletRequest req, HttpServletResponse rep) throws IOException, ParseException {
-        Main.main7();
+        Main.mainmain();
     }
 
 

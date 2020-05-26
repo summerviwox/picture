@@ -183,19 +183,16 @@ public interface RecordMapper {
 
     List<Record> getAllRecordsDescLimit(Integer index, Integer pagesize);
 
-    List<Record> getLikeRecordsVID_X_X();
 
+    List<Record> getLikeRecordsX_Timestem();
 
-    List<Record> getLikeRecordswx_camera_();
-
-    List<Record> getLikeRecordspano();
+    List<Record> getLikeRecordsX_X_X();
 
     List<Record> getLikeRecordsScreenshot();
+
+
     List<Record> getLikeRecordsnum();
 
-
-
-    List<Record> getLikeRecordsIMG_X_X();
 
     List<Record> getLikemmexportX();
 
