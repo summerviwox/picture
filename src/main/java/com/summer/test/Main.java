@@ -21,11 +21,11 @@ public class Main {
     public static void mainmain() throws IOException, ParseException {
         SqlSession sqlSession = DBTools.getSession();
         RecordMapper recordMapper = sqlSession.getMapper(RecordMapper.class);
-//        main1(sqlSession,recordMapper);
-//        main2(sqlSession,recordMapper);
-//        main3(sqlSession,recordMapper);
-//        main4(sqlSession,recordMapper);
-//        main5(sqlSession,recordMapper);
+        main1(sqlSession,recordMapper);
+        main2(sqlSession,recordMapper);
+        main3(sqlSession,recordMapper);
+        main4(sqlSession,recordMapper);
+        main5(sqlSession,recordMapper);
 
 
 //        List<Record> records = recordMapper.selectAll();

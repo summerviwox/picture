@@ -88,33 +88,35 @@
     </select>
 
 
+    <update id="updateCtime">
+        update record set ctime = #{arg1} where id = #{arg0}
+    </update>
+
 
 
     <select id="getLikeRecordsX_Timestem" resultMap="Lists">
-        select * from record where name like '%*_15___________.%'  escape '*'  and ctime &lt; 1546272000000;
+        select * from record where name like '%*_15___________.%'  escape '*'  and ctime > 1590422400000;
     </select>
 
     <select id="getLikeRecordsX_X_X" resultMap="Lists">
-        select * from record where name like '%*_20______*_______.%'  escape '*'  and ctime &lt; 1546272000000;
+        select * from record where name like '%*_20______*_______.%'  escape '*'  and ctime > 1590422400000;
     </select>
 
     <select id="getLikeRecordsScreenshot" resultMap="Lists">
-        select * from record where name like '%20__-__-__-__-__-__-%'  escape '*'  and ctime &lt; 1546272000000;
+        select * from record where name like '%20__-__-__-__-__-__-%'  escape '*'  and ctime > 1590422400000;
     </select>
 
 
     <select id="getLikeRecordsnum" resultMap="Lists">
-        select * from record where name like '15___________.%'  and ctime &lt; 1546272000000;
+        select * from record where name like '15___________.%'  and ctime > 1590422400000;
     </select>
 
 
     <select id="getLikemmexportX" resultMap="Lists">
-        select * from record where name like 'mmexport_____________.%'  and ctime &lt; 1546272000000;
+        select * from record where name like 'mmexport_____________.%'  and ctime > 1590422400000;
     </select>
 
-    <update id="updateCtime">
-        update record set ctime = #{arg1} where id = #{arg0}
-    </update>
+
 
 
 
