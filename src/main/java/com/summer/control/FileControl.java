@@ -25,6 +25,8 @@ import java.util.List;
 public class FileControl {
 
 
+
+
     @RequestMapping(value = "/selectAllByParentId", method = RequestMethod.POST)
     public void selectAllByParentId(HttpServletRequest req, HttpServletResponse res) {
         HashMap<String, String> map = Tools.getStr(req, res);
@@ -33,8 +35,13 @@ public class FileControl {
         RecordMapper recordMapper = session.getMapper(RecordMapper.class);
         List<File> files = fileMapper.selectAllByParentId(Integer.parseInt(map.get("parentId")));
         for (int i = 0; i < files.size(); i++) {
-            Record record = recordMapper.selectByPrimaryKey(files.get(i).getHeadid());
-            files.get(i).setRecord(record);
+            if(files.get(i).getHeadid()==null){
+                files.get(i).setRecord(null);
+            }else{
+                Record record = recordMapper.selectByPrimaryKey(files.get(i).getHeadid());
+                files.get(i).setRecord(record);
+            }
+
         }
         session.commit();
         session.close();
@@ -53,7 +60,7 @@ public class FileControl {
             Tools.printOutData(res, false);
             return;
         }
-        file.setHeadid(7360);
+        file.setHeadid(null);
         file.setType(1);
         file.setUtime(System.currentTimeMillis());
         file.setCtime(System.currentTimeMillis());
