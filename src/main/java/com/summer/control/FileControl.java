@@ -60,6 +60,7 @@ public class FileControl {
             Tools.printOutData(res, false);
             return;
         }
+        file.setId(-1);
         file.setHeadid(null);
         file.setType(1);
         file.setUtime(System.currentTimeMillis());
@@ -68,7 +69,7 @@ public class FileControl {
         int a = fileMapper.insert(file);
         session.commit();
         session.close();
-        Tools.printOutData(res, a == 1);
+        Tools.printOutData(res, file.getId());
     }
 
     @RequestMapping(value = "/addFiles", method = RequestMethod.POST)
