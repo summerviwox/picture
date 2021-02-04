@@ -124,8 +124,9 @@ public class ThumbnailUtil {
             // 处理普通图片
             try {
                 bufferedImage = ImageIO.read(new FileInputStream(imageFile));
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
+                System.out.println("123");
                             ImageReader reader = ImageIO.getImageReadersByMIMEType("image/webp").next();
             WebPReadParam readParam = new WebPReadParam();
             readParam.setBypassFiltering(true);

@@ -117,6 +117,9 @@
     </select>
 
 
+    <select id="getRecordMaxDate" resultType="java.lang.Long">
+        select count(ctime) from record where atype = #{atype,jdbcType=VARCHAR}
+    </select>
 
 
 

@@ -29,7 +29,7 @@ dependencies {
 //    compile 'org.springframework:spring-jdbc:4.2.4.RELEASE'
 //    compile 'mysql:mysql-connector-java:8.0.15'//数据库连接驱动程序
 //
-//    mybatisGenerator 'org.mybatis.generator:mybatis-generator-core:1.3.5'
+    mybatisGenerator 'org.mybatis.generator:mybatis-generator-core:1.3.5'
 //    mybatisGenerator 'mysql:mysql-connector-java:8.0.15'
 //    mybatisGenerator 'tk.mybatis:mapper:3.3.9'
 //
@@ -48,6 +48,10 @@ dependencies {
 ////    compile 'org.bytedeco:ffmpeg-platform:1.5.2'
 //    compile 'com.google.code.gson:gson:2.8.6'
 
+
+    compileOnly 'org.projectlombok:lombok:1.18.16'
+    annotationProcessor 'org.projectlombok:lombok:1.18.16'
+
 }
 
 
@@ -60,7 +64,7 @@ def getDbProperties = {
 }
 
 
-task mybatisGenerate << {
+/*task mybatisGenerate  {
     def properties = getDbProperties()
     ant.properties['targetProject'] = projectDir.path
     ant.properties['driverClass'] = properties.getProperty("jdbc.driverClassName")
@@ -92,4 +96,4 @@ task mybatisGenerate << {
             propertyref(name: 'sqlMapperPackage')
         }
     }
-}
+}*/

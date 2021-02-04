@@ -149,11 +149,11 @@ public class PictureControl {
         }
         record.setNetpath(file.getPath());
         //生成缩略图
-        try {
-            ThumbnailUtil.simglezoomImageScale(record);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            ThumbnailUtil.simglezoomImageScale(record);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         session.commit();
         session.close();
         ArrayList<String> files = new ArrayList<>();
