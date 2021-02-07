@@ -48,7 +48,7 @@ dependencies {
 ////    compile 'org.bytedeco:ffmpeg-platform:1.5.2'
 //    compile 'com.google.code.gson:gson:2.8.6'
 
-
+    //compile group: 'net.coobird', name: 'thumbnailator', version: '0.4.13'
     compileOnly 'org.projectlombok:lombok:1.18.16'
     annotationProcessor 'org.projectlombok:lombok:1.18.16'
 

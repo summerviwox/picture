@@ -5,6 +5,7 @@ import com.summer.base.OnFinishI;
 import com.summer.global.Value;
 import com.summer.mybatis.entity.Record;
 import com.summer.util.gif.GifDecoder;
+import net.coobird.thumbnailator.Thumbnails;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.FrameGrabber;
@@ -66,7 +67,11 @@ public class ThumbnailUtil {
         switch (record.getAtype()){
             case "1":
             case   "image":
-                zoomImageScale(windowsFile, 200);
+                Thumbnails.of(windowsFile)
+                        .size(200,200)
+                        .toFile(Value.toThumbnailPathCreateParent(type,record.getNetpath()));
+
+                //zoomImageScale(windowsFile, 200);
                 break;
             case "3":
             case "video":
