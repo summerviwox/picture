@@ -470,6 +470,7 @@ public class RecordControl {
         BaseResBean baseResBean = new BaseResBean();
         RecordMapper recordMapper = session.getMapper(RecordMapper.class);
         baseResBean.setData(recordMapper.getAllRecordsDescLimit(pagesize * limit, pagesize));
+        baseResBean.setTotal(recordMapper.getRecordtotalCount());
         Tools.printOut(res, baseResBean);
         session.close();
     }
@@ -506,6 +507,7 @@ public class RecordControl {
         ArrayList<Record> list = new ArrayList<>();
         SqlSession session = DBTools.getSession();
         for (int i = 0; records != null && i < records.size(); i++) {
+            Record.setMyAType(records.get(i));
             RecordMapper recordMapper = session.getMapper(RecordMapper.class);
             ArrayList<Record> selects = (ArrayList<Record>) recordMapper.selectRecordWhereLocalPath(records.get(i).getLocpath());
             if (selects != null && selects.size() > 0) {

@@ -1,6 +1,5 @@
 package com.summer.util;
 
-import com.luciad.imageio.webp.WebPReadParam;
 import com.summer.base.OnFinishI;
 import com.summer.global.Value;
 import com.summer.mybatis.entity.Record;
@@ -40,8 +39,9 @@ public class ThumbnailUtil {
 
     public static void zoomImagesScale(ArrayList<Record> records) throws IOException {
         for (int i = 0; i < records.size(); i++) {
+            System.out.println(i + "before--" + records.get(i).getNetpath());
             simglezoomImageScale(records.get(i));
-            System.out.println(i + "--" + records.get(i).getNetpath());
+            System.out.println(i + "after--" + records.get(i).getNetpath());
         }
     }
 
@@ -64,12 +64,17 @@ public class ThumbnailUtil {
         if (!windowsFile.exists()||thumnailFile.exists()) {
             return;
         }
-        switch (record.getAtype()){
+        switch (record.getAtype()){//com.luciad.imageio.webp.WebPReadParam
             case "1":
             case   "image":
-                Thumbnails.of(windowsFile)
-                        .size(200,200)
-                        .toFile(Value.toThumbnailPathCreateParent(type,record.getNetpath()));
+                try {
+                    Thumbnails.of(windowsFile)
+                            .size(200,200)
+                            .toFile(Value.toThumbnailPathCreateParent(type,record.getNetpath()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                }
 
                 //zoomImageScale(windowsFile, 200);
                 break;
@@ -83,7 +88,7 @@ public class ThumbnailUtil {
     public static void zoomVideoScale(File videoFile,int newWidth) throws IOException {
         Frame frame = null;
         File windowsFile = Value.toWinddowsFile(videoFile.getPath());
-        if(!windowsFile.exists()){
+        if(!windowsFile.exists()||windowsFile.length()>1024*1024*200){
             return;
         }
         FFmpegFrameGrabber fFmpegFrameGrabber = new FFmpegFrameGrabber(windowsFile);
@@ -131,12 +136,7 @@ public class ThumbnailUtil {
                 bufferedImage = ImageIO.read(new FileInputStream(imageFile));
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("123");
-                            ImageReader reader = ImageIO.getImageReadersByMIMEType("image/webp").next();
-            WebPReadParam readParam = new WebPReadParam();
-            readParam.setBypassFiltering(true);
-            reader.setInput(new FileImageInputStream(imageFile));
-            bufferedImage = reader.read(0, readParam);
+
             }
         }
 

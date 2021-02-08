@@ -49,6 +49,7 @@ public class PictureControl {
         HashMap<String, String> data = Tools.getStr(req, rep);
         Tools.init(req, rep);
         Record record = GsonUtil.getInstance().fromJson(data.get("data"), Record.class);
+        Record.setMyAType(record);
         SqlSession session = DBTools.getSession();
         RecordMapper recordMapper = session.getMapper(RecordMapper.class);
         //从数据库中查找是否有这条记录
@@ -114,6 +115,7 @@ public class PictureControl {
     public void uploadRecords(HttpServletRequest req, HttpServletResponse rep) {
         Tools.init(req, rep);
         Record record = GsonUtil.getInstance().fromJson(req.getParameter("data"), Record.class);
+        Record.setMyAType(record);
         SqlSession session = DBTools.getSession();
         RecordMapper recordMapper = session.getMapper(RecordMapper.class);
         //从数据库中查找是否有这条记录
@@ -198,7 +200,7 @@ public class PictureControl {
         SqlSession session = DBTools.getSession();
         RecordMapper recordMapper = session.getMapper(RecordMapper.class);
         try {
-            ThumbnailUtil.zoomImagesScale((ArrayList<Record>) recordMapper.selectAll());
+            ThumbnailUtil.zoomImagesScale((ArrayList<Record>) recordMapper.selectAllByAtypeWithSE("image",startTime,endTime));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -225,6 +227,7 @@ public class PictureControl {
         SqlSession session = DBTools.getSession();
         RecordMapper recordMapper = session.getMapper(RecordMapper.class);
         Record record = GsonUtil.getInstance().fromJson(map.get("data"), Record.class);
+        Record.setMyAType(record);
         if (record.getParentid() == null) {
             session.close();
             Tools.printOutData(res, false);

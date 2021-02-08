@@ -120,6 +120,9 @@ public interface RecordMapper {
     @Select({"select count(id) from record where locpath = #{locpath,jdbcType=VARCHAR}"})
     int selectRecordNumWhereLocalPath(String locpath);
 
+    @Select({"select count(id) from record"})
+    int getRecordtotalCount();
+
     @Select({"select count(id) from record where atype = #{atype,jdbcType=VARCHAR}"})
     int getRecordCount(@Param("atype") String atype);
 

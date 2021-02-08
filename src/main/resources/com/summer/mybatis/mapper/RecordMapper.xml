@@ -84,7 +84,7 @@
     </select>
 
     <select id="getAllRecordsDescLimit" resultMap="Lists">
-        select * from record order by id desc limit #{arg0},#{arg1}
+        select * from record order by ctime desc limit #{arg0},#{arg1}
     </select>
 
 

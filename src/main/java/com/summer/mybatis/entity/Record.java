@@ -13,7 +13,7 @@ public class Record {
 
     public static final String ATYPE_IMAGE = "image";
 
-    public static final String ATYPE_TEXT = "video";
+    public static final String ATYPE_TEXT = "text";
 
     private Integer id;
 
@@ -51,5 +51,17 @@ public class Record {
     public int isUploaded = 0;
 
     ArrayList<Tiplab> tiplabs;
+
+    public static void setMyAType(Record record){
+        switch (record.getAtype()){
+            case "1":
+                record.setAtype(Record.ATYPE_IMAGE);
+                break;
+            case "3":
+                record.setAtype(Record.ATYPE_VIDEO);
+                break;
+        }
+    }
+
 
 }
