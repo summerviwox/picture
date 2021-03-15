@@ -6,6 +6,11 @@
     <!-- 引入外部配置文件 -->
     <!--    <properties resource="config.properties"></properties>-->
 
+
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING" />
+    </settings>
+
     <!-- 为JAVA Bean起类别名 -->
     <typeAliases>
         <!-- 别名方式1，一个一个的配置 type中放置的是类的全路径，alias中放置的是类别名
@@ -39,6 +44,8 @@
         <!-- 告知映射文件方式2，自动扫描包内的Mapper接口与配置文件 -->
         <package name="com/summer/mybatis"/>
     </mappers>
+
+
 
 
 </configuration>

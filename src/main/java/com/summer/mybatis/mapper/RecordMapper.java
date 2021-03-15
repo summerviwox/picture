@@ -21,6 +21,8 @@ public interface RecordMapper {
 
     int insert(Record record);
 
+    int inerta(Record record);
+
     @Select({
             "select",
             "id, locpath, netpath, ctime, utime, atype, btype, address, duration, name, content",

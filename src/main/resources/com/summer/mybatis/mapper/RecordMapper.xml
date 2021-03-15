@@ -18,6 +18,7 @@
         <id column="parentid" jdbcType="INTEGER" property="parentid"/>
         <id column="ctype" jdbcType="INTEGER" property="ctype"/>
         <id column="remark" jdbcType="VARCHAR" property="remark"/>
+        <id column="userid" jdbcType="INTEGER" property="userid"/>
     </resultMap>
 
     <select id="selectAllByTypes" parameterType="string" resultMap="Lists">
@@ -60,18 +61,24 @@
         update record set parentid = #{arg0} where id = #{arg1}
     </update>
 
-    <insert id="insert" parameterType="Record">
-        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
-        insert into record (locpath, netpath,ctime, utime, atype,btype, address,duration, name,
-        content,classify,ctype,parentid,remark)
-        values (#{locpath,jdbcType=VARCHAR}, #{netpath,jdbcType=VARCHAR},#{ctime,jdbcType=BIGINT},
-        #{utime,jdbcType=BIGINT}, #{atype,jdbcType=VARCHAR},
-        #{btype,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},#{duration,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
-        #{content,jdbcType=LONGVARCHAR},
-        #{classify,jdbcType=INTEGER},#{ctype,jdbcType=INTEGER},#{parentid,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
-        )
+    <insert id="inerta" parameterType="Record" >
+        insert into record(ctype)
+        values(#{ctype,jdbcType=INTEGER})
+    </insert>
+
+    <insert id="insert" parameterType="Record" keyColumn="id" keyProperty="id"   useGeneratedKeys="true">
+        insert into record (locpath, netpath, ctime,
+                            utime, atype, btype,
+                            address, duration, `name`,
+                            content, classify, `enable`,
+                            parentid, ctype, remark,
+                            userid)
+        values (#{locpath,jdbcType=VARCHAR}, #{netpath,jdbcType=VARCHAR}, #{ctime,jdbcType=BIGINT},
+                #{utime,jdbcType=BIGINT}, #{atype,jdbcType=VARCHAR}, #{btype,jdbcType=VARCHAR},
+                #{address,jdbcType=VARCHAR}, #{duration,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
+                #{content,jdbcType=VARCHAR}, #{classify,jdbcType=INTEGER}, #{enable,jdbcType=INTEGER},
+                #{parentid,jdbcType=INTEGER}, #{ctype,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
+                #{userid,jdbcType=INTEGER})
     </insert>
 
     <update id="updatePathById" parameterType="Record">

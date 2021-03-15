@@ -47,6 +47,7 @@ public class Record {
 
     private Integer parentid;
 
+    private Integer userid;
 
     public int isUploaded = 0;
 

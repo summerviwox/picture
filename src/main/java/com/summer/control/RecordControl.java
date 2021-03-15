@@ -522,6 +522,9 @@ public class RecordControl {
                 continue;
             }
             records.get(i).setCtype(0);
+            if(records.get(i).getUserid()==null){
+                records.get(i).setUserid(0);
+            }
             recordMapper.insert(records.get(i));
             list.add(records.get(i));
         }

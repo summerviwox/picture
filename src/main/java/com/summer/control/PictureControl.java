@@ -58,6 +58,11 @@ public class PictureControl {
         //没有此条记录 则插入这条记录
         if (records == null || records.size() == 0) {
             record.setCtype(0);
+            if(record.getUserid()==null){
+                record.setUserid(0);
+            }
+
+            DBTools.sessionFactory.getConfiguration().getMappedStatement("com.summer.mybatis.mapper.RecordMapper.insert").getBoundSql(record).getSql();
             recordMapper.insert(record);
             System.out.println("插入数据"+record.getLocpath()+";"+record.getCtime());
             record1 = record;
@@ -95,6 +100,9 @@ public class PictureControl {
                 }
                 //插入当前记录
                 record.setCtype(0);
+                if(record.getUserid()==null){
+                    record.setUserid(0);
+                }
                 recordMapper.insert(record);
                 record1 = record;
             }else{
@@ -123,6 +131,9 @@ public class PictureControl {
         //没有此条记录 则插入这条记录
         if (records == null || records.size() == 0) {
             record.setCtype(0);
+            if(record.getUserid()==null){
+                record.setUserid(0);
+            }
             recordMapper.insert(record);
         }
         //再检查本地是否有文件
@@ -243,6 +254,9 @@ public class PictureControl {
         record.setEnable(1);
         record.setUtime(System.currentTimeMillis());
         record.setCtime(System.currentTimeMillis());
+        if(record.getUserid()==null){
+            record.setUserid(0);
+        }
         int a = recordMapper.insert(record);
         session.commit();
         session.close();
