@@ -62,7 +62,7 @@ public class PictureControl {
                 record.setUserid(0);
             }
 
-            DBTools.sessionFactory.getConfiguration().getMappedStatement("com.summer.mybatis.mapper.RecordMapper.insert").getBoundSql(record).getSql();
+            //DBTools.sessionFactory.getConfiguration().getMappedStatement("com.summer.mybatis.mapper.RecordMapper.insert").getBoundSql(record).getSql();
             recordMapper.insert(record);
             System.out.println("插入数据"+record.getLocpath()+";"+record.getCtime());
             record1 = record;
@@ -140,8 +140,8 @@ public class PictureControl {
         File file = Value.getRecordFile(record);
         System.out.println(file.getPath());
         //本地没有该文件
-//        if (!file.exists()) {// java.net.SocketException: Broken pipe 防止 客户端在传服务端因为文件已经存在不读取存储 保存 统一全部在读写一遍
-            if(1==1){
+        if (!file.exists()) {// java.net.SocketException: Broken pipe 防止 客户端在传服务端因为文件已经存在不读取存储 保存 统一全部在读写一遍
+            //if(1==1){
             DiskFileItemFactory factory = new DiskFileItemFactory();
             factory.setRepository(Value.getTempFile());
             factory.setSizeThreshold(1024 * 1024);
@@ -152,14 +152,13 @@ public class PictureControl {
                 list = (ArrayList<FileItem>) upload.parseRequest(req);
                 list.get(0).write(file);
                 list.get(0).delete();
-                recordMapper.updateNetPath(file.getPath(), record.getLocpath());
             } catch (FileUploadException e) {
                 e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
+        recordMapper.updateNetPath(file.getPath(), record.getLocpath());
         record.setNetpath(file.getPath());
         //生成缩略图
         try {

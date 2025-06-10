@@ -573,7 +573,7 @@ public class RecordControl {
         Tools.init(req, rep);
         DiskFileItemFactory factory = new DiskFileItemFactory();
         factory.setRepository(Value.getTempFile());
-        factory.setSizeThreshold(1024 * 1024);
+        factory.setSizeThreshold(1024 * 1024*10);
         ServletFileUpload upload = new ServletFileUpload(factory);
         BaseResBean baseResBean = new BaseResBean();
         ArrayList<String> files = new ArrayList<String>();

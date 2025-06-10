@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 
-import static com.summer.util.ThumbnailUtil.start2;
 
 /**
  * Created by SWSD on 2018-04-03.
@@ -19,7 +18,7 @@ import static com.summer.util.ThumbnailUtil.start2;
 public class Value {
 
     public static File getRecordFile() {
-        File parent = new File("E://records");
+        File parent = new File("X://records");
         if (!parent.exists()) {
             parent.mkdirs();
         }
@@ -50,13 +49,14 @@ public class Value {
         return name;
     }
     public static File toWinddowsFileCreateParent(String ori){
-        String path = "";
-        if (ori.startsWith(ThumbnailUtil.start2)) {
-            path = ori.substring(ThumbnailUtil.start2.length());
-        } else if (ori.startsWith(ThumbnailUtil.start)) {
-            path = ori.substring(ThumbnailUtil.start.length());
-        }
-        File newfile = new File("E:\\records" + path);
+//        String path = "";
+//        if (ori.startsWith(ThumbnailUtil.start2)) {
+//            path = ori.substring(ThumbnailUtil.start2.length());
+//        } else if (ori.startsWith(ThumbnailUtil.start)) {
+//            path = ori.substring(ThumbnailUtil.start.length());
+//        }
+        String path = ori.substring(ori.indexOf("\\",ori.indexOf("\\")+1));
+        File newfile = new File("X:\\records" + path);
         if(!newfile.getParentFile().exists()){
             newfile.getParentFile().mkdirs();
         }
@@ -64,23 +64,25 @@ public class Value {
     }
 
     public static File toWinddowsFile(String ori){
-        String path = "";
-        if (ori.startsWith(ThumbnailUtil.start2)) {
-            path = ori.substring(ThumbnailUtil.start2.length());
-        } else if (ori.startsWith(ThumbnailUtil.start)) {
-            path = ori.substring(ThumbnailUtil.start.length());
-        }
-        File newfile = new File("E:\\records" + path);
+//        String path = "";
+//        if (ori.startsWith(ThumbnailUtil.start2)) {
+//            path = ori.substring(ThumbnailUtil.start2.length());
+//        } else if (ori.startsWith(ThumbnailUtil.start)) {
+//            path = ori.substring(ThumbnailUtil.start.length());
+//        }
+        String path = ori.substring(ori.indexOf("\\",ori.indexOf("\\")+1));
+        File newfile = new File("X:\\records" + path);
         return  newfile;
     }
 
     public static File toThumbnailPath(String type,String ori){
-        String path = "";
-        if (ori.startsWith(ThumbnailUtil.start2)) {
-            path = ori.substring(ThumbnailUtil.start2.length());
-        } else if (ori.startsWith(ThumbnailUtil.start)) {
-            path = ori.substring(ThumbnailUtil.start.length());
-        }
+//        String path = "";
+//        if (ori.startsWith(ThumbnailUtil.start2)) {
+//            path = ori.substring(ThumbnailUtil.start2.length());
+//        } else if (ori.startsWith(ThumbnailUtil.start)) {
+//            path = ori.substring(ThumbnailUtil.start.length());
+//        }
+        String path = ori.substring(ori.indexOf("\\",ori.indexOf("\\")+1));
         File newfile = null;
         if(type.equals("image")){
             newfile = new File("E:\\thumbnail" + path);
@@ -92,12 +94,13 @@ public class Value {
     }
 
     public static File toThumbnailPathCreateParent(String type,String ori){
-        String path = "";
-        if (ori.startsWith(ThumbnailUtil.start2)) {
-            path = ori.substring(ThumbnailUtil.start2.length());
-        } else if (ori.startsWith(ThumbnailUtil.start)) {
-            path = ori.substring(ThumbnailUtil.start.length());
-        }
+//        String path = "";
+//        if (ori.startsWith(ThumbnailUtil.start2)) {
+//            path = ori.substring(ThumbnailUtil.start2.length());
+//        } else if (ori.startsWith(ThumbnailUtil.start)) {
+//            path = ori.substring(ThumbnailUtil.start.length());
+//        }
+        String path = ori.substring(ori.indexOf("\\",ori.indexOf("\\")+1));
         File newfile = null;
         if(type.equals("image")){
             newfile = new File("E:\\thumbnail" + path);

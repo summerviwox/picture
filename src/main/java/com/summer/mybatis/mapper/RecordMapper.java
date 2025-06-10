@@ -89,7 +89,7 @@ public interface RecordMapper {
     @Select({"select * from record where atype = #{atype,jdbcType=VARCHAR} and ctime>= #{start,jdbcType=VARCHAR} and ctime< #{end,jdbcType=VARCHAR} order by ctime desc"})
     List<Record> selectAllByAtypeWithSE(@Param("atype") String atype, @Param("start") String start, @Param("end") String end);
 
-    @Select({"select * from record where ctime>= #{start,jdbcType=VARCHAR} and ctime< #{end,jdbcType=VARCHAR} and ctype <>1 and enable = 1 order by ctime desc"})
+    @Select({"select * from record where ctime>= #{start,jdbcType=VARCHAR} and ctime< #{end,jdbcType=VARCHAR} and ctype <>1 and enable != 0 order by ctime desc"})
     List<Record> selectAllWithSE(@Param("start") String start, @Param("end") String end);
 
     @Select({"select * from record where atype = #{atype,jdbcType=VARCHAR} limit 16 offset #{offset,jdbcType=INTEGER}"})
